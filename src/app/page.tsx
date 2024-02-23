@@ -1,9 +1,15 @@
+import About from "./components/About";
+import Navbar from "./components/Navbar";
 import Title from "./components/Title";
 
 export default function Home() {
     return (
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-between">
-        <Title />
-      </main>
+      <>
+        <Navbar />
+        <main className="container mx-auto px-3 flex flex-col items-center">
+          <Title />
+          <About />
+        </main>
+      </>
     );
 }
