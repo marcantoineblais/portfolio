@@ -6,7 +6,7 @@ export default function Home() {
     return (
       <>
         <Navbar />
-        <main className="container mx-auto px-3 flex flex-col items-center">
+        <main className="container mx-auto max-w-5xl px-3 flex flex-col items-center">
           <Title />
           <About />
         </main>
