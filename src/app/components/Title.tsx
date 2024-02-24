@@ -30,17 +30,28 @@ export default function Title() {
         spans[i++].classList.remove("opacity-0")
       else
         clearInterval(interval)
-    }, 200)
+    }, 100)
 
     setTimeout((): void => {
       subtitle.classList.remove("opacity-0", "-translate-y-full")
-    }, 4000)
+    }, 2500)
     
     setTimeout((): void => {
       subtitle.classList.remove("-scale-x-100")
-    }, 6000)
+    }, 3500)
 
   }, [lettersSpan])
+
+  function rotateSubtitle(rotated: boolean) {
+    if (!subTitleRef.current)
+      return
+
+    const subtitle = subTitleRef.current
+    if (rotated)
+      subtitle.classList.add("-scale-x-100")
+    else
+      subtitle.classList.remove("-scale-x-100")
+  }
 
   return (    
       <div className="relative w-full">
@@ -54,12 +65,18 @@ export default function Title() {
         </div>
         
         <div className="absolute inset-0 flex flex-col justify-center items-center">
-          <div className="flex flex-col">
+          <div 
+            onMouseEnter={() => rotateSubtitle(true)}
+            onMouseLeave={() => rotateSubtitle(false)}
+            className="flex flex-col"
+          >
             <div className="relative overflow-hidden">
               <h1 ref={titleRef} className={`h-full text-4xl text-center tracking-widest ${anta.className}`}>{ lettersSpan }</h1>
             </div>
             
-            <div ref={subTitleRef} className={`flex justify-between text-neutral-300 text-right -translate-y-full opacity-0 -scale-x-100 duration-1000 ${kode_mono.className}`}>
+            <div 
+              ref={subTitleRef}
+              className={`flex justify-between text-neutral-300 text-right -translate-y-full opacity-0 -scale-x-100 duration-1000 ${kode_mono.className}`}>
               <div className="grow flex flex-col blur-[1px] -scale-x-100">
                 <h2>Développeur web</h2>
                 <h2>Full-Stack</h2>
