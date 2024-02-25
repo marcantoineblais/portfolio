@@ -36,7 +36,7 @@ export default function Navbar({ visible }: { visible: boolean }) {
   }, [visible])
 
   return (
-    <div ref={navbarRef} className="z-50 fixed top-0 left-0 right-0 border-b border-b-gray-950 bg-stone-900 -translate-y-full duration-1000">
+    <div ref={navbarRef} className="z-50 fixed top-0 left-0 right-0 text-gray-300 border-b border-b-gray-950 bg-stone-900 -translate-y-full duration-1000">
       <div className="container mx-auto px-3 py-1 flex justify-between gap-3 items-center bg-inherit">
         <div onClick={() => window.scrollTo({top: 0, behavior: "smooth"})} className="w-20 flex justify-center items-center cursor-pointer">
           <svg viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">

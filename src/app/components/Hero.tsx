@@ -54,7 +54,7 @@ export default function Hero(
     return () => {
       window.removeEventListener("resize", updateFontSize)
     }
-  }, [])
+  }, [containerRef])
 
   React.useEffect(() => {
     if (!titleRef.current || !subTitleRef.current || !sloganRef.current || lettersSpan.length === 0)
@@ -136,7 +136,7 @@ export default function Hero(
     const container = containerRef.current
     container.style.opacity = opacity.toString()
     
-  }, [opacity])
+  }, [opacity, containerRef])
 
   function rotateSubtitle(rotated: boolean) {
     if (!subTitleRef.current)
@@ -149,8 +149,9 @@ export default function Hero(
       subtitle.classList.remove("-scale-x-100")
   }
 
-  return (    
-      <div ref={containerRef} className="w-full h-screen flex flex-col justify-between items-center">
+  return (
+    <div className="sticky w-full inset-0 h-[200vh]">    
+      <div ref={containerRef} className="container w-full h-screen mx-auto flex flex-col justify-between items-center text-gray-300">
         <div className="w-full">
           <div className="relative flex justify-center items-center">
             <svg className="text-stone-900" viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">
@@ -206,5 +207,6 @@ export default function Hero(
           </svg>
         </div>
       </div>
+    </div>
   )
 }

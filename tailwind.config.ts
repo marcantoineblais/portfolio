@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'chats-titre': "url('./components/catcam/images/chats.png')",
+        'chat-logo': "url('./components/catcam/images/catcam-logo.png')",
+    },
     },
   },
   plugins: [],
