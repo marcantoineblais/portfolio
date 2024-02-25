@@ -5,12 +5,12 @@ import Logo from "./images/catcam-logo.png"
 import Image from "next/image"
 
 export default function VideoPlayer({ videoRef, containerRef }: { videoRef: React.MutableRefObject<HTMLImageElement|null>, containerRef: React.MutableRefObject<HTMLDivElement|null> }) {
-  const [videoTime, setVideoTime] = React.useState<string>("0:12")
-  const [videoEnd, setVideoEnd] = React.useState<string>("3:00")
+  const [videoTime, setVideoTime] = React.useState<string>("0:00")
+  const [videoEnd, setVideoEnd] = React.useState<string>("5:00")
   const [duration, setDuration] = React.useState<number>(300)
+  const [currentTime, setCurrentTime] = React.useState<number>(0)
   const [paused, setPaused] = React.useState<boolean>(false)
   const [overlayTimeouts] = React.useState<any[]>([])
-  const [dblClicksTimeouts] = React.useState<any[]>([])
 
   const videoContainerRef = React.useRef<HTMLDivElement|null>(null)
   const overlayRef = React.useRef<HTMLDivElement|null>(null)
@@ -21,6 +21,44 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
   const bufferBarRef = React.useRef<HTMLDivElement|null>(null)
   const trackingHeadRef = React.useRef<HTMLDivElement|null>(null)
 
+
+  React.useEffect(() => {
+    const updateTime = () => {
+      if (paused)
+        return 
+
+      if (currentTime < duration)
+        setCurrentTime((t) => t + 1)
+      else 
+        setCurrentTime(0)
+    }
+
+    const interval = setTimeout(() => updateTime(), 1000)
+  }, [paused, currentTime])
+
+  React.useEffect(() => {
+    function updateProgressBar() {
+      const progress = progressBarRef.current
+      const head = trackingHeadRef.current      
+
+      if (duration <= 0 || !progress || !head)
+        return
+      
+      let position = currentTime / duration
+
+      if (position > 1)
+        position = 1
+      else if (position < 0)
+        position = 0
+
+      if (!paused)
+        progress.style.width = `${position * 100}%`
+
+      setVideoTime(getTimeString(currentTime))
+    }
+
+    updateProgressBar()
+  }, [currentTime, duration])
 
   // Resize streaming or recording video element when resizing window (16:9 ratio)
   React.useEffect(() => {
@@ -48,16 +86,15 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
   }, [videoContainerRef, containerRef])
 
   // Toggle between play and pause
-  function playPauseVideo() {
-    const video = videoRef.current
+  function playPauseVideo(stop: boolean) {
     const overlay = overlayRef.current
     const playBtn = playBtnRef.current
     const pauseBtn = pauseBtnRef.current
 
-    if (!video || !overlay || !playBtn || !pauseBtn || !video.src)
+    if (!overlay || !playBtn || !pauseBtn)
       return
 
-    if (paused) {
+    if (!stop) {
       overlay.classList.remove("!opacity-100", "!visible")
       overlay.classList.add("opacity-0", "insivible")
       playBtn.classList.add('hidden')
@@ -81,64 +118,6 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
       seconds = "0" + seconds
 
     return minutes + ":" + seconds
-  }
-
-  // Update video length when new metadata is loaded
-  function updateDuration() {
-    const video = videoRef.current
-
-    if (!video)
-      return
-
-    const time = duration
-
-    setDuration(time)
-    setVideoEnd(getTimeString(time))
-  }
-
-  // Adjust the progress bar size when time passes
-  function updateProgressBar() {
-    const video = videoRef.current
-    const progress = progressBarRef.current
-    const head = trackingHeadRef.current
-
-    if (duration <= 0 || !video || !progress || !head)
-      return
-    const time = 42
-    let position = time / duration
-
-    if (position > 1)
-      position = 1
-    else if (position < 0)
-      position = 0
-
-    if (!paused)
-      progress.style.width = `${position * 100}%`
-
-    setVideoTime(getTimeString(time))
-  }
-
-  // Adjust the buffer bar sizes when data is loaded
-  function updateBufferBar() {
-    const video = videoRef.current
-    const buffer = bufferBarRef.current
-
-    if (!video || !buffer)
-      return
-
-    const end = 200
-    const videoDuration = duration
-
-    let position = end / videoDuration
-
-    if (position > 1)
-      position = 1
-    else if (position < 0)
-      position = 0
-
-    buffer.style.width = `${position * 100}%`
-    setDuration(videoDuration)
-    setVideoEnd(getTimeString(videoDuration))
   }
 
   // Open overlay when closed and vice-versa
@@ -188,19 +167,19 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
 
   // Make the progress bar clickable to seek in video
   function videoSeekingOnMouseDown(e: React.MouseEvent) {
-    const video = videoRef.current
     const seekBar = videoSeekingRef.current
     const head = trackingHeadRef.current
     const progressBar = progressBarRef.current
 
-    if (!video || !seekBar || !progressBar || !head || !video.src)
+    if (!seekBar || !progressBar || !head)
       return
 
     const start = seekBar.getBoundingClientRect().left
     const end = seekBar.getBoundingClientRect().right
+    const wasPaused = paused
 
-    if (!paused)
-      playPauseVideo()
+    if (!wasPaused)
+      playPauseVideo(true)
 
     const seek = (e: MouseEvent | React.MouseEvent) => {
       const position = e.clientX
@@ -209,14 +188,15 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
       if (position >= start && position <= end && progressBar) {
         const progressFraction = 1 - (end - position) / (end - start)
         progressBar.style.width = `${progressFraction * 100}%`
+        setCurrentTime(progressFraction * duration)
       }
     }
 
     const clear = () => {
       window.removeEventListener("mouseup", clear)
       window.removeEventListener("mousemove", seek)
-      if (!paused)
-        playPauseVideo()
+      if (!wasPaused)
+        playPauseVideo(false)
     }
 
     window.addEventListener("mouseup", clear)
@@ -226,18 +206,18 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
 
   // Make the progress bar touchable to seek in video
   function videoSeekingOnTouchStart(e: React.TouchEvent) {
-    const video = videoRef.current
     const seekBar = videoSeekingRef.current
     const progressBar = progressBarRef.current
 
-    if (!video || !seekBar || !progressBar || !video.src || e.touches.length > 1)
+    if (!seekBar || !progressBar || e.touches.length > 1)
       return
 
     const start = seekBar.getBoundingClientRect().left
     const end = seekBar.getBoundingClientRect().right
+    const wasPaused = paused
 
-    if (!paused)
-      playPauseVideo()
+    if (!wasPaused)
+      playPauseVideo(true)
 
     const seek = (e: TouchEvent | React.TouchEvent) => {
       const position = e.touches[0].clientX
@@ -245,6 +225,7 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
       if (position >= start && position <= end && progressBar) {
         const progressFraction = 1 - ((end - position) / (end - start))
         progressBar.style.width = progressFraction * 100 + "%"
+        setCurrentTime(Math.floor(progressFraction * duration))
       }
 
       showOverlay()
@@ -254,8 +235,8 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
     const clear = () => {
       window.removeEventListener("touchend", clear)
       window.removeEventListener("touchmove", seek)
-      if (!paused)
-        playPauseVideo()
+      if (!wasPaused)
+        playPauseVideo(false)
     }
 
     window.addEventListener("touchend", clear)
@@ -264,30 +245,12 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
     e.stopPropagation()
   }
 
-  // show overlay when video ends
-  const onVideoEnd = () => {
-    const playBtn = playBtnRef.current
-    const pauseBtn = pauseBtnRef.current
-    const overlay = overlayRef.current
-
-    if (!playBtn || !pauseBtn || !overlay)
-      return
-
-    overlay.classList.add("!opacity-100", "!visible")
-    playBtn.classList.remove("hidden")
-    pauseBtn.classList.add("hidden")
-  }
-
   return (
     <div className="py-1.5 flex justify-center items-center">
       <div ref={videoContainerRef} className="relative flex justify-center rounded overflow-hidden shadow">
         <Image src={Logo} alt="cat picture"
           className="w-full h-full object-contain scale-100 bg-loading bg-no-repeat bg-center"
           ref={videoRef}
-          onTimeUpdate={() => updateProgressBar()}
-          onProgress={() => updateBufferBar()}
-          onLoadedMetadata={() => updateDuration()}
-          onEnded={() => onVideoEnd()}
           onClick={() => showOverlay()}
           onMouseMove={() => showOverlay()}
         />
@@ -312,13 +275,13 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
             </div>
             <div className="w-full pt-3 flex justify-between items-center flex-grow">
               <div className="flex items-center gap-5">
-                <div onClick={() => playPauseVideo()} className="cursor-pointer">
-                  <div ref={playBtnRef} className="hidden">
+                <div className="cursor-pointer">
+                  <div onClick={() => playPauseVideo(false)} ref={playBtnRef} className="hidden">
                     <svg className="w-5 h-5" fill="currentColor" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
                       <path d="M471.25,246.56,28.64,18.49A3.87,3.87,0,0,0,23,21.93V478.07a3.87,3.87,0,0,0,5.64,3.44L471.25,253.44A3.87,3.87,0,0,0,471.25,246.56Z" />
                     </svg>
                   </div>
-                  <div ref={pauseBtnRef}>
+                  <div onClick={() => playPauseVideo(true)} ref={pauseBtnRef}>
                     <svg className="w-5 h-5" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
                       <rect fill="currentColor" x="26.88" y="20.18" width="152" height="463.89" rx="4.12" />
                       <rect fill="currentColor" x="322.21" y="20.18" width="152" height="463.89" rx="4.12" />

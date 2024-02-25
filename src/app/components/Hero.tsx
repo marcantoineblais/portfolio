@@ -2,6 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { anta, kode_mono } from "../fonts";
+import DownArrow from "./DownArrow";
 
 export default function Hero(
   { containerRef, opacity, scrollDown }: 
@@ -198,14 +199,7 @@ export default function Hero(
           </div>
         </div>
 
-        <div onClick={() => scrollDown()} className="h-1/12 flex flex-col items-center cursor-pointer hover:text-gray-500">
-          <h3 className="text-center font-bold">Voir les réalisations</h3>
-
-          <svg className="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-            <rect fill="currentColor" x="221.85" y="230.65" width="252" height="39.88" rx="4.17" transform="translate(774.26 294.99) rotate(150.17)"/>
-            <rect fill="currentColor" x="25.86" y="230.06" width="252" height="39.88" rx="4.17" transform="translate(146.24 -42.46) rotate(30.17)"/>
-          </svg>
-        </div>
+        <DownArrow text="Voir les réalisations" action={scrollDown} />
       </div>
     </div>
   )
