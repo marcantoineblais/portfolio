@@ -7,10 +7,10 @@ import RecordingList from "./RecordingList"
 import ZoomPad from "./ZoomPad"
 import CellphoneDisplay from "../CellphoneDisplay"
 
-export default function Recordings() {
+export default function Recordings({ basis }: { basis: number }) {
 
   const [videoSource, setVideoSource] = React.useState<string|null>(null)
-  const [recordings, setRecordings] = React.useState<any[]|null>(null)
+  const [recordings, setRecordings] = React.useState<any[]|null>(Array(36).fill({ date: "01-01-2024", time: "12:00" }))
   const videoRef = React.useRef<HTMLImageElement|null>(null)
   const containerRef = React.useRef<HTMLDivElement|null>(null)
   const recordingsBtnRef = React.useRef<HTMLButtonElement|null>(null)
@@ -20,7 +20,6 @@ export default function Recordings() {
   const unfoldBtnRef = React.useRef<HTMLImageElement|null>(null)
   const unfoldableRef = React.useRef<HTMLDivElement|null>(null)
   const recordingsListRef = React.useRef<HTMLDivElement|null>(null)
-
 
   // Make sure that the good action triggers when manipulation the recordings list
   // Cannot refresh page from menu if the menu is not scrolled up
@@ -144,18 +143,18 @@ export default function Recordings() {
   }
 
   return (
-    <CellphoneDisplay>
+    <CellphoneDisplay basis={basis}>
       <Navbar activePage="recordings"/>
       <div ref={containerRef} className="p-1 flex flex-col grow overflow-hidden bg-gray-100">
         <VideoPlayer videoRef={videoRef} containerRef={containerRef} />
         <div className="relative grow">
           <div
             ref={unfoldableRef}
-            className="absolute inset-0 min-h-0 flex flex-col overflow-hidden duration-500"
+            className="absolute inset-0 min-h-0 flex flex-col overflow-hidden duration-500 bg-gray-100"
           >
             <div
               onTouchStart={(e) => manageTouchMove(e)}
-              className="w-full pt-3 mb-1 flex justify-between items-center shadow paysage-hidden"
+              className="w-full pt-3 mb-1 flex justify-between items-center shadow"
             >
               <button
                 onClick={() => toggleSection("recordings")}

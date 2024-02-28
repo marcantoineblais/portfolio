@@ -4,10 +4,7 @@ import React, { ReactNode } from "react";
 import { anta, kode_mono } from "../fonts";
 import DownArrow from "./DownArrow";
 
-export default function Hero(
-  { containerRef, opacity, scrollDown }: 
-  { containerRef: React.MutableRefObject<HTMLDivElement|null>, opacity: number, scrollDown: Function }) 
-{
+export default function Hero({ opacity, scrollTo }: { opacity: number, scrollTo: Function }) {
 
   const [lettersSpan, setLettersSpan] = React.useState<ReactNode[]>([])
   const [slogan1, setSlogan1] = React.useState<string>("")
@@ -15,6 +12,7 @@ export default function Hero(
   const titleRef = React.useRef<HTMLHeadingElement|null>(null)
   const subTitleRef = React.useRef<HTMLDivElement|null>(null)
   const sloganRef = React.useRef<HTMLDivElement|null>(null)
+  const containerRef = React.useRef<HTMLDivElement|null>(null)
 
   React.useEffect(() => {
     const name = "Marc-Antoine Blais"
@@ -151,8 +149,8 @@ export default function Hero(
   }
 
   return (
-    <div className="sticky w-full inset-0 h-[400vh]">    
-      <div ref={containerRef} className="container px-3 w-full h-screen mx-auto flex flex-col justify-between items-center text-gray-300 overflow-y-auto">
+    <div className="fixed w-full inset-0 text-gray-300">    
+      <div ref={containerRef} className="container px-3 w-full h-full mx-auto flex flex-col justify-between items-center overflow-y-auto opacity-0 duration-100">
         <div className="w-full">
           <div className="relative flex justify-center items-center">
             <svg className="text-stone-900" viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">
@@ -199,7 +197,7 @@ export default function Hero(
           </div>
         </div>
 
-        <DownArrow text="Voir les réalisations" action={scrollDown} />
+        <DownArrow text="Voir les réalisations" action={scrollTo} />
       </div>
     </div>
   )

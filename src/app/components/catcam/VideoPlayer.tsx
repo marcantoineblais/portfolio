@@ -34,7 +34,11 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
     }
 
     const interval = setTimeout(() => updateTime(), 1000)
-  }, [paused, currentTime])
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [paused, currentTime, duration])
 
   React.useEffect(() => {
     function updateProgressBar() {
@@ -58,7 +62,7 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
     }
 
     updateProgressBar()
-  }, [currentTime, duration])
+  }, [currentTime, duration, paused])
 
   // Resize streaming or recording video element when resizing window (16:9 ratio)
   React.useEffect(() => {
@@ -79,11 +83,11 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
 
     resize()
     window.addEventListener("resize", resize)
-
+    
     return () => {
       window.removeEventListener('resize', resize)
     }
-  }, [videoContainerRef, containerRef])
+  }, [containerRef, containerRef.current])
 
   // Toggle between play and pause
   function playPauseVideo(stop: boolean) {

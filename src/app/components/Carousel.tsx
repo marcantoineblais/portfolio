@@ -60,7 +60,7 @@ export default function Carousel({ children }: { children: ReactNode[] }) {
         <SideArrow action={() => scrollLeft()} reversed={true} />
 
         <div ref={containerRef} className="relative grow w-fit max-w-full h-full flex flex-col justify-center items-center overflow-hidden">
-          <div ref={carouselRef} className="absolute top-0 bottom-0 flex justify-around items-center gap-7 duration-1000">
+          <div ref={carouselRef} className="py-3 absolute top-0 bottom-0 flex justify-around items-center gap-7 duration-1000">
             { children }
           </div>
         </div>

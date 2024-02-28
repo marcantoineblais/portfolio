@@ -4,7 +4,7 @@ import React from "react"
 import CellphoneDisplay from "../CellphoneDisplay"
 import Navbar from "./Navbar"
 
-export default function Settings() {
+export default function Settings({ basis }: { basis: number }) {
 
   const appearanceRef = React.useRef<HTMLSelectElement | null>(null)
   const nbItemsRef = React.useRef<HTMLSelectElement | null>(null)
@@ -29,7 +29,7 @@ export default function Settings() {
   }, [appearanceRef, nbItemsRef, landingRef])
 
   return (
-    <CellphoneDisplay>
+    <CellphoneDisplay basis={basis}>
       <Navbar activePage="settings"/>
       <div className="h-full px-1 pt-5 max-w-screen-md container mx-auto bg-chat-logo bg-contain bg-no-repeat bg-bottom">
         <form className="w-full px-3 py-6 shadow bg-gray-50 rounded">

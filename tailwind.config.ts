@@ -11,7 +11,8 @@ const config: Config = {
       backgroundImage: {
         'chats-titre': "url('./components/catcam/images/chats.png')",
         'chat-logo': "url('./components/catcam/images/catcam-logo.png')",
-    },
+        'tile-texture': "url('./components/scrabble/images/tile-texture.jpg')"
+      },
     },
   },
   plugins: [],

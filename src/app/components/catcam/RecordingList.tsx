@@ -1,6 +1,8 @@
 "use client"
 
 import React from "react"
+import Logo from "./images/catcam-logo.png"
+import Image from "next/image"
 
 
 const RecordingList = ({
@@ -30,7 +32,7 @@ const RecordingList = ({
       if (!container || !recordingsList)
         return
 
-      const currentWidth = container.clientWidth
+      const currentWidth = container.clientWidth - 1
       const rowSize = currentWidth > 720 ? 3 : 2
       const availableWidth = currentWidth - (rowSize * 8)
       const width = (availableWidth / rowSize) + "px"
@@ -52,7 +54,7 @@ const RecordingList = ({
     return () => {
       window.removeEventListener('resize', resize)
     }
-  }, [containerRef, recordingsListRef, foldRecordingsList])
+  }, [containerRef, containerRef.current, recordingsListRef, foldRecordingsList])
 
   // Get the number of pages
   React.useEffect(() => {
@@ -122,7 +124,6 @@ const RecordingList = ({
     const nbOfrecordingsList = recordings.length
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize > nbOfrecordingsList ? nbOfrecordingsList : startIndex + pageSize
-    let key = 0
 
     function videoOnClick(video: any, index: number) {
       setActiveVideoIndex(index)
@@ -131,18 +132,16 @@ const RecordingList = ({
     }
 
     const recordingsList = recordings.slice(startIndex, endIndex).map((v, i) => {
-      const time = v.time.toTimeString().split(" ")[0]
-      const date = v.time.toDateString().split(" ").slice(1, 4).join("-")
       const activeStyle = i + startIndex === activeVideoIndex ? "cursor-default brightness-50" : "cursor-pointer hover:text-gray-500 hover:brightness-75"
 
       return (
         <div
           className={`h-fit mb-3 flex flex-col rounded bg-gray-50 shadow overflow-hidden duration-200 ${activeStyle}`}
-          key={key++}
+          key={i}
           onClick={() => videoOnClick(v, i + startIndex)}
         >
-          <img src={v.thumbnail} alt="camera snapshot" className="object-fill" style={{ width: width + "px", height: height + "px" }} />
-          <p className="text-center py-1 text-sm" style={{ width: width + "px" }}>{date + ", " + time}</p>
+          <Image src={Logo} alt="camera snapshot" width={width} height={height} className={`object-contain bg-gray-200`} />
+          <p className="text-center py-1 text-sm" style={{ width: width + "px" }}>{v.date + ", " + v.time}</p>
         </div>
       )
     })
@@ -157,7 +156,7 @@ const RecordingList = ({
         ref={recordingsListRef}
         onTouchStart={(e) => manageTouchMove(e)}
       >
-        {/* {renderRecordingsList()} */}
+        {renderRecordingsList()}
       </div>
       <div className="w-full py-31 flex justify-between items-center">
         <div ref={previousPageRef} onClick={() => previousPage()} className="px-3 py-1.5 flex items-center rotate-180 cursor-pointer invisible">

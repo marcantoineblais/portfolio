@@ -34,7 +34,7 @@ const ZoomPad = ({ videoRef, containerRef }: { videoRef: React.MutableRefObject<
         return () => {
             window.removeEventListener("resize", resize)
         }
-    }, [containerRef, zoomPadRef])
+    }, [containerRef, containerRef.current])
 
     // Activate zoom and mouse move tracking on click down, release on click up
     const zoomVideoOnMouse = (e: React.MouseEvent) => {

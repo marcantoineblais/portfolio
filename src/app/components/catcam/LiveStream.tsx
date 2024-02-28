@@ -6,13 +6,13 @@ import VideoPlayer from "./VideoPlayer";
 import ZoomPad from "./ZoomPad";
 import CellphoneDisplay from "../CellphoneDisplay";
 
-export default function LiveStream() {
+export default function LiveStream({ basis }: { basis: number }) {
 
   const videoRef = React.useRef<HTMLImageElement|null>(null)
   const containerRef = React.useRef<HTMLDivElement|null>(null)
 
   return (
-    <CellphoneDisplay>
+    <CellphoneDisplay basis={basis}>
       <Navbar activePage="live" />
       <div ref={containerRef} className="w-full h-full p-1 flex flex-col">
         <VideoPlayer videoRef={videoRef} containerRef={containerRef} />

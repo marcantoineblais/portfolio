@@ -3,22 +3,22 @@
 import React from "react"
 import CellphoneDisplay from "../CellphoneDisplay"
 
-export default function Login() {
+export default function Login({ basis }: { basis: number }) {
 
   return (
-    <CellphoneDisplay>
+    <CellphoneDisplay basis={basis}>
       <div className="h-full px-1 pt-5 max-w-screen-md container mx-auto bg-chat-logo bg-contain bg-no-repeat bg-bottom">
         <form className="w-full px-3 py-6 shadow bg-gray-50 rounded">
           <h1 className="w-full pb-10 text-center text-3xl paysage-hidden">Connexion</h1>
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Courriel</p>
-            <input className="px-1.5 grow bg-gray-100 rounded text-sm" placeholder="exemple@outlook.com" value={""}></input>
+            <input className="px-1.5 grow bg-gray-100 rounded text-sm" placeholder="exemple@outlook.com"></input>
           </label>
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Mot de passe</p>
-            <input className="px-1.5 grow bg-gray-100 rounded text-sm" name="password" type="password" placeholder="Mot de passe" value={""}></input>
+            <input className="px-1.5 grow bg-gray-100 rounded text-sm" name="password" type="password" placeholder="Mot de passe"></input>
           </label>
 
           <label className="flex pt-3">

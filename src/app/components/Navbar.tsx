@@ -2,7 +2,7 @@
 
 import React from "react"
 
-export default function Navbar({ visible }: { visible: boolean }) {
+export default function Navbar({ visible, scrollToProject }: { visible: boolean, scrollToProject: Function }) {
 
   const [showMenu, setShowMenu] = React.useState<boolean>(false)
   const menuRef = React.useRef<HTMLUListElement|null>(null)
@@ -69,7 +69,7 @@ export default function Navbar({ visible }: { visible: boolean }) {
             "
           >
             <li className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">À propos</li>
-            <li className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Projets</li>
+            <li onClick={() => {scrollToProject()}} className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Projets</li>
             <li className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Contact</li>
           </ul>
         </div>
