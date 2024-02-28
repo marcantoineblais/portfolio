@@ -137,7 +137,7 @@ const RecordingList = ({
 
       return (
         <div
-          className={`h-fit mb-3 flex flex-col rounded bg-gray-50 shadow overflow-hidden duration-200 dark:bg-zinc-800 dark:shadow-zinc-50/10 ${activeStyle}`}
+          className={`h-fit mb-3 flex flex-col rounded bg-gray-50 shadow overflow-hidden duration-200 ${activeStyle}`}
           key={key++}
           onClick={() => videoOnClick(v, i + startIndex)}
         >
@@ -153,22 +153,22 @@ const RecordingList = ({
   return (
     <div className="h-full w-full flex flex-col items-center">
       <div
-        className="w-full h-full flex justify-start content-start gap-2 flex-wrap flex-grow scroll-smooth overflow-y-scroll duration-500"
+        className="w-full h-full flex justify-start content-start gap-2 flex-wrap grow scroll-smooth overflow-y-auto duration-500"
         ref={recordingsListRef}
         onTouchStart={(e) => manageTouchMove(e)}
       >
-        {renderRecordingsList()}
+        {/* {renderRecordingsList()} */}
       </div>
       <div className="w-full py-31 flex justify-between items-center">
         <div ref={previousPageRef} onClick={() => previousPage()} className="px-3 py-1.5 flex items-center rotate-180 cursor-pointer invisible">
-          <svg className="h-9 w-12" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+          <svg className="h-9 w-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
             <path fill="currentColor" d="M480.27,243.82,288.05,123.31a4.78,4.78,0,0,0-7.32,4v241a4.78,4.78,0,0,0,7.32,4.05L480.27,251.92A4.78,4.78,0,0,0,480.27,243.82Z" />
             <path fill="currentColor" d="M287.55,298.87H39.66a4.06,4.06,0,0,1-4.11-4v-94a4.06,4.06,0,0,1,4.11-4H287.55Z" />
           </svg>
         </div>
         <p>Page {currentPage} of {lastPage}</p>
         <div ref={nextPageRef} onClick={() => nextPage()} className="px-3 py-1.5 flex items-center cursor-pointer">
-          <svg className="h-9 w-12" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+          <svg className="h-9 w-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
             <path fill="currentColor" d="M480.27,243.82,288.05,123.31a4.78,4.78,0,0,0-7.32,4v241a4.78,4.78,0,0,0,7.32,4.05L480.27,251.92A4.78,4.78,0,0,0,480.27,243.82Z" />
             <path fill="currentColor" d="M287.55,298.87H39.66a4.06,4.06,0,0,1-4.11-4v-94a4.06,4.06,0,0,1,4.11-4H287.55Z" />
           </svg>

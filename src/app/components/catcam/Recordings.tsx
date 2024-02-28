@@ -5,12 +5,13 @@ import Navbar from "./Navbar"
 import VideoPlayer from "./VideoPlayer"
 import RecordingList from "./RecordingList"
 import ZoomPad from "./ZoomPad"
+import CellphoneDisplay from "../CellphoneDisplay"
 
-export default function Recordings({ pageSize }: { pageSize: number | null }) {
+export default function Recordings() {
 
   const [videoSource, setVideoSource] = React.useState<string|null>(null)
   const [recordings, setRecordings] = React.useState<any[]|null>(null)
-  const videoRef = React.useRef<HTMLVideoElement|null>(null)
+  const videoRef = React.useRef<HTMLImageElement|null>(null)
   const containerRef = React.useRef<HTMLDivElement|null>(null)
   const recordingsBtnRef = React.useRef<HTMLButtonElement|null>(null)
   const zoomBtnRef = React.useRef<HTMLButtonElement|null>(null)
@@ -128,39 +129,40 @@ export default function Recordings({ pageSize }: { pageSize: number | null }) {
       return
 
     if (section === "recordings") {
-      recordingsBtn.classList.add("border-sky-700", "text-gray-700", "cursor-default", "dark:text-zinc-300")
-      recordingsBtn.classList.remove("border-gray-400", "hover:border-gray-700", "dark:border-zinc-800", "dark:hover:border-zinc-300")
-      zoomBtn.classList.remove("border-sky-700", "text-gray-700", "cursor-default", "dark:text-zinc-300")
-      zoomBtn.classList.add("border-gray-400", "hover:border-gray-700", "dark:border-zinc-800", "dark:hover:border-zinc-300")
+      recordingsBtn.classList.add("border-sky-700", "text-gray-700", "cursor-default")
+      recordingsBtn.classList.remove("border-gray-400", "hover:border-gray-700")
+      zoomBtn.classList.remove("border-sky-700", "text-gray-700", "cursor-default")
+      zoomBtn.classList.add("border-gray-400", "hover:border-gray-700")
       hscroll.classList.remove("-translate-x-1/2")
     } else if (section === "zoom") {
-      zoomBtn.classList.add("border-sky-700", "text-gray-700", "cursor-default", "dark:text-zinc-300")
-      zoomBtn.classList.remove("border-gray-400", "hover:border-gray-700", "dark:border-zinc-800", "dark:hover:border-zinc-300")
-      recordingsBtn.classList.remove("border-sky-700", "text-gray-700", "cursor-default", "dark:text-zinc-300")
-      recordingsBtn.classList.add("border-gray-400", "hover:border-gray-700", "dark:border-zinc-800", "dark:hover:border-zinc-300")
+      zoomBtn.classList.add("border-sky-700", "text-gray-700", "cursor-default")
+      zoomBtn.classList.remove("border-gray-400", "hover:border-gray-700")
+      recordingsBtn.classList.remove("border-sky-700", "text-gray-700", "cursor-default")
+      recordingsBtn.classList.add("border-gray-400", "hover:border-gray-700")
       hscroll.classList.add("-translate-x-1/2")
     }
   }
 
   return (
-    <>
+    <CellphoneDisplay>
       <Navbar activePage="recordings"/>
-      <div ref={containerRef} className="p-1 h-full container mx-auto max-w-screen-lg flex flex-col flex-grow overflow-hidden">
+      <div ref={containerRef} className="p-1 flex flex-col grow overflow-hidden bg-gray-100">
         <VideoPlayer videoRef={videoRef} containerRef={containerRef} />
-        <div className="relative h-full flex-grow">
+        <div className="relative grow">
           <div
             ref={unfoldableRef}
-            className="absolute top-0 bottom-0 left-0 right-0 min-h-0 flex flex-col overflow-hidden transition-height duration-500 bg-gray-100 dark:bg-zinc-900"
+            className="absolute inset-0 min-h-0 flex flex-col overflow-hidden duration-500"
           >
             <div
               onTouchStart={(e) => manageTouchMove(e)}
-              className="w-full mt-3 mb-1 flex justify-between items-center shadow dark:shadow-zinc-50/10 paysage-hidden"
+              className="w-full pt-3 mb-1 flex justify-between items-center shadow paysage-hidden"
             >
               <button
                 onClick={() => toggleSection("recordings")}
                 ref={recordingsBtnRef}
-                className="pl-3 basis-5/12 border-b-4 border-sky-700 text-gray-700 cursor-default text-xl text-left duration-200 dark:text-zinc-300"
-              >Recordings</button>
+                className="pl-3 basis-5/12 border-b-4 border-sky-700 text-gray-700 cursor-default text-xl text-left duration-200"
+              >Enregistrements</button>
+
               <div className="w-8 flex justify-center items-center">
                 <div ref={unfoldBtnRef} onClick={() => toggleRecordingsList()} className="h-full w-12 duration-500 cursor-pointer">
                   <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
@@ -171,18 +173,20 @@ export default function Recordings({ pageSize }: { pageSize: number | null }) {
                   </svg>
                 </div>
               </div>
+              
               <button
                 onClick={() => toggleSection("zoom")}
                 ref={zoomBtnRef}
-                className="pr-3 basis-5/12 text-xl text-right border-gray-400 hover:text-gray-700 hover:border-gray-700 border-b-4 dark:border-zinc-800 dark:hover:border-zinc-300 dark:hover:text-zinc-300"
+                className="pr-3 basis-5/12 text-xl text-right border-gray-400 hover:text-gray-700 hover:border-gray-700 border-b-4"
               >Zoom</button>
             </div>
-            <div className="w-full flex-grow overflow-hidden paysage-hidden">
-              <div ref={hscrollRef} className="w-[200%] h-full duration-500 flex justify-between overflow-hidden">
+
+            <div className="max-w-full grow overflow-hidden">
+              <div ref={hscrollRef} className="w-[200%] h-full duration-500 flex justify-between">
                 <div className="h-full basis-1/2">
                   <RecordingList
                     recordings={recordings}
-                    pageSize={pageSize || 12}
+                    pageSize={12}
                     setVideoSource={setVideoSource}
                     containerRef={containerRef}
                     recordingsListRef={recordingsListRef}
@@ -190,6 +194,7 @@ export default function Recordings({ pageSize }: { pageSize: number | null }) {
                     foldRecordingsList={foldRecordingsList}
                   />
                 </div>
+                
                 <div ref={zoomContainerRef} className="h-full basis-1/2 flex overflow-hidden">
                   <ZoomPad containerRef={zoomContainerRef} videoRef={videoRef} />
                 </div>
@@ -198,6 +203,6 @@ export default function Recordings({ pageSize }: { pageSize: number | null }) {
           </div>
         </div>
       </div>
-    </>
+    </CellphoneDisplay>
   )
 }

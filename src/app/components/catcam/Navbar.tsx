@@ -74,10 +74,10 @@ const Navbar = ({ activePage }: { activePage: string }) => {
             </svg>
           </div>
           <div ref={navBtnRef} className="flex flex-col justify-end items-end absolute top-12 left-0 right-0 z-50 bg-gray-100 scale-x-0 duration-200 origin-right">
-            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">Live</button>
-            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">Recordings</button>
-            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">Settings</button>
-            <button className="w-full text-center py-4 border-2 border-gray-400 text-amber-900 duration-200 hover:text-amber-700 hover:border-amber-700">Logout</button>
+            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">En direct</button>
+            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">Enregistrements</button>
+            <button className="w-full text-center py-4 border-2 duration-200 border-gray-400 hover:text-gray-700 hover:border-gray-700">Paramètres</button>
+            <button className="w-full text-center py-4 border-2 border-gray-400 text-amber-900 duration-200 hover:text-amber-700 hover:border-amber-700">Se déconnecter</button>
           </div>
         </menu>
       </div>

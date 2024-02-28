@@ -151,8 +151,8 @@ export default function Hero(
   }
 
   return (
-    <div className="sticky w-full inset-0 h-[200vh]">    
-      <div ref={containerRef} className="container w-full h-screen mx-auto flex flex-col justify-between items-center text-gray-300">
+    <div className="sticky w-full inset-0 h-[400vh]">    
+      <div ref={containerRef} className="container px-3 w-full h-screen mx-auto flex flex-col justify-between items-center text-gray-300 overflow-y-auto">
         <div className="w-full">
           <div className="relative flex justify-center items-center">
             <svg className="text-stone-900" viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">

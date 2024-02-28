@@ -81,9 +81,7 @@ export default function Home() {
       <Navbar visible={navbarVisible} />
       <main className="flex flex-col items-center">
         <Hero containerRef={heroContainerRef} opacity={heroOpacity} scrollDown={scrollAfterHero} />
-        <Catcam containerRef={catcamContainerRef} opacity={catcamOpacity} >
-          <LiveStream />
-        </Catcam>
+        <Catcam containerRef={catcamContainerRef} opacity={catcamOpacity} />
       </main>
     </>
   );

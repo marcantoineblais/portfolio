@@ -70,8 +70,8 @@ export default function VideoPlayer({ videoRef, containerRef }: { videoRef: Reac
 
     const resize = () => {
       
-      const width = container.clientWidth
-      const height = (width / 16) * 9
+      let width = container.clientWidth
+      let height = (width / 16) * 9
       
       videoContainer.style.width = width + "px"
       videoContainer.style.height = height + "px"
