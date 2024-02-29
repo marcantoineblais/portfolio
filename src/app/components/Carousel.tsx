@@ -68,16 +68,20 @@ export default function Carousel({ children, accentColor }: { children: ReactNod
 
   return (
     <div className="w-full h-full pb-5 flex flex-col justify-between items-center gap-7">
-      <div className="w-full h-full flex justify-center items-center">
-        <SideArrow action={() => scrollLeft()} reversed={true} />
+      <div className="w-full h-full flex justify-center items-center gap-3">
+        <div className="grow">
+          <SideArrow action={() => scrollLeft()} reversed={true} />
+        </div>
 
-        <div ref={containerRef} className="relative grow w-fit max-w-full h-full flex flex-col justify-center items-center overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden">
           <div ref={carouselRef} className="py-3 absolute top-0 bottom-0 flex justify-around items-center gap-7 duration-1000">
             { children }
           </div>
         </div>
         
-        <SideArrow action={() => scrollRight()} reversed={false} />
+        <div className="grow">
+          <SideArrow action={() => scrollRight()} reversed={false} />
+        </div>
       </div>
       <div className="flex justify-center items-center gap-7">
         { dots }

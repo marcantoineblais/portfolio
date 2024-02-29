@@ -6,7 +6,7 @@ import CheetahLogo from "./CheetahLogo"
 import CellphoneDisplay from "../CellphoneDisplay"
 import Menu from "./Menu"
 
-export default function Landing({ basis}: { basis: number }) {
+export default function Landing({ basis }: { basis: number }) {
 
   return (
     <CellphoneDisplay basis={basis}>
