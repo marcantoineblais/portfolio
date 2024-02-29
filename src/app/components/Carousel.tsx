@@ -3,10 +3,11 @@
 import React, { ReactNode } from "react"
 import SideArrow from "./SideArrow"
 
-export default function Carousel({ children }: { children: ReactNode[] }) {
+export default function Carousel({ children, accentColor }: { children: ReactNode[], accentColor: string }) {
 
   const [selectedIndex, setSelectedIndex] = React.useState<number>(0)
   const [nbItems, setNbItems] = React.useState<number>(0)
+  const [dots, setDots] = React.useState<ReactNode|null>(null)
   const carouselRef = React.useRef<HTMLDivElement|null>(null)
   const containerRef = React.useRef<HTMLDivElement|null>(null)
 
@@ -33,6 +34,17 @@ export default function Carousel({ children }: { children: ReactNode[] }) {
   }, [children])
 
   React.useEffect(() => {
+    const dots: ReactNode[] = []
+
+    for (let i = 0; i < nbItems; i++) {
+      const bg = i === selectedIndex ? accentColor : "bg-gray-300"
+      dots.push(<div key={i} onClick={() => setSelectedIndex(i)} className={`w-4 h-4 rounded-full cursor-pointer duration-500 hover:opacity-75 ${bg}`}></div>)
+    }
+
+    setDots(dots)
+  }, [nbItems, selectedIndex])
+
+  React.useEffect(() => {
     if (!carouselRef.current)
       return
 
@@ -55,7 +67,7 @@ export default function Carousel({ children }: { children: ReactNode[] }) {
   }
 
   return (
-    <div className="w-full h-full flex flex-col justify-between items-center">
+    <div className="w-full h-full pb-5 flex flex-col justify-between items-center gap-7">
       <div className="w-full h-full flex justify-center items-center">
         <SideArrow action={() => scrollLeft()} reversed={true} />
 
@@ -66,6 +78,9 @@ export default function Carousel({ children }: { children: ReactNode[] }) {
         </div>
         
         <SideArrow action={() => scrollRight()} reversed={false} />
+      </div>
+      <div className="flex justify-center items-center gap-7">
+        { dots }
       </div>
     </div>
   )

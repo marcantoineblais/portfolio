@@ -150,7 +150,7 @@ export default function Hero({ opacity, scrollTo }: { opacity: number, scrollTo:
 
   return (
     <div className="fixed w-full inset-0 text-gray-300">    
-      <div ref={containerRef} className="container px-3 w-full h-full mx-auto flex flex-col justify-between items-center overflow-y-auto opacity-0 duration-100">
+      <div ref={containerRef} className="container px-3 w-full h-full mx-auto flex flex-col justify-between items-center overflow-y-auto opacity-0 duration-500">
         <div className="w-full">
           <div className="relative flex justify-center items-center">
             <svg className="text-stone-900" viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">

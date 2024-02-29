@@ -23,7 +23,7 @@ export default function Login({ basis }: { basis: number }) {
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Se souvenir de moi</p>
-            <input className="bg-gray-100 rounded" id="remember-me" name="rememberMe" type="checkbox"></input>
+            <input className="bg-gray-100 rounded" name="rememberMe" type="checkbox"></input>
           </label>
 
           <div className="pt-5 flex justify-center">

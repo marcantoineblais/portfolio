@@ -9,8 +9,8 @@ export default function Scrabble({ scrollTo }: { scrollTo: Function }) {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col md:flex-row justify-center items-center gap-7">
-        <Carousel>
+      <div className="w-full h-full flex flex-col justify-center items-center gap-7">
+        <Carousel accentColor="bg-emerald-900">
           <Landing basis={2}/>
           <SavedGames basis={2}/>
         </Carousel>
