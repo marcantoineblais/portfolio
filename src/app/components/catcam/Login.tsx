@@ -13,17 +13,17 @@ export default function Login({ basis }: { basis: number }) {
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Courriel</p>
-            <input className="px-1.5 grow bg-gray-100 rounded text-sm" placeholder="exemple@outlook.com"></input>
+            <input className="px-1.5 grow bg-gray-100 rounded text-sm" placeholder="exemple@outlook.com" readOnly></input>
           </label>
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Mot de passe</p>
-            <input className="px-1.5 grow bg-gray-100 rounded text-sm" name="password" type="password" placeholder="Mot de passe"></input>
+            <input className="px-1.5 grow bg-gray-100 rounded text-sm" name="password" type="password" placeholder="Mot de passe" readOnly></input>
           </label>
 
           <label className="flex pt-3">
             <p className="basis-40 text-sm">Se souvenir de moi</p>
-            <input className="bg-gray-100 rounded" name="rememberMe" type="checkbox"></input>
+            <input className="bg-gray-100 rounded" name="rememberMe" type="checkbox" readOnly></input>
           </label>
 
           <div className="pt-5 flex justify-center">

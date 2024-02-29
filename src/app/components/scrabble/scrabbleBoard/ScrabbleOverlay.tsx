@@ -1,14 +1,12 @@
 "use client"
 
-import { Overlay } from "@/app/models/Overlay"
 import React, { ReactNode } from "react"
 import ScrabbleRow from "./ScrabbleRow"
 import ScrabbleOverlayTile from "./ScrabbleOverlayTile"
-import { Solution } from "@/app/models/Solution"
 
 export default function ScrabbleOverlay(
     { width, selectedTile, selectedVertical, grid, selectOrToggleTile, selectedSolution }: 
-    { width: number, selectedTile: number[]|null, selectedVertical: boolean, grid: string[][], selectOrToggleTile: Function, selectedSolution: Solution|null }
+    { width: number, selectedTile: number[]|null, selectedVertical: boolean, grid: string[][], selectOrToggleTile: Function, selectedSolution: any }
 ) {
 
     const [overlayGrid, setOverlayGrid] = React.useState<number[][]|null>(null)
@@ -22,15 +20,15 @@ export default function ScrabbleOverlay(
 
             row.forEach((_col, x) => {
                 if (selectedSolution) {
-                    overlays[y][x] = Overlay.NONE
+                    overlays[y][x] = 0
                 } else if (selectedTile && y == selectedTile[0] && x == selectedTile[1])
-                    overlays[y][x] = Overlay.SELECTED
+                    overlays[y][x] = 1
                 else if (selectedTile && selectedVertical && x == selectedTile[1])
-                    overlays[y][x] = Overlay.LINE
+                    overlays[y][x] = 2
                 else if (selectedTile && !selectedVertical && y == selectedTile[0])
-                    overlays[y][x] = Overlay.LINE
+                    overlays[y][x] = 2
                 else
-                    overlays[y][x] = Overlay.NONE
+                    overlays[y][x] = 0
             })
         })
 

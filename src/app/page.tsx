@@ -7,6 +7,7 @@ import Catcam from "./components/Catcam";
 import Project from "./components/Project";
 import Scrabble from "./components/Scrabble";
 import CatcamDescription from "./components/CatcamDescription";
+import ScrabbleDescription from "./components/ScrabbleDescription";
 
 export default function Home() {
   const [windowHeight, setWindowHeight] = React.useState<number>(0)
@@ -25,10 +26,14 @@ export default function Home() {
   const [catcamEnd, setCatcamEnd] = React.useState<number>(0)
   const [scrabbleStart, setScrabbleStart] = React.useState<number>(0)
   const [scrabblePeak, setScrabblePeak] = React.useState<number>(0)
+  const [scrabbleDemoStart, setScrabbleDemoStart] = React.useState<number>(0)
+  const [scrabbleDemo, setScrabbleDemo] = React.useState<boolean>(false)
   const [scrabbleEnd, setScrabbleEnd] = React.useState<number>(0)
 
   React.useEffect(() => {
     const scrollUp = () => {
+      setHeroOpacity(1)
+      setHeroLoaded(true)
       window.scrollTo({top: 0})
     }
 
@@ -49,7 +54,8 @@ export default function Home() {
       const step5 = step4 + step1
       const step6 = step5 + step1
       const step7 = step6 + height
-      const step8 = step7 + step1
+      const step8 = step7 + height
+      const step9 = step8 + step1
 
       setHeroEnd(step1)
       setCatcamStart(step2)
@@ -58,7 +64,8 @@ export default function Home() {
       setCatcamEnd(step5)
       setScrabbleStart(step6)
       setScrabblePeak(step7)
-      setScrabbleEnd(step8)
+      setScrabbleDemoStart(step8)
+      setScrabbleEnd(step9)
       setWindowHeight(height)
     }
 
@@ -84,6 +91,7 @@ export default function Home() {
         setCatcamLoaded(false)
         setScrabbleLoaded(false)
         setCatcamDemo(false)
+        setScrabbleDemo(false)
       } else if (currentHeight < catcamStart) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -91,6 +99,7 @@ export default function Home() {
         setScrabbleLoaded(false)
         setCatcamOpacity((currentHeight - heroEnd) / (catcamStart - heroEnd))
         setCatcamDemo(false)
+        setScrabbleDemo(false)
       } else if (currentHeight <= catcamPeak) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -98,6 +107,7 @@ export default function Home() {
         setScrabbleLoaded(false)
         setCatcamOpacity(1)
         setCatcamDemo(false)
+        setScrabbleDemo(false)
       } else if (currentHeight <= catcamDemoStart) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -105,6 +115,7 @@ export default function Home() {
         setScrabbleLoaded(false)
         setCatcamOpacity(1)
         setCatcamDemo(true)
+        setScrabbleDemo(false)
       } else if (currentHeight < catcamEnd) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -112,6 +123,7 @@ export default function Home() {
         setScrabbleLoaded(false)
         setCatcamOpacity(1 - ((currentHeight - catcamDemoStart) / (catcamEnd - catcamDemoStart)))
         setCatcamDemo(true)
+        setScrabbleDemo(false)
       } else if (currentHeight < scrabbleStart) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -119,6 +131,7 @@ export default function Home() {
         setScrabbleLoaded(true)
         setScrabbleOpacity((currentHeight - catcamEnd) / (scrabbleStart - catcamEnd))
         setCatcamDemo(true)
+        setScrabbleDemo(false)
       } else if (currentHeight <= scrabblePeak) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -126,6 +139,15 @@ export default function Home() {
         setScrabbleLoaded(true)
         setScrabbleOpacity(1)
         setCatcamDemo(true)
+        setCatcamDemo(false)
+      } else if (currentHeight <= scrabbleDemoStart) {
+        setNavbarVisible(true)
+        setHeroLoaded(false)
+        setCatcamLoaded(false)
+        setScrabbleLoaded(true)
+        setScrabbleOpacity(1)
+        setCatcamDemo(true)
+        setScrabbleDemo(true)
       } else if (currentHeight < scrabbleEnd) {
         setNavbarVisible(true)
         setHeroLoaded(false)
@@ -133,6 +155,7 @@ export default function Home() {
         setScrabbleLoaded(true)
         setScrabbleOpacity(1 - ((currentHeight - scrabblePeak) / (scrabbleEnd - scrabblePeak)))
         setCatcamDemo(true)
+        setScrabbleDemo(true)
       }
        
     }
@@ -155,18 +178,23 @@ export default function Home() {
         { heroLoaded && <Hero opacity={heroOpacity} scrollTo={() => scrollTo(catcamPeak)} /> }
         { catcamLoaded && 
           <>
-            <Project name="La Catcam" opacity={catcamOpacity} className={`bg-gray-100 text-gray-950`} scrolledUp={catcamDemo} >
+            <Project name="La Catcam" opacity={catcamOpacity} className="bg-gray-100 text-gray-950" scrolledUp={catcamDemo} >
               <CatcamDescription scrollTo={() => scrollTo(catcamDemoStart)}/>  
             </Project>
-            <Project name="La Catcam - Démonstration" opacity={catcamOpacity} className={`bg-gray-100 text-gray-950}`} scrolledDown={!catcamDemo} >
+            <Project name="La Catcam - Démonstration" opacity={catcamOpacity} className="bg-gray-100 text-gray-950" scrolledDown={!catcamDemo} >
               <Catcam scrollTo={() => scrollTo(scrabblePeak)} />
             </Project> 
           </>
         }
         { scrabbleLoaded && 
-          <Project name="Scrabble Cheetah" opacity={scrabbleOpacity} className="bg-orange-100 text-neutral-950" >
+        <>
+          <Project name="Scrabble Cheetah" opacity={scrabbleOpacity} className="bg-orange-50 text-neutral-950" scrolledUp={scrabbleDemo} >
+            <ScrabbleDescription scrollTo={() => scrollTo(scrabbleDemoStart)} />
+          </Project>
+          <Project name="Scrabble Cheetah" opacity={scrabbleOpacity} className="bg-orange-50 text-neutral-950" scrolledDown={!scrabbleDemo} >
             <Scrabble scrollTo={() => scrollTo(scrabbleEnd)} />
           </Project> 
+        </>
         }
       </main>
     </>

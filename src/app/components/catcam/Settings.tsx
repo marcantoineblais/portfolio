@@ -39,8 +39,8 @@ export default function Settings({ basis }: { basis: number }) {
             <p className="basis-44 text-sm">Apparence</p>
             <select ref={appearanceRef} className="px-1.5 grow bg-gray-100 rounded text-sm" name="appearance">
               <option value="light">Clair</option>
-              <option value="dark">Sombre</option>
-              <option value="auto">Auto</option>
+              <option disabled value="dark">Sombre</option>
+              <option disabled value="auto">Auto</option>
             </select>
           </label>
 
@@ -48,9 +48,9 @@ export default function Settings({ basis }: { basis: number }) {
             <p className="basis-44 text-sm">Enregistrements par page</p>
             <select ref={nbItemsRef} className="px-1.5 grow bg-gray-100 rounded text-sm" name="pageSize">
               <option value="12">12</option>
-              <option value="24">24</option>
-              <option value="48">48</option>
-              <option value="96">96</option>
+              <option disabled value="24">24</option>
+              <option disabled value="48">48</option>
+              <option disabled value="96">96</option>
             </select>
           </label>
 
@@ -58,7 +58,7 @@ export default function Settings({ basis }: { basis: number }) {
             <p className="basis-44 text-sm">Page d'accueil</p>
             <select ref={landingRef} className="px-1.5 grow bg-gray-100 rounded text-sm" name="landing">
               <option value="/">En direct</option>
-              <option value="/recordings">Enregistrements</option>
+              <option disabled value="/recordings">Enregistrements</option>
             </select>
           </label>
         </form>

@@ -2,29 +2,27 @@
 
 import React, { MutableRefObject, ReactNode } from "react"
 import ScrabbleBoardTile from "./ScrabbleBoardTile"
-import { Bonus } from "@/app/models/Bonus"
-import { emptyRow } from "@/app/utilities/utilities"
 import ScrabbleRow from "./ScrabbleRow"
-import { GridType } from "@/app/models/GridType"
 
 export default function ScrabbleBoard(
     { grid, gridType, width }:
-    { grid: string[][], gridType: GridType, width: number }
+    { grid: string[][], gridType: any, width: number }
 ) {
 
     const [bonus, setBonus] = React.useState<number[][]|null>(null)
     const [tiles, setTiles] = React.useState<ReactNode|null>(null)
 
     React.useEffect(() => {
-        const bonusOnGrid: number[][] = emptyRow(() => emptyRow(() => Bonus.NONE))
+        const bonusOnGrid: number[][] = grid.map((row: string[]) => row.map(() => 0))        
 
-        gridType.doubleLetter.forEach(([y, x]) => bonusOnGrid[y][x] = Bonus.DOUBLE_LETTER)
-        gridType.tripleLetter.forEach(([y, x]) => bonusOnGrid[y][x] = Bonus.TRIPLE_LETTER)
-        gridType.doubleWord.forEach(([y, x]) => bonusOnGrid[y][x] = Bonus.DOUBLE_WORD)
-        gridType.tripleWord.forEach(([y, x]) => bonusOnGrid[y][x] = Bonus.TRIPLE_WORD)
-        bonusOnGrid[7][7] = Bonus.CENTER
+        gridType.doubleLetter.forEach(([y, x]: [number, number]) => bonusOnGrid[y][x] = 1)
+        gridType.tripleLetter.forEach(([y, x]: [number, number]) => bonusOnGrid[y][x] = 2)
+        gridType.doubleWord.forEach(([y, x]: [number, number]) => bonusOnGrid[y][x] = 3)
+        gridType.tripleWord.forEach(([y, x]: [number, number]) => bonusOnGrid[y][x] = 4)
+        bonusOnGrid[7][7] = 5
 
         setBonus(bonusOnGrid)
+        
     }, [gridType])
 
     React.useEffect(() => {

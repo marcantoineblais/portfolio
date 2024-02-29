@@ -13,10 +13,10 @@ export default function Catcam({ scrollTo }: { scrollTo: Function }) {
     <div className="w-full h-full pt-12 flex flex-col items-center">
       <div className="w-full h-full flex flex-col justify-center items-center gap-7">
         <Carousel accentColor="bg-sky-700">
-          <Login basis={5} />
-          <LiveStream basis={5} />
-          <Recordings basis={5} />
-          <Settings basis={5} />
+          <Login basis={4} />
+          <LiveStream basis={4} />
+          <Recordings basis={4} />
+          <Settings basis={4} />
         </Carousel>
       </div>
       <DownArrow text="Réalisation suivante" action={() => scrollTo()} />

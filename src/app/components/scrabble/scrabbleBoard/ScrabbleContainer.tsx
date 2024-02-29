@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react"
 
-export default function ScrabbleContainer({ children, setWidth }: { children: ReactNode, setWidth: Function }) {
+export default function ScrabbleContainer({ children, setWidth, card = false }: { children: ReactNode, setWidth: Function, card?: boolean }) {
 
     const containerRef = React.useRef<HTMLDivElement|null>(null)    
 
@@ -12,10 +12,12 @@ export default function ScrabbleContainer({ children, setWidth }: { children: Re
                 return
     
             const container = containerRef.current
-            let width = container.clientWidth
+            const parent = container.parentElement
 
-            if (container.clientHeight > 64 && width > container.clientHeight)
-                width = container.clientHeight
+            if (!parent)
+              return 
+
+            const width = card ? parent.clientHeight : parent.clientWidth
 
             container.style.width = width + "px"
             container.style.height = width + "px"
@@ -28,7 +30,7 @@ export default function ScrabbleContainer({ children, setWidth }: { children: Re
         return () => {
             window.removeEventListener("resize", resize)
         }
-    }, [setWidth])
+    }, [setWidth, containerRef.current, card])
 
     return (
         <div ref={containerRef} className="w-full h-full relative">
