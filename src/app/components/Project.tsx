@@ -5,8 +5,8 @@ import { anta, kode_mono } from "../fonts"
 
 
 export default function Project(
-  { children, opacity, name, className, scrolledUp = false, scrolledDown = false}: 
-  { children: ReactNode, opacity: number, name: string, className: string, scrolledDown?: boolean, scrolledUp?: boolean }
+  { children, opacity, name, className}: 
+  { children: ReactNode, opacity: number, name: string, className: string}
 ) {
 
   const containerRef = React.useRef<HTMLDivElement|null>(null)
@@ -21,7 +21,7 @@ export default function Project(
   }, [opacity, containerRef])
 
   return (
-    <div ref={containerRef} className={`fixed inset-0 duration-500 opacity-0 ${className} ${scrolledDown && "top-full"} ${scrolledUp && "-top-full"}`}>
+    <div ref={containerRef} className={`fixed inset-0 opacity-0 ${className}`}>
       <div className={`container px-3 mx-auto h-screen w-full flex flex-col justify-between items-center gap-7`}>
         <div className="w-full pt-12 flex flex-col gap-7">
           <h2 className={`${kode_mono.className} p-3 text-5xl font-bold`}>Réalisations</h2>

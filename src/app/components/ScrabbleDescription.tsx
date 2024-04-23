@@ -4,7 +4,6 @@ import React from "react";
 import TextBubble from "./TextBubble";
 
 import DownArrow from "./DownArrow";
-import Login from "./scrabble/Login";
 
 export default function ScrabbleDescription({ scrollTo }: { scrollTo: Function }) {
   
@@ -18,7 +17,7 @@ export default function ScrabbleDescription({ scrollTo }: { scrollTo: Function }
 
           <TextBubble className="bg-gray-200 shadow-md max-w-96 self-end">
             <p className="text-justify">
-              Il est présentement possible de trouver des solutions en français et en anglais avec plusieurs types de grilles de jeu.
+              Il est présentement possible de trouver des solutions en français et en anglais avec plusieurs type de grilles de jeu.
             </p>       
           </TextBubble>
 
@@ -41,7 +40,7 @@ export default function ScrabbleDescription({ scrollTo }: { scrollTo: Function }
           </small>
         </div>
         <div className="basis-1/2 h-full flex justify-center">
-          <Login basis={1} />
+          {/* <Login basis={1} /> */}
         </div>
       </div>
 

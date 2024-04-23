@@ -1,202 +1,138 @@
 "use client"
 
-import React from "react";
+import React, { ReactNode } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Catcam from "./components/Catcam";
 import Project from "./components/Project";
 import Scrabble from "./components/Scrabble";
-import CatcamDescription from "./components/CatcamDescription";
-import ScrabbleDescription from "./components/ScrabbleDescription";
+import useMainComponent from "./hooks/useMainComponent";
+import { MainComponent } from "./models/MainComponent";
 
 export default function Home() {
-  const [windowHeight, setWindowHeight] = React.useState<number>(0)
-  const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
-  const [heroOpacity, setHeroOpacity] = React.useState<number>(100)
-  const [catcamOpacity, setCatcamOpacity] = React.useState<number>(0)
-  const [scrabbleOpacity, setScrabbleOpacity] = React.useState<number>(0)
-  const [heroLoaded, setHeroLoaded] = React.useState<boolean>(true)
-  const [catcamLoaded, setCatcamLoaded] = React.useState<boolean>(false)
-  const [scrabbleLoaded, setScrabbleLoaded] = React.useState<boolean>(false)
-  const [heroEnd, setHeroEnd] = React.useState<number>(0)
-  const [catcamStart, setCatcamStart] = React.useState<number>(0)
-  const [catcamPeak, setCatcamPeak] = React.useState<number>(0)
-  const [catcamDemoStart, setCatcamDemoStart] = React.useState<number>(0)
-  const [catcamDemo, setCatcamDemo] = React.useState<boolean>(false)
-  const [catcamEnd, setCatcamEnd] = React.useState<number>(0)
-  const [scrabbleStart, setScrabbleStart] = React.useState<number>(0)
-  const [scrabblePeak, setScrabblePeak] = React.useState<number>(0)
-  const [scrabbleDemoStart, setScrabbleDemoStart] = React.useState<number>(0)
-  const [scrabbleDemo, setScrabbleDemo] = React.useState<boolean>(false)
-  const [scrabbleEnd, setScrabbleEnd] = React.useState<number>(0)
+    const [windowHeight, setWindowHeight] = React.useState<number>(0)
+    const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
 
-  React.useEffect(() => {
-    const scrollUp = () => {
-      setHeroOpacity(1)
-      setHeroLoaded(true)
-      window.scrollTo({top: 0})
-    }
+    const hero = useMainComponent(
+        "hero", 
+        (name: string, opacity: number) => <Hero opacity={opacity} scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+    )
 
-    window.addEventListener("load", scrollUp)
-
-    return () => {
-      window.removeEventListener("load", scrollUp)
-    }
-  }, [])
-
-  React.useEffect(() => {
-    const resize = () => {
-      const height = window.innerHeight
-      const step1 = 2 * height
-      const step2 = 2 * step1
-      const step3 = step2 + height
-      const step4 = step3 + height
-      const step5 = step4 + step1
-      const step6 = step5 + step1
-      const step7 = step6 + height
-      const step8 = step7 + height
-      const step9 = step8 + step1
-
-      setHeroEnd(step1)
-      setCatcamStart(step2)
-      setCatcamPeak(step3)
-      setCatcamDemoStart(step4)
-      setCatcamEnd(step5)
-      setScrabbleStart(step6)
-      setScrabblePeak(step7)
-      setScrabbleDemoStart(step8)
-      setScrabbleEnd(step9)
-      setWindowHeight(height)
-    }
-
-    window.scrollTo({ top: 0 })
-    window.addEventListener("resize", resize)
-    window.addEventListener("load", resize)
-    resize()
-
-    return () => {
-      window.removeEventListener("resize", resize)
-      window.removeEventListener("load", resize)
-    }
-  }, [])
-
-  React.useEffect(() => {
-    const calculateScrollHeight = () => {
-      const currentHeight = window.scrollY
-      
-      if (currentHeight < heroEnd) {
-        setNavbarVisible(false)
-        setHeroOpacity(1- (currentHeight / heroEnd))
-        setHeroLoaded(true)
-        setCatcamLoaded(false)
-        setScrabbleLoaded(false)
-        setCatcamDemo(false)
-        setScrabbleDemo(false)
-      } else if (currentHeight < catcamStart) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(true)
-        setScrabbleLoaded(false)
-        setCatcamOpacity((currentHeight - heroEnd) / (catcamStart - heroEnd))
-        setCatcamDemo(false)
-        setScrabbleDemo(false)
-      } else if (currentHeight <= catcamPeak) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(true)
-        setScrabbleLoaded(false)
-        setCatcamOpacity(1)
-        setCatcamDemo(false)
-        setScrabbleDemo(false)
-      } else if (currentHeight <= catcamDemoStart) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(true)
-        setScrabbleLoaded(false)
-        setCatcamOpacity(1)
-        setCatcamDemo(true)
-        setScrabbleDemo(false)
-      } else if (currentHeight < catcamEnd) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(true)
-        setScrabbleLoaded(false)
-        setCatcamOpacity(1 - ((currentHeight - catcamDemoStart) / (catcamEnd - catcamDemoStart)))
-        setCatcamDemo(true)
-        setScrabbleDemo(false)
-      } else if (currentHeight < scrabbleStart) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(false)
-        setScrabbleLoaded(true)
-        setScrabbleOpacity((currentHeight - catcamEnd) / (scrabbleStart - catcamEnd))
-        setCatcamDemo(true)
-        setScrabbleDemo(false)
-      } else if (currentHeight <= scrabblePeak) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(false)
-        setScrabbleLoaded(true)
-        setScrabbleOpacity(1)
-        setCatcamDemo(true)
-        setCatcamDemo(false)
-      } else if (currentHeight <= scrabbleDemoStart) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(false)
-        setScrabbleLoaded(true)
-        setScrabbleOpacity(1)
-        setCatcamDemo(true)
-        setScrabbleDemo(true)
-      } else if (currentHeight < scrabbleEnd) {
-        setNavbarVisible(true)
-        setHeroLoaded(false)
-        setCatcamLoaded(false)
-        setScrabbleLoaded(true)
-        setScrabbleOpacity(1 - ((currentHeight - scrabblePeak) / (scrabbleEnd - scrabblePeak)))
-        setCatcamDemo(true)
-        setScrabbleDemo(true)
-      }
-       
-    }
-
-    window.addEventListener("scroll", calculateScrollHeight)
-
-    return () => {
-      window.removeEventListener("scroll", calculateScrollHeight)
-    }
-  }, [windowHeight, heroEnd, catcamStart, catcamPeak, catcamDemoStart, catcamEnd, scrabbleStart, scrabblePeak, scrabbleEnd])
-
-  function scrollTo(position: number) {
-    window.scrollTo({ top: position, behavior: "smooth" })
-  }
-
-  return (
-    <>
-      <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcamPeak)} />
-      <main className="flex flex-col items-center h-[2400vh]">
-        { heroLoaded && <Hero opacity={heroOpacity} scrollTo={() => scrollTo(catcamPeak)} /> }
-        { catcamLoaded && 
-          <>
-            <Project name="La Catcam" opacity={catcamOpacity} className="bg-gray-100 text-gray-950" scrolledUp={catcamDemo} >
-              <CatcamDescription scrollTo={() => scrollTo(catcamDemoStart)}/>  
-            </Project>
-            <Project name="La Catcam - Démonstration" opacity={catcamOpacity} className="bg-gray-100 text-gray-950" scrolledDown={!catcamDemo} >
-              <Catcam scrollTo={() => scrollTo(scrabblePeak)} />
-            </Project> 
-          </>
+    const catcam = useMainComponent(
+        "catcam", 
+        (name: string, opacity: number) => {
+            return (
+                <Project name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                    <Catcam scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+                </Project>
+            )
         }
-        { scrabbleLoaded && 
+    )
+    
+    const scrabble = useMainComponent(
+        "scrabble", 
+        (name: string, opacity: number) => {
+            return (
+                <Project name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                    <Catcam scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+                </Project>
+            )
+        }
+    )
+
+    const [components] = React.useState<MainComponent[]>([hero, catcam, scrabble]);
+
+    React.useEffect(() => {
+        const scrollUp = () => {
+            components[0].setOpacity(1)
+            components[0].setIsRendered(true)
+            window.scrollTo({ top: 0 })
+        }
+
+        window.addEventListener("load", scrollUp)
+
+        return () => {
+            window.removeEventListener("load", scrollUp)
+        }
+    }, [components])
+
+    React.useEffect(() => {
+        const resize = () => {
+            const height = window.innerHeight
+            let currentHeight = 0
+
+            components.forEach((component, i) => {
+                if (i === 0) {
+                    component.setOpacity(1)
+                    component.setIsRendered(true)
+                    component.setStart(0)
+                    component.setCenter(0)
+                    component.setEnd(height)
+                    currentHeight += 2 * height;
+                    
+                } else {
+                    component.setStart(currentHeight)
+                    component.setCenter(currentHeight + height)
+                    component.setEnd(currentHeight + (2 * height))
+                    currentHeight += 4 * height
+                }
+                console.log(component);
+            })
+        }
+
+        window.scrollTo({ top: 0 })
+        window.addEventListener("resize", resize)
+        window.addEventListener("load", resize)
+        resize()
+
+        return () => {
+            window.removeEventListener("resize", resize)
+            window.removeEventListener("load", resize)
+        }
+    }, [components])
+
+    React.useEffect(() => {
+        const calculateScrollHeight = () => {
+            const currentHeight = window.scrollY
+
+            components.forEach(component => {
+                if (component.start >= currentHeight && component.end <= currentHeight) {
+                    component.setOpacity(1)
+                    component.setIsRendered(true)
+                } else {
+                    component.setOpacity(0)
+                    component.setIsRendered(false)
+                }
+            })
+        }
+
+        window.addEventListener("scroll", calculateScrollHeight)
+
+        return () => {
+            window.removeEventListener("scroll", calculateScrollHeight)
+        }
+    }, [components])
+
+    function scrollTo(position: number) {
+        window.scrollTo({ top: position, behavior: "smooth" })
+    }
+
+    function renderMainComponents() {
+        const renderedComponents: ReactNode[] = []
+        components.forEach(component => {            
+            if (component.isRendered)
+                renderedComponents.push(component.component)
+        })
+
+        return renderedComponents
+    }
+
+    return (
         <>
-          <Project name="Scrabble Cheetah" opacity={scrabbleOpacity} className="bg-orange-50 text-neutral-950" scrolledUp={scrabbleDemo} >
-            <ScrabbleDescription scrollTo={() => scrollTo(scrabbleDemoStart)} />
-          </Project>
-          <Project name="Scrabble Cheetah" opacity={scrabbleOpacity} className="bg-orange-50 text-neutral-950" scrolledDown={!scrabbleDemo} >
-            <Scrabble scrollTo={() => scrollTo(scrabbleEnd)} />
-          </Project> 
+            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(components[1].center)} />
+            <main className="flex flex-col items-center h-[2400vh]">
+                { renderMainComponents() }
+            </main>
         </>
-        }
-      </main>
-    </>
-  );
+    );
 }
