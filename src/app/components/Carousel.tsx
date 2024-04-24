@@ -47,7 +47,7 @@ export default function Carousel({ children, accentColor, className }: { childre
         }
 
         setDots(dots)
-    }, [nbItems, selectedIndex])
+    }, [nbItems, selectedIndex, accentColor])
 
     React.useEffect(() => {
         if (!carouselRef.current)

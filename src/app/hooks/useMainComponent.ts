@@ -1,5 +1,4 @@
 import React from "react";
-import { MainComponent } from "../models/MainComponent";
 
 export default function useMainComponent(name: string, createComponent: Function) {
     const [opacity, setOpacity] = React.useState<number>(0)

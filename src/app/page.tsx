@@ -1,6 +1,6 @@
 "use client"
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback, useMemo } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Catcam from "./components/Catcam";
@@ -10,79 +10,72 @@ import useMainComponent from "./hooks/useMainComponent";
 import { MainComponent } from "./models/MainComponent";
 
 export default function Home() {
-    const [windowHeight, setWindowHeight] = React.useState<number>(0)
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
 
     const hero = useMainComponent(
-        "hero", 
-        (name: string, opacity: number) => <Hero opacity={opacity} scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+        "Hero", 
+        (_name: string, opacity: number) => <Hero key={1} opacity={opacity} scrollTo={() => scrollTo(catcam.center)} />
     )
 
     const catcam = useMainComponent(
-        "catcam", 
+        "La Catcam", 
         (name: string, opacity: number) => {
             return (
-                <Project name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
-                    <Catcam scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+                <Project key={2} name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                    <Catcam scrollTo={() => scrollTo(scrabble.center)} />
                 </Project>
             )
         }
     )
     
     const scrabble = useMainComponent(
-        "scrabble", 
+        "Scrabble Cheetah", 
         (name: string, opacity: number) => {
             return (
-                <Project name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
-                    <Catcam scrollTo={(pageHeight: number) => scrollTo(pageHeight)} />
+                <Project key={3} name={name} opacity={opacity} className="bg-orange-50 text-gray-950" >
+                    <Scrabble scrollTo={() => scrollTo(catcam.center)} />
                 </Project>
             )
         }
     )
 
-    const [components] = React.useState<MainComponent[]>([hero, catcam, scrabble]);
+    const components = useMemo(() => [hero, catcam, scrabble], [hero, catcam, scrabble]);
+    const heroFirstLoad = useMemo(() => hero, [])
+    const mainRef = React.useRef<HTMLDivElement|null>(null)
 
     React.useEffect(() => {
-        const scrollUp = () => {
-            components[0].setOpacity(1)
-            components[0].setIsRendered(true)
-            window.scrollTo({ top: 0 })
-        }
-
-        window.addEventListener("load", scrollUp)
-
-        return () => {
-            window.removeEventListener("load", scrollUp)
-        }
-    }, [components])
+        heroFirstLoad.setIsRendered(true)
+        heroFirstLoad.setOpacity(1)
+        window.scrollTo({ top: 0 })
+    }, [heroFirstLoad])
 
     React.useEffect(() => {
         const resize = () => {
+            if (!mainRef.current)
+                return
+
+            const main = mainRef.current
             const height = window.innerHeight
             let currentHeight = 0
 
             components.forEach((component, i) => {
                 if (i === 0) {
-                    component.setOpacity(1)
-                    component.setIsRendered(true)
                     component.setStart(0)
                     component.setCenter(0)
                     component.setEnd(height)
-                    currentHeight += 2 * height;
-                    
+                    currentHeight += 2 * height;         
                 } else {
                     component.setStart(currentHeight)
                     component.setCenter(currentHeight + height)
                     component.setEnd(currentHeight + (2 * height))
                     currentHeight += 4 * height
                 }
-                console.log(component);
             })
+
+            main.style.height = currentHeight + "px"
         }
 
-        window.scrollTo({ top: 0 })
         window.addEventListener("resize", resize)
-        window.addEventListener("load", resize)
         resize()
 
         return () => {
@@ -95,9 +88,16 @@ export default function Home() {
         const calculateScrollHeight = () => {
             const currentHeight = window.scrollY
 
-            components.forEach(component => {
-                if (component.start >= currentHeight && component.end <= currentHeight) {
+            components.forEach((component, i) => {                
+                if (component.start <= currentHeight && component.end >= currentHeight) {
                     component.setOpacity(1)
+                    component.setIsRendered(true)
+                    setNavbarVisible(i > 0)
+                } else if (i > 0 && component.start > currentHeight && components[i - 1].end < currentHeight) {
+                    component.setOpacity((currentHeight - components[i - 1].end) / (component.start - components[i - 1].end))
+                    component.setIsRendered(true)
+                } else if (i < components.length - 1 && component.end < currentHeight && components[i + 1].start > currentHeight) {
+                    component.setOpacity((components[i + 1].start - currentHeight) / (components[i + 1].start - component.end))
                     component.setIsRendered(true)
                 } else {
                     component.setOpacity(0)
@@ -118,19 +118,13 @@ export default function Home() {
     }
 
     function renderMainComponents() {
-        const renderedComponents: ReactNode[] = []
-        components.forEach(component => {            
-            if (component.isRendered)
-                renderedComponents.push(component.component)
-        })
-
-        return renderedComponents
+        return components.map(component => component.isRendered ? component.component : null)
     }
 
     return (
         <>
-            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(components[1].center)} />
-            <main className="flex flex-col items-center h-[2400vh]">
+            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcam.center)} />
+            <main ref={mainRef} className="flex flex-col items-center">
                 { renderMainComponents() }
             </main>
         </>
