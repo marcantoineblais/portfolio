@@ -31,7 +31,7 @@ export default function CatcamDescription() {
     return (
         <>
             <div className="h-full w-full flex items-center gap-3">
-                <div className="h-full flex flex-col justify-between gap-3">
+                <div className="p-0.5 h-full flex flex-col justify-between gap-3">
                     <TextBubble className="bg-gray-200">La Catcam est une application web conçue spécifiquement pour regarder vos animaux lorsque vous quittez votre foyer.</TextBubble>
                     <TextBubble className="bg-gray-200">Il est possible d'utiliser une fonctionnalité de détections de mouvements pour enregistrer les méfaits de vos félins favoris et de les prendre la main dans le sac!</TextBubble>
                     <TextBubble className="bg-gray-200">Avec la Catcam, votre vie privée est protégée puisque l'application utilise un serveur local dans votre résidence pour diffuser et enregistrer les vidéos.</TextBubble>

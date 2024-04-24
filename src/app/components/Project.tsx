@@ -21,8 +21,8 @@ export default function Project(
   }, [opacity, containerRef])
 
   return (
-    <div ref={containerRef} className={`fixed inset-0 opacity-0 ${className}`}>
-      <div className={`container px-3 mx-auto h-screen w-full flex flex-col justify-between items-center gap-7`}>
+    <div ref={containerRef} className={`fixed inset-0 opacity-0 overflow-y-auto ${className}`}>
+      <div className={`container px-3 mx-auto h-full min-h-[940px] w-full flex flex-col justify-between items-center gap-1`}>
         <div className="w-full pt-12 flex flex-col gap-7">
           <h2 className={`${kode_mono.className} p-3 text-5xl font-bold`}>Réalisations</h2>
           <h2 className={`${anta.className} text-5xl text-center border-b border-b-gray-950`}>{ name }</h2>

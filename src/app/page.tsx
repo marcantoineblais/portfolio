@@ -8,6 +8,7 @@ import Project from "./components/Project";
 import Scrabble from "./components/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
 import { MainComponent } from "./models/MainComponent";
+import About from "./components/About";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
@@ -33,13 +34,18 @@ export default function Home() {
         (name: string, opacity: number) => {
             return (
                 <Project key={3} name={name} opacity={opacity} className="bg-orange-50 text-gray-950" >
-                    <Scrabble scrollTo={() => scrollTo(catcam.center)} />
+                    <Scrabble scrollTo={() => scrollTo(about.center)} />
                 </Project>
             )
         }
     )
+    
+    const about = useMainComponent(
+        "À propos", 
+        (_name: string, opacity: number) => <About key={4} opacity={opacity} />
+    )
 
-    const components = useMemo(() => [hero, catcam, scrabble], [hero, catcam, scrabble]);
+    const components = useMemo(() => [hero, catcam, scrabble, about], [hero, catcam, scrabble, about]);
     const heroFirstLoad = useMemo(() => hero, [])
     const mainRef = React.useRef<HTMLDivElement|null>(null)
 
@@ -123,7 +129,7 @@ export default function Home() {
 
     return (
         <>
-            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcam.center)} />
+            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcam.center)} scrollToAbout={() => scrollTo(about.center)} />
             <main ref={mainRef} className="flex flex-col items-center">
                 { renderMainComponents() }
             </main>
