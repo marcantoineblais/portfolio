@@ -70,7 +70,12 @@ export default function Home() {
                     component.setStart(0)
                     component.setCenter(0)
                     component.setEnd(height)
-                    currentHeight += 2 * height;         
+                    currentHeight += 2 * height;
+                } else if (i === components.length - 1) {
+                    component.setStart(currentHeight)
+                    component.setCenter(currentHeight + height)
+                    component.setEnd(currentHeight + height)
+                    currentHeight += height
                 } else {
                     component.setStart(currentHeight)
                     component.setCenter(currentHeight + height)
