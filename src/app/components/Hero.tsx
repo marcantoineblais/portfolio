@@ -190,7 +190,7 @@ export default function Hero({ opacity, scrollTo }: { opacity: number, scrollTo:
                     </div>
 
                     <div ref={sloganRef} className={`flex flex-col justify-between items-center opacity-0 duration-1000 ${kode_mono.className}`}>
-                        <h2 className="-mt-10 pb-10">Une innovation à chaque ligne de code</h2>
+                        <h2 className="pb-10">Une innovation à chaque ligne de code</h2>
                         <h2 className="h-[2.2em] flex justify-between gap-3 grow">
                             <span>{slogan1}</span>
                             <span className="self-end">{slogan2}</span>
