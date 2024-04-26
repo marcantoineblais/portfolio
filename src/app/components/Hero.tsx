@@ -198,7 +198,7 @@ export default function Hero({ opacity, scrollTo }: { opacity: number, scrollTo:
                     </div>
                 </div>
 
-                <DownArrow text="Voir les réalisations" action={scrollTo} />
+                <DownArrow text="Voir les réalisations" action={scrollTo} disabled={opacity < 1} />
             </div>
         </div>
     )

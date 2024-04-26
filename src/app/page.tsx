@@ -3,7 +3,7 @@
 import React, { ReactNode, useCallback, useMemo } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Catcam from "./components/Catcam";
+import Catcam from "./components/catcam/Catcam";
 import Project from "./components/Project";
 import Scrabble from "./components/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
@@ -22,8 +22,8 @@ export default function Home() {
         "La Catcam", 
         (name: string, opacity: number) => {
             return (
-                <Project key={2} name={name} opacity={opacity} className="bg-gray-100 text-gray-950" >
-                    <Catcam scrollTo={() => scrollTo(scrabble.center)} />
+                <Project key={2} name={name} scrollTo={() => scrollTo(scrabble.center)} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                    <Catcam disabledCarousel={opacity < 1} />
                 </Project>
             )
         }
@@ -33,8 +33,8 @@ export default function Home() {
         "Scrabble Cheetah", 
         (name: string, opacity: number) => {
             return (
-                <Project key={3} name={name} opacity={opacity} className="bg-orange-50 text-gray-950" >
-                    <Scrabble scrollTo={() => scrollTo(about.center)} />
+                <Project key={3} name={name} scrollTo={() => scrollTo(about.center)} opacity={opacity} className="bg-orange-50 text-gray-950" >
+                    <Scrabble disabledCarousel={opacity < 1} />
                 </Project>
             )
         }
@@ -45,15 +45,16 @@ export default function Home() {
         (_name: string, opacity: number) => <About key={4} opacity={opacity} />
     )
 
-    const components = useMemo(() => [hero, catcam, scrabble, about], [hero, catcam, scrabble, about]);
-    const heroFirstLoad = useMemo(() => hero, [])
+    const components = useMemo(() => [hero, catcam, scrabble, about], [hero, catcam, scrabble, about])
     const mainRef = React.useRef<HTMLDivElement|null>(null)
 
     React.useEffect(() => {
-        heroFirstLoad.setIsRendered(true)
-        heroFirstLoad.setOpacity(1)
+        hero.setIsRendered(true)
+        hero.setOpacity(1)
         window.scrollTo({ top: 0 })
-    }, [heroFirstLoad])
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     React.useEffect(() => {
         const resize = () => {
@@ -86,7 +87,6 @@ export default function Home() {
 
         return () => {
             window.removeEventListener("resize", resize)
-            window.removeEventListener("load", resize)
         }
     }, [components])
 
@@ -120,7 +120,7 @@ export default function Home() {
     }, [components])
 
     function scrollTo(position: number) {
-        window.scrollTo({ top: position, behavior: "smooth" })
+        window.scrollTo({ top: position, behavior: "instant" })
     }
 
     function renderMainComponents() {
