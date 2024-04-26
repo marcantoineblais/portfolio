@@ -10,6 +10,18 @@ export default function Navbar({ visible, scrollToProject, scrollToAbout }: { vi
     const navbarRef = React.useRef<HTMLDivElement | null>(null)
 
     React.useEffect(() => {
+        const hideMenu = () => {
+            setShowMenu(false)
+        }
+
+        window.addEventListener("click", hideMenu)
+
+        return () => {
+            window.removeEventListener("click", hideMenu)
+        }
+    }, [])
+
+    React.useEffect(() => {
         if (!menuRef.current || !iconRef.current)
             return
 
@@ -35,6 +47,11 @@ export default function Navbar({ visible, scrollToProject, scrollToAbout }: { vi
 
     }, [visible])
 
+    function toggleMenu(e: React.MouseEvent) {
+        e.stopPropagation()
+        setShowMenu(!showMenu)
+    }
+
     return (
         <div ref={navbarRef} className="z-50 fixed top-0 left-0 right-0 text-gray-300 border-b border-b-gray-950 bg-stone-900 -translate-y-full duration-1000">
             <div className="container mx-auto px-3 py-1 flex justify-between gap-3 items-center bg-inherit">
@@ -51,7 +68,7 @@ export default function Navbar({ visible, scrollToProject, scrollToAbout }: { vi
                 <div className="flex flex-col bg-inherit">
                     <span
                         ref={iconRef}
-                        onClick={() => setShowMenu(!showMenu)}
+                        onClick={(e) => toggleMenu(e)}
                         className="w-8 cursor-pointer md:hidden duration-500"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">

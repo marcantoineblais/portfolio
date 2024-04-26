@@ -11,24 +11,6 @@ export default function SideArrow(
     const arrowRef = React.useRef<SVGSVGElement|null>(null)
 
     React.useEffect(() => {
-        const resize = () => {
-            if (!arrowRef.current)
-                return
-
-            const arrow = arrowRef.current
-            const width = 24 + (window.innerWidth / 50)
-            arrow.style.width = width > 72 ? "72px" : width + "px"
-        }
-
-        window.addEventListener("resize", resize)
-        resize()
-
-        return () => {
-            window.removeEventListener("resize", resize)
-        }
-    }, [])
-
-    React.useEffect(() => {
         if (disabled) 
             setClassList(`${reversed ? "translate-x-full" : "-translate-x-full"} opacity-0`)
         else 
@@ -37,7 +19,7 @@ export default function SideArrow(
     }, [disabled, reversed])
 
     return (
-        <div ref={containerRef} className={`h-full flex flex-col justify-center ${reversed ? "items-end" : "items-start"}`}>
+        <div ref={containerRef} className={`w-16 h-full flex flex-col justify-center ${reversed ? "items-end" : "items-start"}`}>
             <svg ref={arrowRef} onClick={disabled ? undefined : () => action()} className={`duration-500 ${classList} ${reversed ? "rotate-90" : "-rotate-90"}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
                 <rect fill="currentColor" x="221.85" y="230.65" width="252" height="39.88" rx="4.17" transform="translate(774.26 294.99) rotate(150.17)" />
                 <rect fill="currentColor" x="25.86" y="230.06" width="252" height="39.88" rx="4.17" transform="translate(146.24 -42.46) rotate(30.17)" />

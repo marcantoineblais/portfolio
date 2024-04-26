@@ -29,10 +29,10 @@ export default function CatcamImages() {
 
 
     return (
-        <div className="relative h-full max-h-full flex justify-center items-center">
+        <div className="relative h-full flex justify-center items-center">
             <Image 
                 ref={imageLightRef} 
-                className="h-full max-h-full duration-1000 border border-neutral-300 rounded-lg object-contain" 
+                className="h-full duration-1000 border border-neutral-300 rounded-lg object-contain" 
                 src={CatcamImg1} 
                 alt="capture d'écran de l'application Catcam" 
             />
