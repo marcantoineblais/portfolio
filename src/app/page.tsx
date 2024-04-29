@@ -1,15 +1,13 @@
 "use client"
 
-import React, { ReactNode, useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Catcam from "./components/catcam/Catcam";
 import Project from "./components/Project";
 import Scrabble from "./components/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
-import { MainComponent } from "./models/MainComponent";
 import About from "./components/About";
-import { on } from "stream";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
