@@ -1,10 +1,10 @@
 import React from "react";
 
 import Carousel from "../Carousel";
-import ImageLiveLight from "../../images/mobile-live-light.png"
-import ImageLiveDark from "../../images/mobile-live-dark.png"
-import ImageLiveOverlayLight from "../../images/mobile-live-overlay-light.png"
-import ImageLiveOverlayDark from "../../images/mobile-live-overlay-dark.png"
+import ImageLiveLight from "../../images/catcam/mobile-live-light.png"
+import ImageLiveDark from "../../images/catcam/mobile-live-dark.png"
+import ImageLiveOverlayLight from "../../images/catcam/mobile-live-overlay-light.png"
+import ImageLiveOverlayDark from "../../images/catcam/mobile-live-overlay-dark.png"
 import Image from "next/image";
 import CatcamDescription from "./CatcamDescription";
 import CatcamImages from "./CatcamImages";
