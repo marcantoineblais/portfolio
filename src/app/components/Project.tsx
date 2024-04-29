@@ -30,8 +30,8 @@ export default function Project(
         <div ref={containerRef} className={`fixed inset-0 opacity-0 ${overflow} ${className}`}>
             <div className={`container px-3 mx-auto h-full min-h-[940px] w-full flex flex-col justify-between items-center gap-1`}>
                 <div className="w-full pt-12 flex flex-col gap-3">
-                    <h2 className={`${kode_mono.className} p-3 text-xl lg:text-5xl font-bold`}>Réalisations</h2>
-                    <h2 className={`${anta.className} text-xl lg:text-5xl text-center border-b border-b-gray-950`}>{name}</h2>
+                    <h2 className={`${kode_mono.className} p-1 lg:p-3 text-3xl lg:text-5xl font-bold`}>Réalisations</h2>
+                    <h2 className={`${anta.className} text-3xl lg:text-5xl text-center border-b border-b-gray-950`}>{name}</h2>
                 </div>
                 {children}
                 <DownArrow text="Réalisation suivante" action={() => scrollTo()} disabled={opacity < 1} />
