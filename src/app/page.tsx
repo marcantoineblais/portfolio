@@ -9,6 +9,7 @@ import Scrabble from "./components/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
 import { MainComponent } from "./models/MainComponent";
 import About from "./components/About";
+import { on } from "stream";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
@@ -96,6 +97,8 @@ export default function Home() {
     }, [components])
 
     React.useEffect(() => {
+        let scrollTimeout: number
+
         const calculateScrollHeight = () => {
             const currentHeight = window.scrollY
 
@@ -115,10 +118,25 @@ export default function Home() {
                     component.setIsRendered(false)
                 }
             })
+
+            clearTimeout(scrollTimeout)
+            scrollTimeout = window.setTimeout(() => scrollToNearestSection(), 1000)
+        }
+
+        const scrollToNearestSection = () => {
+            const currentHeight = window.scrollY
+            let nearestSection = components[0]
+
+            components.forEach(component => {
+                if (Math.abs(currentHeight - component.center) < Math.abs(currentHeight - nearestSection.center))
+                    nearestSection = component
+            })
+            
+            window.scrollTo({top: nearestSection.center, behavior: "smooth"})
         }
 
         window.addEventListener("scroll", calculateScrollHeight)
-
+        
         return () => {
             window.removeEventListener("scroll", calculateScrollHeight)
         }
