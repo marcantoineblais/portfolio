@@ -34,7 +34,7 @@ export default function Hero({ opacity, scrollTo }: { opacity: number, scrollTo:
         const updateFontSize = () => {
             const width = container.clientWidth
             const titleSize = width / 16
-            const titleSpacing = titleSize / 3
+            const titleSpacing = titleSize / 4
             const subtitleSize = titleSize / 2
 
             title.style.fontSize = titleSize + "px"
