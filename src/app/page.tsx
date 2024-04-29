@@ -13,6 +13,7 @@ import { on } from "stream";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
+    const [timers] = React.useState<any>({})
 
     const hero = useMainComponent(
         "Hero", 
@@ -48,6 +49,7 @@ export default function Home() {
 
     const components = useMemo(() => [hero, catcam, scrabble, about], [hero, catcam, scrabble, about])
     const mainRef = React.useRef<HTMLDivElement|null>(null)
+
 
     React.useEffect(() => {
         hero.setIsRendered(true)
@@ -97,7 +99,7 @@ export default function Home() {
     }, [components])
 
     React.useEffect(() => {
-        let scrollTimeout: number
+        const scrollStart = window.scrollY
 
         const calculateScrollHeight = () => {
             const currentHeight = window.scrollY
@@ -107,6 +109,10 @@ export default function Home() {
                     component.setOpacity(1)
                     component.setIsRendered(true)
                     setNavbarVisible(i > 0)
+
+                    // If entering the component, stick to it
+                    if (scrollStart < component.start || scrollStart > component.end)
+                        window.scrollTo({top: component.center, behavior: "smooth"})
                 } else if (i > 0 && component.start > currentHeight && components[i - 1].end < currentHeight) {
                     component.setOpacity((currentHeight - components[i - 1].end) / (component.start - components[i - 1].end))
                     component.setIsRendered(true)
@@ -119,8 +125,8 @@ export default function Home() {
                 }
             })
 
-            clearTimeout(scrollTimeout)
-            scrollTimeout = window.setTimeout(() => scrollToNearestSection(), 1000)
+            clearTimeout(timers.scrollTimeout)
+            timers.scrollTimeout = window.setTimeout(() => scrollToNearestSection(), 300)
         }
 
         const scrollToNearestSection = () => {
@@ -140,7 +146,7 @@ export default function Home() {
         return () => {
             window.removeEventListener("scroll", calculateScrollHeight)
         }
-    }, [components])
+    }, [components, timers])
 
     function scrollTo(position: number) {
         window.scrollTo({ top: position, behavior: "instant" })
