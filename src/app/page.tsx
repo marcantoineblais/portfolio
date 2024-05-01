@@ -107,10 +107,6 @@ export default function Home() {
                     component.setOpacity(1)
                     component.setIsRendered(true)
                     setNavbarVisible(i > 0)
-
-                    // If entering the component, stick to it
-                    if (scrollStart < component.start || scrollStart > component.end)
-                        window.scrollTo({top: component.center, behavior: "smooth"})
                 } else if (i > 0 && component.start > currentHeight && components[i - 1].end < currentHeight) {
                     component.setOpacity((currentHeight - components[i - 1].end) / (component.start - components[i - 1].end))
                     component.setIsRendered(true)
