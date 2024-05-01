@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Catcam from "./components/catcam/Catcam";
 import Project from "./components/Project";
-import Scrabble from "./components/Scrabble";
+import Scrabble from "./components/scrabble/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
 import About from "./components/About";
 
