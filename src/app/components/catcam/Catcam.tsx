@@ -16,10 +16,10 @@ export default function Catcam({ disabledCarousel }: { disabledCarousel: boolean
             <Carousel disabledArrows={disabledCarousel} accentColor="bg-sky-700">
                 <CatcamImages />
                 <CatcamDescription />
-                <Image src={ImageLiveLight} alt="Application catcam" className="h-full object-contain border border-neutral-300 rounded-lg" />
-                <Image src={ImageLiveOverlayLight} alt="Application catcam" className="h-full object-contain border border-neutral-300 rounded-lg" />
-                <Image src={ImageLiveDark} alt="Application catcam" className="h-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
-                <Image src={ImageLiveOverlayDark} alt="Application catcam" className="h-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
+                <Image src={ImageLiveLight} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={ImageLiveOverlayLight} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={ImageLiveDark} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
+                <Image src={ImageLiveOverlayDark} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
             </Carousel>
         </div>
     )

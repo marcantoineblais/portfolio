@@ -31,7 +31,7 @@ export default function Carousel(
                 content = children.map((child, i) => {
                     return ( 
                         <div key={i} className="p-1 h-full flex justify-center items-center">
-                            { child }
+                            <div className="h-full">{ child }</div>
                         </div>
                     )
                 })
@@ -42,8 +42,8 @@ export default function Carousel(
                     const index = 2 * i
                     content.push(
                         <div key={i} className="p-1 h-full w-full flex justify-center items-center gap-3">
-                            {children[index]}
-                            {children[index + 1]}
+                            <div className="h-full">{children[index]}</div>
+                            <div className="h-full">{children[index + 1]}</div>
                         </div>
                     )
                 }
