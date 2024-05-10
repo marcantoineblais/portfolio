@@ -25,7 +25,7 @@ export default function ScrabbleImages() {
         const sources = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
         const images = sources.map((src, i) => {
             return (
-                <div key={i} className={`${i > 0 ? "absolute opacity-0" : "h-full relative"}`}>
+                <div key={i} className={`${i > 0 ? "absolute inset-0 opacity-0" : "h-full relative"}`}>
                     <Image 
                         src={src} 
                         alt="Capture ecran application scrabble" 
@@ -43,7 +43,15 @@ export default function ScrabbleImages() {
             return
 
         const images = imagesRef.current.children
-        const timerDuration = selectedImage === 0 ? 4000 : 100
+
+        let timerDuration
+        if (selectedImage === 0)
+            timerDuration = 4000
+        else if (selectedImage === 6)
+            timerDuration = 1000
+        else 
+            timerDuration = 100
+
         const toggleImages = () => {
             for (let i = 0; i < images.length; i++) {
                 if (i === selectedImage)
