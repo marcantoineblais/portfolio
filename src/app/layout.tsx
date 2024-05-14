@@ -11,8 +11,8 @@ export const metadata: Metadata = {
         "og:title": "Marc-Antoine Blais",
         "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais.",
         "og:type": "image.png",
-        "og:url": "https://marcblais.xyz",
-        "og:image": "https://marcblais.xyz/logo.png",
+        "og:url": "http://www.marcblais.xyz",
+        "og:image": "http://www.marcblais.xyz/logo.png",
         "twitter:card": "summary_large_image"
     }
 
