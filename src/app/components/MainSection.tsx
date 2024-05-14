@@ -27,13 +27,13 @@ export default function Project(
     }, [opacity])
 
     return (
-        <div ref={containerRef} className={`fixed inset-0 opacity-0 flex flex-col justify-between items-center ${overflow} ${className}`}>
+        <div ref={containerRef} className={`fixed inset-0 opacity-0 flex flex-col justify-between items-center ${className}`}>
             <div className={`container grow px-3 mx-auto w-full flex flex-col gap-1 min-h-[720px]`}>
                 <div className="w-full pt-12 flex flex-col gap-3">
                     <h2 className={`${kode_mono.className} p-1 lg:p-3 text-3xl lg:text-5xl font-bold`}>{section}</h2>
                     <h2 className={`${anta.className} text-3xl lg:text-5xl text-center border-b`}>{name}</h2>
                 </div>
-                <div className="grow overflow-y-auto">
+                <div className={`grow overflow-y-auto ${overflow}`}>
                     {children}
                 </div>
             </div>
