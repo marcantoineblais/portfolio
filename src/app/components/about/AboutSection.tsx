@@ -30,7 +30,7 @@ export default function AboutSection({ title, images, wait }: { title: string, i
                 timeouts.push(timeout)
             }
         }, wait)
-    }, [images])
+    }, [images, wait])
 
     function renderImages() {
         return images.map((image, i) => {
