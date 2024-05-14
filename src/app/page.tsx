@@ -4,10 +4,12 @@ import React, { useMemo } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Catcam from "./components/catcam/Catcam";
-import Project from "./components/Project";
+import MainSection from "./components/MainSection";
 import Scrabble from "./components/scrabble/Scrabble";
 import useMainComponent from "./hooks/useMainComponent";
-import About from "./components/About";
+import Skills from "./components/about/Skills";
+import Technologies from "./components/about/Technologies";
+import Contact from "./components/contact/Contact";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
@@ -22,9 +24,9 @@ export default function Home() {
         "La Catcam", 
         (name: string, opacity: number) => {
             return (
-                <Project key={2} name={name} scrollTo={() => scrollTo(scrabble.center)} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                <MainSection key={2} section="Réalisations" name={name} nextSectionTitle="Réalisation suivante" scrollTo={() => scrollTo(scrabble.center)} opacity={opacity} className="bg-gray-100 text-gray-950" >
                     <Catcam disabledCarousel={opacity < 1} />
-                </Project>
+                </MainSection>
             )
         }
     )
@@ -33,19 +35,47 @@ export default function Home() {
         "Scrabble Cheetah", 
         (name: string, opacity: number) => {
             return (
-                <Project key={3} name={name} scrollTo={() => scrollTo(about.center)} opacity={opacity} className="bg-orange-50 text-gray-950" >
+                <MainSection key={3} section="Réalisations" name={name} nextSectionTitle="À propos" scrollTo={() => scrollTo(skills.center)} opacity={opacity} className="bg-orange-50 text-gray-950" >
                     <Scrabble disabledCarousel={opacity < 1} />
-                </Project>
+                </MainSection>
             )
         }
     )
     
-    const about = useMainComponent(
-        "À propos", 
-        (_name: string, opacity: number) => <About key={4} opacity={opacity} />
+    const skills = useMainComponent(
+        "Compétences", 
+        (name: string, opacity: number) => {
+            return (
+                <MainSection key={4} section="À propos" name={name} nextSectionTitle="À propos (suite)" scrollTo={() => scrollTo(technology.center)} opacity={opacity} className="bg-stone-200 text-gray-900" >
+                    <Skills />
+                </MainSection>
+            )
+        }
     )
 
-    const components = useMemo(() => [hero, catcam, scrabble, about], [hero, catcam, scrabble, about])
+    const technology = useMainComponent(
+        "Technologies utilisées", 
+        (name: string, opacity: number) => {
+            return (
+                <MainSection key={5} section="À propos" name={name} nextSectionTitle="Contact" scrollTo={() => scrollTo(contact.center)} opacity={opacity} className="bg-stone-200 text-gray-900" >
+                    <Technologies />
+                </MainSection>
+            )
+        }
+    )
+
+    const contact = useMainComponent(
+        "Contact",
+        (name: string, opacity: number) => {
+            return (
+                <MainSection key={6} section={name} name="Pour me rejoindre" opacity={opacity} className="bg-stone-700 text-gray-200">
+                    <Contact />
+                </MainSection>
+            )
+        }
+    )
+
+    const components = useMemo(() => [hero, catcam, scrabble, skills, technology, contact], [hero, catcam, scrabble, skills, technology, contact])
     const mainRef = React.useRef<HTMLDivElement|null>(null)
 
 
@@ -97,8 +127,6 @@ export default function Home() {
     }, [components])
 
     React.useEffect(() => {
-        const scrollStart = window.scrollY
-
         const calculateScrollHeight = () => {
             const currentHeight = window.scrollY
 
@@ -120,7 +148,7 @@ export default function Home() {
             })
 
             clearTimeout(timers.scrollTimeout)
-            timers.scrollTimeout = window.setTimeout(() => scrollToNearestSection(), 300)
+            timers.scrollTimeout = window.setTimeout(() => scrollToNearestSection(), 1000)
         }
 
         const scrollToNearestSection = () => {
@@ -152,7 +180,7 @@ export default function Home() {
 
     return (
         <>
-            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcam.center)} scrollToAbout={() => scrollTo(about.center)} />
+            <Navbar visible={navbarVisible} scrollToProject={() => scrollTo(catcam.center)} scrollToAbout={() => scrollTo(skills.center)} scrollToContact={() => scrollTo(contact.center)} />
             <main ref={mainRef} className="flex flex-col items-center">
                 { renderMainComponents() }
             </main>

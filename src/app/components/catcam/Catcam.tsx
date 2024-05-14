@@ -1,15 +1,14 @@
 import React from "react";
 
 import Carousel from "../carousel/Carousel";
-import ImageLiveLight from "../../images/catcam/mobile-live-light.png"
-import ImageLiveDark from "../../images/catcam/mobile-live-dark.png"
-import ImageLiveOverlayLight from "../../images/catcam/mobile-live-overlay-light.png"
-import ImageLiveOverlayDark from "../../images/catcam/mobile-live-overlay-dark.png"
 import Image from "next/image";
-import CatcamDescription from "../ProjectDescription";
 import CatcamImages from "./CatcamImages";
 import ProjectDescription from "../ProjectDescription";
 import TextBubble from "../TextBubble";
+import catcam1Image from "../../images/catcam/catcam1.png"
+import catcam2Image from "../../images/catcam/catcam2.png"
+import catcam3Image from "../../images/catcam/catcam3.png"
+import catcam4Image from "../../images/catcam/catcam4.png"
 
 export default function Catcam({ disabledCarousel }: { disabledCarousel: boolean }) {
 
@@ -25,10 +24,10 @@ export default function Catcam({ disabledCarousel }: { disabledCarousel: boolean
                         L&apos;application offre un design simple et efficace autant sur mobile que sur PC. Il est possible de personnalisé certains aspects de l&apos;interface pour mieux répondre à vos besoins.
                     </TextBubble>
                 </ProjectDescription>
-                <Image src={ImageLiveLight} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
-                <Image src={ImageLiveOverlayLight} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
-                <Image src={ImageLiveDark} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
-                <Image src={ImageLiveOverlayDark} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg bg-neutral-900" />
+                <Image src={catcam1Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={catcam2Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={catcam3Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={catcam4Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
             </Carousel>
         </div>
     )

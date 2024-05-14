@@ -71,7 +71,7 @@ export default function ScrabbleImages() {
     }, [images, selectedImage])
 
     return (
-        <div ref={imagesRef} className="relative h-full flex justify-center items-center">
+        <div ref={imagesRef} className="relative h-full flex justify-center items-center border border-neutral-300 rounded-lg">
             { images }
         </div>
     )
