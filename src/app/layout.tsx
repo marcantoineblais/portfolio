@@ -6,10 +6,10 @@ export const metadata: Metadata = {
     title: "Marc-Antoine Blais",
     description: "Portfolio du développeur web full-stack Marc-Antoine Blais",
     other: {
-        image: "logo.png",
+        image: "https://www.marcblais.xyz/logo.png",
         "og:image": "https://www.marcblais.xyz/logo.png",
-        url: "http://www.marcblais.xyz",
-        "og:url": "http://www.marcblais.xyz",
+        url: "https://www.marcblais.xyz",
+        "og:url": "https://www.marcblais.xyz",
         "og:title": "Marc-Antoine Blais",
         "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais.",
         "og:type": "website",
