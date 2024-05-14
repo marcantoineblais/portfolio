@@ -33,7 +33,7 @@ export default function Project(
                     <h2 className={`${kode_mono.className} p-1 lg:p-3 text-3xl lg:text-5xl font-bold`}>{section}</h2>
                     <h2 className={`${anta.className} text-3xl lg:text-5xl text-center border-b`}>{name}</h2>
                 </div>
-                <div className={`grow overflow-y-auto ${overflow}`}>
+                <div className={`grow ${overflow}`}>
                     {children}
                 </div>
             </div>
