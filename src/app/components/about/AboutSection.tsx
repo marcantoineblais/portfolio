@@ -17,7 +17,7 @@ export default function AboutSection({ title, images, wait }: { title: string, i
         const images = imagesRef.current.children
         const timeouts: NodeJS.Timeout[] = []
 
-        const initialTimeout = setTimeout(() => {
+        setTimeout(() => {
             container.classList.remove("opacity-0")
 
             for (let i = 0; i < images.length; i++) {
@@ -30,11 +30,6 @@ export default function AboutSection({ title, images, wait }: { title: string, i
                 timeouts.push(timeout)
             }
         }, wait)
-
-        return () => {
-            clearTimeout(initialTimeout)
-            timeouts.forEach(timeout => clearTimeout(timeout))
-        }
     }, [images])
 
     function renderImages() {
