@@ -89,7 +89,7 @@ export default function Navbar(
                         "
                     >
                         <li onClick={() => scrollToAbout()}className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">À propos</li>
-                        <li onClick={() => scrollToProject()} className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Projets</li>
+                        <li onClick={() => scrollToProject()} className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Réalisations</li>
                         <li onClick={() => scrollToContact()} className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200">Contact</li>
                     </ul>
                 </div>

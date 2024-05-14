@@ -24,7 +24,15 @@ export default function Home() {
         "La Catcam", 
         (name: string, opacity: number) => {
             return (
-                <MainSection key={2} section="Réalisations" name={name} nextSectionTitle="Réalisation suivante" scrollTo={() => scrollTo(scrabble.center)} opacity={opacity} className="bg-gray-100 text-gray-950" >
+                <MainSection 
+                    key={2} 
+                    section="Réalisations" 
+                    name={name} 
+                    nextSectionTitle="Réalisation suivante" 
+                    scrollTo={() => scrollTo(scrabble.center)} 
+                    opacity={opacity} 
+                    className="bg-gray-100 text-gray-950 border-gray-950" 
+                >
                     <Catcam disabledCarousel={opacity < 1} />
                 </MainSection>
             )
@@ -35,7 +43,15 @@ export default function Home() {
         "Scrabble Cheetah", 
         (name: string, opacity: number) => {
             return (
-                <MainSection key={3} section="Réalisations" name={name} nextSectionTitle="À propos" scrollTo={() => scrollTo(skills.center)} opacity={opacity} className="bg-orange-50 text-gray-950" >
+                <MainSection 
+                    key={3} 
+                    section="Réalisations" 
+                    name={name} 
+                    nextSectionTitle="À propos" 
+                    scrollTo={() => scrollTo(skills.center)} 
+                    opacity={opacity} 
+                    className="bg-orange-50 text-gray-950 border-gray-950"
+                >
                     <Scrabble disabledCarousel={opacity < 1} />
                 </MainSection>
             )
@@ -46,7 +62,15 @@ export default function Home() {
         "Compétences", 
         (name: string, opacity: number) => {
             return (
-                <MainSection key={4} section="À propos" name={name} nextSectionTitle="À propos (suite)" scrollTo={() => scrollTo(technology.center)} opacity={opacity} className="bg-stone-200 text-gray-900" >
+                <MainSection 
+                    key={4} 
+                    section="À propos" 
+                    name={name} 
+                    nextSectionTitle="À propos (suite)" 
+                    scrollTo={() => scrollTo(technology.center)} 
+                    opacity={opacity} 
+                    className="bg-stone-200 text-gray-900 border-gray-900" 
+                >
                     <Skills />
                 </MainSection>
             )
@@ -57,7 +81,15 @@ export default function Home() {
         "Technologies utilisées", 
         (name: string, opacity: number) => {
             return (
-                <MainSection key={5} section="À propos" name={name} nextSectionTitle="Contact" scrollTo={() => scrollTo(contact.center)} opacity={opacity} className="bg-stone-200 text-gray-900" >
+                <MainSection 
+                    key={5} 
+                    section="À propos" 
+                    name={name} 
+                    nextSectionTitle="Contact" 
+                    scrollTo={() => scrollTo(contact.center)} 
+                    opacity={opacity} 
+                    className="bg-stone-200 text-gray-900 border-gray-900" 
+                >
                     <Technologies />
                 </MainSection>
             )
@@ -68,7 +100,13 @@ export default function Home() {
         "Contact",
         (name: string, opacity: number) => {
             return (
-                <MainSection key={6} section={name} name="Pour me rejoindre" opacity={opacity} className="bg-stone-700 text-gray-200">
+                <MainSection 
+                    key={6} 
+                    section={name} 
+                    name="Rejoignez-moi" 
+                    opacity={opacity} 
+                    className="bg-yellow-50 text-gray-900 border-gray-950"
+                >
                     <Contact />
                 </MainSection>
             )
