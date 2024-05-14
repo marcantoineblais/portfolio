@@ -24,10 +24,10 @@ export default function Catcam({ disabledCarousel }: { disabledCarousel: boolean
                         L&apos;application offre un design simple et efficace autant sur mobile que sur PC. Il est possible de personnalisé certains aspects de l&apos;interface pour mieux répondre à vos besoins.
                     </TextBubble>
                 </ProjectDescription>
-                <Image src={catcam1Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
-                <Image src={catcam2Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
                 <Image src={catcam3Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
                 <Image src={catcam4Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={catcam1Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
+                <Image src={catcam2Image} alt="Application catcam" className="h-full w-full object-contain border border-neutral-300 rounded-lg" />
             </Carousel>
         </div>
     )

@@ -17,7 +17,17 @@ export default function Home() {
 
     const hero = useMainComponent(
         "Hero", 
-        (_name: string, opacity: number) => <Hero key={1} opacity={opacity} scrollTo={() => scrollTo(catcam.center)} />
+        (_name: string, opacity: number) => {
+            return (
+                <Hero 
+                    key={1} 
+                    opacity={opacity} 
+                    scrollToAbout={() => scrollTo(skills.center)} 
+                    scrollToContact={() => scrollTo(contact.center)}
+                    scrollToProjects={() => scrollTo(catcam.center)} 
+                />
+            )
+        }
     )
 
     const catcam = useMainComponent(
