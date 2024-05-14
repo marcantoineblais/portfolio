@@ -1,0 +1,17 @@
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# facebookexternalhit
+User-agent: facebookexternalhit
+Allow: /
+
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://marcblais.xyz
+
+# Sitemaps
+Sitemap: https://marcblais.xyz/sitemap.xml
