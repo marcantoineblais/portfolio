@@ -4,7 +4,18 @@ import { openSans } from "./fonts"
 
 export const metadata: Metadata = {
     title: "Marc-Antoine Blais",
-    description: "Portfolio",
+    description: "Portfolio du développeur web full-stack Marc-Antoine Blais",
+    other: {
+        image: "favicon.ico",
+        url: "marcblais.xyz",
+        "og:title": "Marc-Antoine Blais",
+        "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais",
+        "og:type": "image.png",
+        "og:url": "https://marcblais.xyz",
+        "og:image": "https://marcblais.xyz/logo.png",
+        "twitter:card": "summary_large_image"
+    }
+
 };
 
 export default function RootLayout({
