@@ -148,18 +148,18 @@ export default function Home() {
                 if (i === 0) {
                     component.setStart(0)
                     component.setCenter(0)
-                    component.setEnd(height)
-                    currentHeight += 2 * height;
+                    component.setEnd(height / 2)
+                    currentHeight += height;
                 } else if (i === components.length - 1) {
                     component.setStart(currentHeight)
-                    component.setCenter(currentHeight + height)
-                    component.setEnd(currentHeight + height)
+                    component.setCenter(currentHeight + (height / 2))
+                    component.setEnd(currentHeight + (height / 2))
                     currentHeight += height
                 } else {
                     component.setStart(currentHeight)
-                    component.setCenter(currentHeight + height)
-                    component.setEnd(currentHeight + (2 * height))
-                    currentHeight += 4 * height
+                    component.setCenter(currentHeight + (height / 2))
+                    component.setEnd(currentHeight + (height))
+                    currentHeight += 2 * height
                 }
             })
 

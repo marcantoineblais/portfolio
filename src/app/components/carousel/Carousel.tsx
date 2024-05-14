@@ -13,6 +13,7 @@ export default function Carousel(
     const [dots, setDots] = React.useState<ReactNode | null>(null)
     const [content, setContent] = React.useState<ReactNode[]>([])
     const [carouselWidth, setCarouselWidth] = React.useState<number>(0)
+    const [initialTouchPosition, setInitialTouchPosition] = React.useState<number | null>(null)
 
     const containerRef = React.useRef<HTMLDivElement | null>(null)
     const carouselRef = React.useRef<HTMLDivElement | null>(null)
@@ -128,7 +129,7 @@ export default function Carousel(
             return
 
         const carousel = carouselRef.current
-        carousel.style.left = -(selectedIndex * carouselWidth) + "px"
+        carousel.style.left = (-selectedIndex * carouselWidth) + "px"
     }, [selectedIndex, nbItems, carouselWidth])
 
     
@@ -146,12 +147,39 @@ export default function Carousel(
             setSelectedIndex(nbItems - 1)
     }
 
+    function touchScrollHandle(e: React.TouchEvent) {
+        // if (!carouselRef.current)
+        //     return
+
+        // const carousel = carouselRef.current
+        // const position = e.touches[0].clientX
+
+        // if (!initialTouchPosition) {
+        //     setInitialTouchPosition(position)
+        // } else {
+        //     const currentTranslate = -(selectedIndex * carouselWidth)
+        //     const positionDelta = position - initialTouchPosition
+        //     const newPosition = currentTranslate + positionDelta
+        //     carousel.style.left = newPosition + "px"
+        //     console.log(carousel.style.left);
+        // }
+    }
+
+    function touchEndHandle(e: React.TouchEvent) {
+        // setInitialTouchPosition(null)
+    }
+
     return (
         <div className={`w-full h-full flex flex-col justify-between items-center gap-3 ${className || ""}`}>
             <div className="w-full h-full flex justify-center items-center">
                 <SideArrow containerRef={leftArrowRef} action={() => scrollLeft()} reversed={true} disabled={disabledArrows} />
                 <div ref={containerRef} className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden">
-                    <div ref={carouselRef} className="absolute top-0 left-0 bottom-0 flex justify-around items-center opacity-0 duration-1000">
+                    <div 
+                        ref={carouselRef} 
+                        onTouchMove={(e) => touchScrollHandle(e)}
+                        onTouchEnd={(e) => touchEndHandle(e)} 
+                        className="absolute top-0 left-0 bottom-0 flex justify-around items-center opacity-0 duration-1000"
+                    >
                         { content }
                     </div>
                 </div>
