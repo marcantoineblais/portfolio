@@ -6,16 +6,15 @@ export const metadata: Metadata = {
     title: "Marc-Antoine Blais",
     description: "Portfolio du développeur web full-stack Marc-Antoine Blais",
     other: {
-        image: "favicon.ico",
-        url: "marcblais.xyz",
+        image: "logo.png",
+        "og:image": "https://www.marcblais.xyz/logo.png",
+        url: "http://www.marcblais.xyz",
+        "og:url": "http://www.marcblais.xyz",
         "og:title": "Marc-Antoine Blais",
         "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais.",
-        "og:type": "image.png",
-        "og:url": "http://www.marcblais.xyz",
-        "og:image": "http://www.marcblais.xyz/logo.png",
+        "og:type": "website",
         "twitter:card": "summary_large_image"
     }
-
 };
 
 export default function RootLayout({
