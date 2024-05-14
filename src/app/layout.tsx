@@ -9,7 +9,7 @@ export const metadata: Metadata = {
         image: "favicon.ico",
         url: "marcblais.xyz",
         "og:title": "Marc-Antoine Blais",
-        "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais",
+        "og:description": "Portfolio du développeur web full-stack Marc-Antoine Blais.",
         "og:type": "image.png",
         "og:url": "https://marcblais.xyz",
         "og:image": "https://marcblais.xyz/logo.png",
