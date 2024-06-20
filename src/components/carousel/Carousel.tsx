@@ -13,7 +13,8 @@ export default function Carousel(
     const [dots, setDots] = React.useState<ReactNode | null>(null)
     const [content, setContent] = React.useState<ReactNode[]>([])
     const [carouselWidth, setCarouselWidth] = React.useState<number>(0)
-    const [initialTouchPosition, setInitialTouchPosition] = React.useState<number | null>(null)
+    const [carouselPosition, setCarouselPosition] = React.useState<number>(0)
+    const [touchStartPosition, setTouchStartPosition] = React.useState<number | null>(null)
 
     const containerRef = React.useRef<HTMLDivElement | null>(null)
     const carouselRef = React.useRef<HTMLDivElement | null>(null)
@@ -129,7 +130,10 @@ export default function Carousel(
             return
 
         const carousel = carouselRef.current
-        carousel.style.left = (-selectedIndex * carouselWidth) + "px"
+        const position = -(selectedIndex * carouselWidth)
+        carousel.style.left = position + "px"
+
+        setCarouselPosition(position)
     }, [selectedIndex, nbItems, carouselWidth])
 
     
@@ -147,26 +151,48 @@ export default function Carousel(
             setSelectedIndex(nbItems - 1)
     }
 
-    function touchScrollHandle(e: React.TouchEvent) {
-        // if (!carouselRef.current)
-        //     return
+    function onTouchStart(e: React.TouchEvent) {
+        const carousel = carouselRef.current
 
-        // const carousel = carouselRef.current
-        // const position = e.touches[0].clientX
+        if (e.touches.length > 1 || !carousel)
+            return
 
-        // if (!initialTouchPosition) {
-        //     setInitialTouchPosition(position)
-        // } else {
-        //     const currentTranslate = -(selectedIndex * carouselWidth)
-        //     const positionDelta = position - initialTouchPosition
-        //     const newPosition = currentTranslate + positionDelta
-        //     carousel.style.left = newPosition + "px"
-        //     console.log(carousel.style.left);
-        // }
+        const startPosition = e.touches[0].clientX
+        setTouchStartPosition(startPosition)
+        carousel.style.transitionDuration = "0ms"
     }
+    
+    function onTouchMove(e: React.TouchEvent) {
+        const carousel = carouselRef.current
+        
+        if (!carousel || !touchStartPosition || e.touches.length > 1)
+            return
 
-    function touchEndHandle(e: React.TouchEvent) {
-        // setInitialTouchPosition(null)
+        const delta = e.touches[0].clientX - touchStartPosition
+        const updatedPosition = carouselPosition + delta
+
+        // Max scroll of 1 page at a time, can't scroll past begin and after end
+        if (updatedPosition < 0 && updatedPosition > carouselWidth - carousel.clientWidth && Math.abs(delta) < carouselWidth)
+            carousel.style.left = updatedPosition + "px"
+    }
+    
+    function onTouchEnd() {
+        const carousel = carouselRef.current
+        
+        if (!carousel || !touchStartPosition)
+            return
+
+        const currentPosition = parseInt(carousel.style.left)
+        const finalDelta = carouselPosition - currentPosition 
+        const minDelta = carouselWidth / 2
+
+        setTouchStartPosition(null)
+        carousel.style.transitionDuration = ""
+        
+        if (Math.abs(finalDelta) >= minDelta)
+            currentPosition > carouselPosition ? scrollLeft() : scrollRight()
+        else
+            carousel.style.left = carouselPosition + "px"
     }
 
     return (
@@ -175,9 +201,10 @@ export default function Carousel(
                 <SideArrow containerRef={leftArrowRef} action={() => scrollLeft()} reversed={true} disabled={disabledArrows} />
                 <div ref={containerRef} className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden">
                     <div 
-                        ref={carouselRef} 
-                        onTouchMove={(e) => touchScrollHandle(e)}
-                        onTouchEnd={(e) => touchEndHandle(e)} 
+                        ref={carouselRef}
+                        onTouchStart={onTouchStart}
+                        onTouchMove={onTouchMove}
+                        onTouchEnd={onTouchEnd} 
                         className="absolute top-0 left-0 bottom-0 flex justify-around items-center opacity-0 duration-1000"
                     >
                         { content }

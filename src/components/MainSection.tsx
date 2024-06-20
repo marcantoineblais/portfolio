@@ -20,7 +20,7 @@ export default function Project(
         const container = containerRef.current
         container.style.opacity = opacity.toString()
 
-    }, [opacity, containerRef])
+    }, [opacity])
 
     React.useEffect(() => {
         setOverflow(opacity < 1 ? "overflow-y-hidden" : "overflow-y-auto")
