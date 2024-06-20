@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { openSans } from "./fonts"
+import { openSans } from "../fonts"
 
 export const metadata: Metadata = {
     title: "Marc-Antoine Blais",

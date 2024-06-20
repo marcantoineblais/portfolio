@@ -1,15 +1,15 @@
 "use client"
 
 import React, { useMemo } from "react";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Catcam from "./components/catcam/Catcam";
-import MainSection from "./components/MainSection";
-import Scrabble from "./components/scrabble/Scrabble";
-import useMainComponent from "./hooks/useMainComponent";
-import Skills from "./components/about/Skills";
-import Technologies from "./components/about/Technologies";
-import Contact from "./components/contact/Contact";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Catcam from "../components/catcam/Catcam";
+import MainSection from "../components/MainSection";
+import Scrabble from "../components/scrabble/Scrabble";
+import useMainComponent from "../hooks/useMainComponent";
+import Skills from "../components/about/Skills";
+import Technologies from "../components/about/Technologies";
+import Contact from "../components/contact/Contact";
 
 export default function Home() {
     const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false)
@@ -153,8 +153,8 @@ export default function Home() {
                 } else if (i === components.length - 1) {
                     component.setStart(currentHeight)
                     component.setCenter(currentHeight + height)
-                    component.setEnd(currentHeight + height)
-                    currentHeight += height
+                    component.setEnd(currentHeight + (2 * height))
+                    currentHeight += 2 * height
                 } else {
                     component.setStart(currentHeight)
                     component.setCenter(currentHeight + height)
@@ -163,7 +163,7 @@ export default function Home() {
                 }
             })
 
-            main.style.height = currentHeight + "px"
+            main.style.height = Math.ceil(currentHeight) + "px"
         }
 
         window.addEventListener("resize", resize)
@@ -178,18 +178,18 @@ export default function Home() {
         const calculateScrollHeight = () => {
             const currentHeight = window.scrollY
 
-            components.forEach((component, i) => {                
-                if (component.start <= currentHeight && component.end >= currentHeight) {
+            components.forEach((component, i) => {
+                if (component.start <= currentHeight && component.end >= currentHeight) { // is centered
                     component.setOpacity(1)
                     component.setIsRendered(true)
                     setNavbarVisible(i > 0)
-                } else if (i > 0 && component.start > currentHeight && components[i - 1].end < currentHeight) {
+                } else if (i > 0 && component.start > currentHeight && components[i - 1].end < currentHeight) { // scrolling to
                     component.setOpacity((currentHeight - components[i - 1].end) / (component.start - components[i - 1].end))
                     component.setIsRendered(true)
-                } else if (i < components.length - 1 && component.end < currentHeight && components[i + 1].start > currentHeight) {
+                } else if (i < components.length - 1 && component.end < currentHeight && components[i + 1].start > currentHeight) { // scrolling from
                     component.setOpacity((components[i + 1].start - currentHeight) / (components[i + 1].start - component.end))
                     component.setIsRendered(true)
-                } else {
+                } else { // out of view
                     component.setOpacity(0)
                     component.setIsRendered(false)
                 }
@@ -223,7 +223,7 @@ export default function Home() {
     }
 
     function renderMainComponents() {
-        return components.map(component => component.isRendered ? component.component : null)
+        return components.map(({ component, isRendered }) => isRendered ? component : null)
     }
 
     return (
