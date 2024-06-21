@@ -15,6 +15,7 @@ export default function Carousel(
     const [carouselWidth, setCarouselWidth] = React.useState<number>(0)
     const [carouselPosition, setCarouselPosition] = React.useState<number>(0)
     const [touchStartPosition, setTouchStartPosition] = React.useState<number | null>(null)
+    
 
     const containerRef = React.useRef<HTMLDivElement | null>(null)
     const carouselRef = React.useRef<HTMLDivElement | null>(null)
@@ -118,7 +119,13 @@ export default function Carousel(
 
         for (let i = 0; i < nbItems; i++) {
             const bg = i === selectedIndex ? accentColor : "bg-gray-300"
-            dots.push(<div key={i} onClick={() => setSelectedIndex(i)} className={`w-4 h-4 rounded-full cursor-pointer duration-500 hover:opacity-75 ${bg}`}></div>)
+            dots.push(
+                <div 
+                    key={i} 
+                    onClick={() => setSelectedIndex(i)} 
+                    className={`w-4 h-4 rounded-full cursor-pointer duration-500 hover:opacity-75 ${bg}`}
+                ></div>
+            )
         }
 
         setDots(dots)
@@ -170,9 +177,9 @@ export default function Carousel(
 
         const delta = e.touches[0].clientX - touchStartPosition
         const updatedPosition = carouselPosition + delta
+        const maxOffset = carouselWidth / 3
 
-        // Max scroll of 1 page at a time, can't scroll past begin and after end
-        if (updatedPosition < 0 && updatedPosition > carouselWidth - carousel.clientWidth && Math.abs(delta) < carouselWidth)
+        if (isWithinScrollRange(updatedPosition, maxOffset, carousel.clientWidth, delta))
             carousel.style.left = updatedPosition + "px"
     }
     
@@ -183,16 +190,25 @@ export default function Carousel(
             return
 
         const currentPosition = parseInt(carousel.style.left)
-        const finalDelta = carouselPosition - currentPosition 
-        const minDelta = carouselWidth / 2
+        const finalDelta = Math.abs(carouselPosition - currentPosition)
+        const minDelta = carouselWidth / 3
 
-        setTouchStartPosition(null)
         carousel.style.transitionDuration = ""
         
-        if (Math.abs(finalDelta) >= minDelta)
+        if (finalDelta >= minDelta)
             currentPosition > carouselPosition ? scrollLeft() : scrollRight()
         else
-            carousel.style.left = carouselPosition + "px"
+        carousel.style.left = carouselPosition + "px"
+        
+        setTouchStartPosition(null)
+    }
+
+    function isWithinScrollRange(updatedPosition: number, maxOffset: number, carouselContainerWidth: number, delta: number): boolean {
+        return (
+            updatedPosition < maxOffset && // limit max left scroll
+            updatedPosition > carouselWidth - carouselContainerWidth - maxOffset && // limit max left scroll
+            Math.abs(delta) < carouselWidth // can't scroll more than 1 image at once
+        )
     }
 
     return (
