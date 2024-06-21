@@ -14,7 +14,7 @@ export default function Catcam({ disabledCarousel }: { disabledCarousel: boolean
 
     return (
         <div className="w-full h-full flex flex-col justify-center items-center gap-7">
-            <Carousel disabledArrows={disabledCarousel} accentColor="bg-sky-700">
+            <Carousel disabled={disabledCarousel} accentColor="bg-sky-700">
                 <CatcamImages />
                 <ProjectDescription>
                     <TextBubble className="bg-gray-200">La Catcam est une application web conçue spécifiquement pour regarder vos animaux lorsque vous quittez votre foyer.</TextBubble>

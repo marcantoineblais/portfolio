@@ -14,7 +14,7 @@ export default function Scrabble({ disabledCarousel }: { disabledCarousel: boole
     return (
         <>
             <div className="w-full h-full flex flex-col justify-center items-center gap-7">
-                <Carousel disabledArrows={disabledCarousel} accentColor="bg-emerald-900">
+                <Carousel disabled={disabledCarousel} accentColor="bg-emerald-900">
                     <ScrabbleImages />
                     <ProjectDescription>
                         <TextBubble className="bg-orange-100">Scrabble Cheetah est une application qui vous permet de recevoir les meilleurs solutions possible pour votre grille de Scrabble.</TextBubble>

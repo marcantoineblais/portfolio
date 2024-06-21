@@ -4,8 +4,8 @@ import React, { ReactNode } from "react"
 import SideArrow from "./SideArrow"
 
 export default function Carousel(
-    { children, accentColor, className, disabledArrows }: 
-    { children: ReactNode[], accentColor: string, className?: string, disabledArrows: boolean }
+    { children, accentColor, className, disabled }: 
+    { children: ReactNode[], accentColor: string, className?: string, disabled: boolean }
 ) {
 
     const [selectedIndex, setSelectedIndex] = React.useState<number>(0)
@@ -15,8 +15,8 @@ export default function Carousel(
     const [carouselWidth, setCarouselWidth] = React.useState<number>(0)
     const [carouselPosition, setCarouselPosition] = React.useState<number>(0)
     const [touchStartPosition, setTouchStartPosition] = React.useState<number | null>(null)
+    const [scrollingCarousel, setScrollingCarousel] = React.useState<boolean | null>(null)
     
-
     const containerRef = React.useRef<HTMLDivElement | null>(null)
     const carouselRef = React.useRef<HTMLDivElement | null>(null)
     const leftArrowRef = React.useRef<HTMLDivElement | null>(null)
@@ -158,26 +158,33 @@ export default function Carousel(
             setSelectedIndex(nbItems - 1)
     }
 
-    function onTouchStart(e: React.TouchEvent) {
+    function onTouchStart(e: React.TouchEvent) {        
         const carousel = carouselRef.current
 
-        if (e.touches.length > 1 || !carousel)
+        if (e.touches.length > 1 || !carousel || disabled)
             return
 
         const startPosition = e.touches[0].clientX
-        setTouchStartPosition(startPosition)
         carousel.style.transitionDuration = "0ms"
+        setTouchStartPosition(startPosition)
     }
     
     function onTouchMove(e: React.TouchEvent) {
         const carousel = carouselRef.current
         
-        if (!carousel || !touchStartPosition || e.touches.length > 1)
+        if (!carousel || !touchStartPosition || e.touches.length > 1 || disabled || scrollingCarousel === false)
             return
+
+        if (scrollingCarousel === null) {
+            const canScroll = setScrollAction(e)
+
+            if (!canScroll)
+                return
+        }
 
         const delta = e.touches[0].clientX - touchStartPosition
         const updatedPosition = carouselPosition + delta
-        const maxOffset = carouselWidth / 3
+        const maxOffset = 80
 
         if (isWithinScrollRange(updatedPosition, maxOffset, carousel.clientWidth, delta))
             carousel.style.left = updatedPosition + "px"
@@ -191,16 +198,16 @@ export default function Carousel(
 
         const currentPosition = parseInt(carousel.style.left)
         const finalDelta = Math.abs(carouselPosition - currentPosition)
-        const minDelta = carouselWidth / 3
-
+        const minDelta = 80 // nb of pixels required to change page
         carousel.style.transitionDuration = ""
         
         if (finalDelta >= minDelta)
             currentPosition > carouselPosition ? scrollLeft() : scrollRight()
         else
         carousel.style.left = carouselPosition + "px"
-        
+        window.onscroll = () => {}
         setTouchStartPosition(null)
+        setScrollingCarousel(null)
     }
 
     function isWithinScrollRange(updatedPosition: number, maxOffset: number, carouselContainerWidth: number, delta: number): boolean {
@@ -211,10 +218,26 @@ export default function Carousel(
         )
     }
 
+    function setScrollAction(e: React.TouchEvent): boolean {
+        if (!touchStartPosition)
+            return false
+        
+        const deltaPosition = Math.abs(e.touches[0].clientX - touchStartPosition)
+        if (deltaPosition > 5) {
+            setScrollingCarousel(true)
+            window.onscroll = () => window.scrollTo({top: document.documentElement.scrollTop})
+            return true
+        } else {
+            setScrollingCarousel(false)
+            window.onscroll = () => {}
+            return false
+        }       
+    }
+
     return (
         <div className={`w-full h-full flex flex-col justify-between items-center gap-3 ${className || ""}`}>
             <div className="w-full h-full flex justify-center items-center">
-                <SideArrow containerRef={leftArrowRef} action={() => scrollLeft()} reversed={true} disabled={disabledArrows} />
+                <SideArrow containerRef={leftArrowRef} action={() => scrollLeft()} reversed={true} disabled={disabled} />
                 <div ref={containerRef} className="relative w-full h-full flex flex-col justify-center items-center overflow-hidden">
                     <div 
                         ref={carouselRef}
@@ -226,7 +249,7 @@ export default function Carousel(
                         { content }
                     </div>
                 </div>
-                <SideArrow containerRef={rightArrowRef} action={() => scrollRight()} reversed={false} disabled={disabledArrows} />
+                <SideArrow containerRef={rightArrowRef} action={() => scrollRight()} reversed={false} disabled={disabled} />
             </div>
             <div className="flex justify-center items-center gap-7">
                 {dots}
