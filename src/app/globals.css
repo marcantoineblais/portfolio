@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  user-select: none;
-}
-
 ::-webkit-scrollbar {
   width: 0.5rem;
   background-color: rgb(28, 25, 23);

@@ -1,0 +1,37 @@
+type HamburgerProps = React.ComponentProps<"span">;
+
+export default function Hamburger({ ...props }: HamburgerProps) {
+  return (
+    <span {...props}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+        <rect
+          fill="currentColor"
+          x="212"
+          y="-121.02"
+          width="76"
+          height="463.89"
+          rx="4.12"
+          transform="translate(360.92 -139.08) rotate(90)"
+        />
+        <rect
+          fill="currentColor"
+          x="212"
+          y="157.13"
+          width="76"
+          height="463.89"
+          rx="4.12"
+          transform="translate(639.08 139.08) rotate(90)"
+        />
+        <rect
+          fill="currentColor"
+          x="212"
+          y="18.05"
+          width="76"
+          height="463.89"
+          rx="4.12"
+          transform="translate(500 0) rotate(90)"
+        />
+      </svg>
+    </span>
+  );
+}

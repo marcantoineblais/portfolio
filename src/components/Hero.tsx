@@ -166,7 +166,7 @@ export default function Hero({
   }
 
   return (
-    <div className="fixed w-full inset-0 text-gray-300 overflow-y-auto">
+    <div className="w-full h-full text-gray-300 overflow-y-auto">
       <div
         ref={containerRef}
         className="container px-1 w-full h-full mx-auto flex flex-col justify-between items-center gap-12 min-h-[720px] opacity-0"

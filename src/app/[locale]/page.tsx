@@ -1,18 +1,17 @@
 "use client";
 
 import React, { useMemo } from "react";
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Catcam from "../components/catcam/Catcam";
-import MainSection from "../components/MainSection";
-import Scrabble from "../components/scrabble/Scrabble";
-import useMainComponent from "../hooks/useMainComponent";
-import Skills from "../components/about/Skills";
-import Technologies from "../components/about/Technologies";
-import Contact from "../components/contact/Contact";
+import Navbar from "../../components/navbar/Navbar";
+import Hero from "../../components/Hero";
+import Catcam from "../../components/catcam/Catcam";
+import MainSection from "../../components/MainSection";
+import Scrabble from "../../components/scrabble/Scrabble";
+import useMainComponent from "../../hooks/useMainComponent";
+import Skills from "../../components/about/Skills";
+import Technologies from "../../components/about/Technologies";
+import Contact from "../../components/contact/Contact";
 
 export default function Home() {
-  const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false);
   const [timers] = React.useState<any>({});
 
   const hero = useMainComponent("Hero", (_name: string, opacity: number) => {
@@ -139,7 +138,7 @@ export default function Home() {
       if (!mainRef.current) return;
 
       const main = mainRef.current;
-      const height = window.innerHeight;
+      const height = main.clientHeight;
       let currentHeight = 0;
 
       components.forEach((component, i) => {
@@ -184,7 +183,7 @@ export default function Home() {
           // is centered
           component.setOpacity(1);
           component.setIsRendered(true);
-          setNavbarVisible(i > 0);
+          // setNavbarVisible(i > 0);
         } else if (
           i > 0 &&
           component.start > currentHeight &&
@@ -254,16 +253,8 @@ export default function Home() {
   }
 
   return (
-    <>
-      <Navbar
-        visible={navbarVisible}
-        scrollToProject={() => scrollTo(catcam.center)}
-        scrollToAbout={() => scrollTo(skills.center)}
-        scrollToContact={() => scrollTo(contact.center)}
-      />
-      <main ref={mainRef} className="flex flex-col items-center">
-        {renderMainComponents()}
-      </main>
-    </>
+    <main ref={mainRef} className="h-full w-full flex flex-col items-center overflow-y-auto">
+      {renderMainComponents()}
+    </main>
   );
 }
