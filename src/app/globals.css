@@ -12,3 +12,9 @@
 body ::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

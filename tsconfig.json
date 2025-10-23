@@ -29,6 +29,6 @@
     "/src/types/**/*.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "postcss.config.js"  ],
   "exclude": ["node_modules"]
 }

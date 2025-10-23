@@ -1,8 +1,10 @@
+import { twMerge } from "tailwind-merge";
+
 type LogoProps = React.ComponentProps<"div">;
 
 export default function Logo({ ...props}: LogoProps) {
   return (
-    <div {...props}>
+    <div {...props} className={twMerge("flex justify-center items-center", props.className)}>
       <svg viewBox="0 -3.82 54.628 54.628" xmlns="http://www.w3.org/2000/svg">
         <path
           fill="currentColor"
