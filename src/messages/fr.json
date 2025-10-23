@@ -1,8 +1,9 @@
 {
   "Hero": {
     "name": "Marc Antoine Blais",
-    "title": "Développeur Full-Stack",
-    "statementPart1": "Votre vision,",
-    "statementPart2": "Notre réalisation."
+    "title`": "Développeur Web",
+    "title2": "Full-Stack",
+    "statement1": "Votre vision,",
+    "statement2": "Notre réalisation."
   }
 }

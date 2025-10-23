@@ -13,6 +13,15 @@ body ::-webkit-scrollbar {
   display: none;
 }
 
+@theme {
+  --color-primary: var(--color-stone-700);
+  --color-secondary: var(--color-teal-700);
+  --color-default: var(--color-stone-950);
+  --color-primary-foreground: var(--color-teal-50);
+  --color-secondary-foreground: var(--color-stone-50);
+  --color-default-foreground: var(--color-neutral-50);
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;

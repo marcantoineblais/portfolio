@@ -15,6 +15,7 @@ export default function OpacityCascade({
   children,
 }: useOpacityCascadeProps) {
   const [beforeFadeIn, setBeforeFadeIn] = useState(true);
+  const [animationOver, setAnimationOver] = useState(false);
 
   const nodes = useMemo(() => {
     if (!Array.isArray(children)) return [children];
@@ -31,17 +32,30 @@ export default function OpacityCascade({
     };
   }, [initialDelay]);
 
+  useEffect(() => {
+    if (beforeFadeIn) return;
+
+    const timeout = setTimeout(() => {
+      setAnimationOver(true);
+    }, transistionDuration + nodes.length * stepDelay);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  })
+
   return (
     <>
       {nodes.map((child, index) => (
         <span
           key={index}
           style={{
-            transitionDelay: `${initialDelay + index * stepDelay}ms`,
+            transitionDelay: `${index * stepDelay}ms`,
             transitionDuration: `${transistionDuration}ms`,
           }}
-          className={twJoin("whitespace-pre", "data-before-fade-in:opacity-0")}
+          className={twJoin("whitespace-pre", "data-before-fade-in:opacity-0", "data-animation-over:delay-0! data-animation-over:duration-0!")}
           data-before-fade-in={beforeFadeIn || undefined}
+          data-animation-over={animationOver || undefined}
         >
           {child === " " ? "\u00A0" : child}
         </span>

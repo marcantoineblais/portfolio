@@ -5,6 +5,7 @@ import Logo from "./Logo";
 import Hamburger from "./Hamburger";
 import { twJoin } from "tailwind-merge";
 import { Link } from "@/src/i18n/navigation";
+import NavbarButton from "./NavbarButton";
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
@@ -23,7 +24,7 @@ export default function Navbar() {
       timeout = setTimeout(() => {
         setIsResizing(false);
       }, 50);
-    }
+    };
 
     window.addEventListener("resize", onResize);
 
@@ -40,9 +41,7 @@ export default function Navbar() {
   }
 
   return (
-    <div
-      className="sticky top-0  w-full text-gray-300 border-b border-b-gray-950 bg-stone-900"
-    >
+    <div className="z-30 sticky top-0 w-full border-b border-primary bg-linear-to-r from-primary to-primary/75">
       <div className="mx-auto container relative px-3 py-1.5 flex justify-between gap-3 items-center">
         <Logo className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50" />
 
@@ -61,28 +60,28 @@ export default function Navbar() {
           >
             <ul
               className={twJoin(
-                "w-64 flex flex-col border border-gray-300 rounded text-center font-kode_mono bg-stone-900 font-bold translate-x-full duration-500 ease-out",
-                "md:static md:flex-row md:justify-between md:gap-5 md:border-0 md:translate-x-0 md:w-auto",
+                "w-64 flex flex-col bg-primary border border-primary-foreground rounded-lg text-center font-kode_mono font-bold translate-x-full duration-500 ease-out overflow-hidden",
+                "md:static md:flex-row md:justify-between md:gap-5 md:border-0 md:translate-x-0 md:w-auto md:bg-transparent",
                 "data-focused:translate-x-0",
                 "data-resizing:duration-0"
               )}
               data-focused={showMenu || undefined}
               data-resizing={isResizing || undefined}
             >
-              <li
-                className="py-3 md:py-1 px-3 border-b border-gray-300 hover:opacity-50 cursor-pointer duration-200"
-              >
-                <Link href="/about">À propos</Link>
+              <li>
+                <NavbarButton>
+                  <Link href="/about">À propos</Link>
+                </NavbarButton>
               </li>
-              <li
-                className="py-3 md:py-1 px-3 border-b border-gray-300 hover:opacity-50 cursor-pointer duration-200"
-              >
-                <Link href="/projects">Projets</Link>
+              <li>
+                <NavbarButton>
+                  <Link href="/projects">Projets</Link>
+                </NavbarButton>
               </li>
-              <li
-                className="py-3 md:py-1 px-3 border-b border-gray-300 hover:opacity-50 cursor-pointer duration-200"
-              >
-                <Link href="/contact">Contact</Link>
+              <li>
+                <NavbarButton className="border-0 md:border-b">
+                  <Link href="/contact">Contact</Link>
+                </NavbarButton>
               </li>
             </ul>
           </div>

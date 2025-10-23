@@ -1,8 +1,14 @@
 {
   "Hero": {
     "name": "Marc Antoine Blais",
-    "title": "Full-Stack Developer",
-    "statementPart1": "Your vision,",
-    "statementPart2": "Our creation."
+    "title1": "Web Developer",
+    "title2": "Full-Stack",
+    "statement1": "Your vision,",
+    "statement2": "Our creation.",
+    "learnMore": "To learn more",
+    "btn": {
+      "about": "About",
+      "contact": "Contact"
+    }
   }
 }

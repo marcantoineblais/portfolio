@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`w-screen h-screen flex ${openSans.className} bg-gray-950`}
+        className={`w-screen h-screen flex ${openSans.className} bg-linear-120 from-default via-black to-default text-default-foreground`}
       >
         <div className="flex flex-col w-dvw h-dvh overflow-hidden">
           <NextIntlClientProvider locale={locale}>
