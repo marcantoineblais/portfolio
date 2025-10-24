@@ -1,7 +1,7 @@
 "use client";
 
 import { anta, kode_mono } from "../fonts";
-import { twJoin } from "tailwind-merge";
+import { twJoin, twMerge } from "tailwind-merge";
 import Logo from "./navbar/Logo";
 import { Link } from "../i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -9,25 +9,37 @@ import OpacityCascade from "./animations/OpacityCascade";
 import DropAndMirror from "./animations/DropAndMirror";
 import HackTyping from "./animations/HackTyping";
 import CustomButton from "./ui/CustomButtom";
+import { useMemo } from "react";
 
-export default function Hero() {
+export default function Hero({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   const t = useTranslations("Hero");
-  const name = t("name");
-  const statement1 = t("statement1");
-  const statement2 = t("statement2");
-  const nameOpacityStepDelay = 100;
-  const titleDelay = name.length * nameOpacityStepDelay + 500;
-  const hackTypingStepDuration = 100;
-  const hackTypingDelay = titleDelay + 2000;
-  const hackTypingDelay2 =
-    hackTypingDelay + statement1.length * hackTypingStepDuration + 500;
+  const name = useMemo(() => t("name"), [t]);
+  const statement1 = useMemo(() => t("statement1"), [t]);
+  const statement2 = useMemo(() => t("statement2"), [t]);
+  const nameOpacityStepDelay = useMemo(() => 100, []);
+  const titleDelay = useMemo(
+    () => name.length * nameOpacityStepDelay + 500,
+    [name, nameOpacityStepDelay]
+  );
+  const hackTypingStepDuration = useMemo(() => 100, []);
+  const hackTypingDelay = useMemo(() => titleDelay + 2000, [titleDelay]);
+  const hackTypingDelay2 = useMemo(
+    () => hackTypingDelay + statement1.length * hackTypingStepDuration + 500,
+    [hackTypingDelay, statement1, hackTypingStepDuration]
+  );
 
   return (
-    <div className="flex w-full h-full select-none">
+    <div
+      className={twMerge("flex w-full h-full select-none", className)}
+      {...props}
+    >
       <div className="container px-1 w-full mx-auto flex flex-col items-center gap-12">
         <div className="relative w-full flex flex-col gap-10 overflow-hidden">
           <div className="-z-10 w-full flex justify-center">
-            <Logo className="w-full text-primary/25" />
+            <Logo className="w-full text-default/10" />
           </div>
 
           <div className="absolute inset-0 flex flex-col justify-evenly items-center">
@@ -84,11 +96,20 @@ export default function Hero() {
             {t("learnMore")}
           </h2>
           <div className="w-full flex justify-start items-center gap-7">
-            <CustomButton color="secondary" className="w-32 sm:w-40 shadow-lg shadow-white/10">
-              <Link href={"/about"}>{t("btn.about")}</Link>
-            </CustomButton>
             <CustomButton className="w-32 sm:w-40 shadow-lg shadow-white/10">
-              <Link href="/contact">{t("btn.contact")}</Link>
+              <Link href={"/#projects"}>{t("btn.projects")}</Link>
+            </CustomButton>
+            <CustomButton
+              color="secondary"
+              className="w-32 sm:w-40 shadow-lg shadow-white/10"
+            >
+              <Link href={"/#about"}>{t("btn.about")}</Link>
+            </CustomButton>
+            <CustomButton
+              color="secondary"
+              className="w-32 sm:w-40 shadow-lg shadow-white/10"
+            >
+              <Link href="/#contact">{t("btn.contact")}</Link>
             </CustomButton>
           </div>
         </div>

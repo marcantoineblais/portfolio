@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Hamburger from "./Hamburger";
 import { twJoin } from "tailwind-merge";
-import { Link } from "@/src/i18n/navigation";
+import { Link, usePathname } from "@/src/i18n/navigation";
 import NavbarButton from "./NavbarButton";
 
 export default function Navbar() {
@@ -27,7 +27,6 @@ export default function Navbar() {
     };
 
     window.addEventListener("resize", onResize);
-
     window.addEventListener("click", hideMenu);
 
     return () => {
@@ -41,9 +40,11 @@ export default function Navbar() {
   }
 
   return (
-    <div className="z-30 sticky top-0 w-full border-b border-primary bg-linear-to-r from-primary to-primary/75">
+    <div className="z-30 sticky top-0 w-full shadow-sm shadow-default/25 text-default bg-linear-to-r from-primary to-primary/75 duration-1000 overflow-hidden">
       <div className="mx-auto container relative px-3 py-1.5 flex justify-between gap-3 items-center">
-        <Logo className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50" />
+        <Link href="/#" scroll={false}>
+          <Logo className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50" />
+        </Link>
 
         <div className="flex flex-col">
           <Hamburger
@@ -70,17 +71,23 @@ export default function Navbar() {
             >
               <li>
                 <NavbarButton>
-                  <Link href="/about">À propos</Link>
+                  <Link href="/#projects" scroll={false}>
+                    Projets
+                  </Link>
                 </NavbarButton>
               </li>
               <li>
                 <NavbarButton>
-                  <Link href="/projects">Projets</Link>
+                  <Link href="/#about" scroll={false}>
+                    À propos
+                  </Link>
                 </NavbarButton>
               </li>
               <li>
                 <NavbarButton className="border-0 md:border-b">
-                  <Link href="/contact">Contact</Link>
+                  <Link href="/#contact" scroll={false}>
+                    Contact
+                  </Link>
                 </NavbarButton>
               </li>
             </ul>

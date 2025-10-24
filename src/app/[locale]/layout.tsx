@@ -3,6 +3,7 @@ import "../globals.css";
 import { openSans } from "../../fonts";
 import { NextIntlClientProvider } from "next-intl";
 import Navbar from "../../components/navbar/Navbar";
+import { twJoin } from "tailwind-merge";
 
 export const metadata: Metadata = {
   title: "Marc-Antoine Blais",
@@ -34,7 +35,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`w-screen h-screen flex ${openSans.className} bg-linear-120 from-default via-black to-default text-default-foreground`}
+        className={twJoin("w-screen h-screen flex bg-linear-to-br from-default to-default-foreground to-10% text-default", openSans.className)}
       >
         <div className="flex flex-col w-dvw h-dvh overflow-hidden">
           <NextIntlClientProvider locale={locale}>

@@ -42,7 +42,7 @@ export default function OpacityCascade({
     return () => {
       clearTimeout(timeout);
     };
-  })
+  });
 
   return (
     <>
@@ -53,7 +53,11 @@ export default function OpacityCascade({
             transitionDelay: `${index * stepDelay}ms`,
             transitionDuration: `${transistionDuration}ms`,
           }}
-          className={twJoin("whitespace-pre", "data-before-fade-in:opacity-0", "data-animation-over:delay-0! data-animation-over:duration-0!")}
+          className={twJoin(
+            "whitespace-pre",
+            "data-before-fade-in:opacity-0",
+            "data-animation-over:delay-0! data-animation-over:duration-0!"
+          )}
           data-before-fade-in={beforeFadeIn || undefined}
           data-animation-over={animationOver || undefined}
         >
