@@ -3,7 +3,6 @@ import React, {
   ReactElement,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -13,114 +12,44 @@ import ParallaxScrollItem, {
 import useParallax, { ParallaxKey } from "@/src/hooks/useParallax";
 
 type ParallaxScrollProps = {
-  transitionHeight?: number;
-  snapToSection?: boolean;
+  transitionRatio?: number;
   snapTimeout?: number;
   children: ReactElement<ParallaxScrollItemProps>[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function ParallaxScroll({
-  transitionHeight = 200,
-  snapToSection = true,
+  transitionRatio = 2,
   snapTimeout = 500,
   children,
 }: ParallaxScrollProps) {
   const { selectedKey, setSelectedKey } = useParallax();
-  const [scrollPercentage, setScrollPercentage] = useState(0);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollableHeight, setScrollableHeight] = useState(0);
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [sectionOpacities, setSectionOpacities] = useState<number[]>(
+    children.map(() => 0)
+  );
+
   const scrollTimeoutRef = useRef<NodeJS.Timeout | number>(0);
-
-  const scrollableHeightPercent = useMemo(
-    () => (children.length - 1) * transitionHeight,
-    [children.length, transitionHeight]
-  );
-
-  console.log(scrollableHeightPercent);
-  
-
-  const findIndex = useCallback(
-    (section: string) => children.findIndex((child) => child.key === section),
-    [children]
-  );
-
-  const indexedKeys = useMemo(() => {
-    return children.reduce((obj, child, i) => {
-      obj[child.key as ParallaxKey] = i;
-      return obj;
-    }, {} as Record<ParallaxKey, number>);
-  }, [children]);
-
-  const getOpacity = useCallback(
-    (index: number) => {
-      const center = transitionHeight * index;
-      const offset = Math.abs(
-        center - (scrollPercentage * scrollableHeightPercent) / 100
-      );
-      const ratio = Math.min(transitionHeight, offset) / transitionHeight;
-      return Math.max(0, 1 - ratio);
-    },
-    [transitionHeight, scrollPercentage, scrollableHeightPercent]
-  );
-
-  const calcScrollPercentage = useCallback((e: React.UIEvent) => {
-    const target = e.currentTarget;
-    const scrollTop = target.scrollTop;
-    const scrollHeight = target.scrollHeight - target.clientHeight;
-    const percentage = (scrollTop / scrollHeight) * 100;
-
-    setScrollPercentage(percentage);
-  }, []);
+  const isScrollingRef = useRef(false);
 
   const scrollToSelection = useCallback(
-    (key: ParallaxKey) => {
-      const container = containerRef.current;
-      if (!container) return;
+    (key: ParallaxKey = selectedKey) => {
+      const index = children.findIndex((child) => child.key === key);
+      if (index === -1) return;
 
-      const index = indexedKeys[key];
-      if (index === undefined) return;
-
-      const center = transitionHeight * index;
-      const targetPercentage = (center / scrollableHeightPercent) * 100;
-      const scrollHeight = container.scrollHeight - container.clientHeight;
-      const targetScrollTop = (targetPercentage / 100) * scrollHeight;
-      container.scrollTo({
-        top: targetScrollTop,
+      const innerHeight = window.innerHeight;
+      const sectionHeight = innerHeight * transitionRatio;
+      const targetScrollY = sectionHeight * index;
+      window.scrollTo({
+        top: targetScrollY,
         behavior: "smooth",
       });
     },
-    [indexedKeys, selectedKey, scrollableHeightPercent, findIndex, transitionHeight]
+    [children, selectedKey, transitionRatio]
   );
 
-  const handleScroll = useCallback(
-    (e: React.UIEvent) => {
-      calcScrollPercentage(e);
-
-      if (!snapToSection) return;
-      clearTimeout(scrollTimeoutRef.current);
-      scrollTimeoutRef.current = setTimeout(() => {
-        const index = children.findIndex((_, i) => getOpacity(i) > 0.5);
-        setSelectedKey((prev) => {
-          if (selectedKey !== prev) return selectedKey;
-
-          const newKey = children[index].key as ParallaxKey;
-          if (newKey) scrollToSelection(newKey);
-          return newKey;
-        });
-      }, snapTimeout);
-    },
-    [
-      calcScrollPercentage,
-      snapToSection,
-      snapTimeout,
-      children,
-      getOpacity,
-      scrollToSelection,
-      selectedKey,
-      setSelectedKey,
-    ]
-  );
-
+  // Validate children
   useEffect(() => {
     if (children.some((child) => !(child.type === ParallaxScrollItem))) {
       throw new Error(
@@ -133,32 +62,76 @@ export default function ParallaxScroll({
     }
   }, [children]);
 
+  // Calculate scroll height
   useEffect(() => {
-    if (scrollTimeoutRef.current) return;
+    const handleScroll = () => {
+      setScrollHeight(window.scrollY);
+
+      // Manage scroll state for snapping
+      isScrollingRef.current = true;
+      clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+        scrollToSelection();
+      }, snapTimeout);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollToSelection]);
+
+  // Set scrollable height based on number of children
+  useEffect(() => {
+    const baseHeight = window.innerHeight;
+    const calculatedHeight =
+      baseHeight * (children.length - 1) * transitionRatio;
+    setScrollableHeight(baseHeight + calculatedHeight);
+  }, [children.length, transitionRatio]);
+
+  useEffect(() => {
+    const calculateOpacity = (index: number) => {
+      const innerHeight = window.innerHeight;
+      const sectionHeight = innerHeight * transitionRatio;
+      const center = sectionHeight * index;
+      const offset = Math.abs(center - scrollHeight);
+
+      const ratio = Math.min(sectionHeight, offset) / sectionHeight;
+      return Math.max(0, 1 - ratio);
+    };
+
+    setSectionOpacities(children.map((_, i) => calculateOpacity(i)));
+  }, [scrollHeight, scrollableHeight, children.length, transitionRatio]);
+
+  // Scroll to selected section on mount or selectedKey change
+  useEffect(() => {
+    if (isScrollingRef.current) return;
     scrollToSelection(selectedKey);
+
+    // NEED TO MOVE TIMEOUT IN THE HOOK TO AVOID CONFLICTS
   }, [selectedKey, scrollToSelection]);
 
+  // Update selectedKey on scroll
+  useEffect(() => {
+    const index = sectionOpacities.findIndex((opacity) => opacity > 0.5);
+    if (index === -1) return;
+
+    setSelectedKey((prev) => {
+      const newKey = children[index].key as ParallaxKey;
+      if (newKey === prev) return prev;
+
+      return newKey;
+    });
+  }, [sectionOpacities]);
+
   return (
-    <div 
-      className="flex flex-col w-full h-full overflow-hidden"
-    >
-      <div
-        ref={containerRef}
-        className="w-full h-full overflow-y-auto"
-        onScroll={handleScroll}
-      >
-        <div
-          className="w-full"
-          style={{ height: `${scrollableHeightPercent}%` }}
-          ></div>
-      </div>
+    <div className="w-full h-full">
+      <div className="w-full" style={{ height: `${scrollableHeight}px` }}></div>
 
       {children.map((child, i) => {
-        const opacity = getOpacity(i);
-        const zIndex = opacity > 0.5 ? 1 : -1;
+        const opacity = sectionOpacities[i];
         if (opacity === 0) return null;
 
-        return cloneElement(child, { opacity, zIndex });
+        return cloneElement(child, { opacity });
       })}
     </div>
   );

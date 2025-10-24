@@ -1,18 +1,5 @@
 @import "tailwindcss";
 
-::-webkit-scrollbar {
-  width: 0.5rem;
-  background-color: rgb(28, 25, 23);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgb(209, 213, 219);
-} 
-
-/* *::-webkit-scrollbar {
-  display: none;
-} */
-
 @theme {
   --color-primary: #1B998B;
   --color-secondary: #B87D4B;
@@ -22,4 +9,13 @@
   --color-secondary-foreground: #F1E9DB;
   --color-ternary-foreground: #F1E9DB;
   --color-default-foreground: #07020D;
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: var(--color-default-foreground);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-default);
 }

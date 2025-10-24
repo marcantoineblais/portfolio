@@ -46,9 +46,12 @@ export default function Navbar() {
   return (
     <div
       className={twJoin(
-        "w-full shadow-sm shadow-default/25 text-default duration-1000 transition-colors bg-linear-to-r overflow-hidden",
+        "z-50 sticky top-0 w-full overflow-hidden",
+        "transition-[color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,height] duration-1000 ease-in-out",
+        "h-14 shadow-sm shadow-default/25 text-default bg-linear-to-r",
         "from-default-foreground/75 to-default-foreground",
-        "data-projects:data-projects:from-primary/75 data-projects:to-primary",
+        "data-hero:h-0 data-hero:pointer-events-none",
+        "data-projects:from-primary/75 data-projects:to-primary",
         "data-about:from-secondary/75 data-about:to-secondary",
         "data-contact:from-ternary/75 data-contact:to-ternary"
       )}

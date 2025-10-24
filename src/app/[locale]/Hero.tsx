@@ -35,13 +35,16 @@ export default function Hero({
 
   return (
     <div
-      className={twMerge("flex w-full h-full select-none", className)}
+      className={twMerge(
+        "flex w-full h-full select-none bg-linear-to-br from-default to-default-foreground to-10%",
+        className
+      )}
       {...props}
     >
       <div className="container px-1 w-full mx-auto flex flex-col items-center gap-12">
         <div className="relative w-full flex flex-col gap-10 overflow-hidden">
           <div className="w-full flex justify-center">
-            <Logo className="-z-10 w-full text-default/10" />
+            <Logo className="w-full text-default/10" />
           </div>
 
           <div className="absolute inset-0 flex flex-col justify-evenly items-center">
