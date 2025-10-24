@@ -1,10 +1,10 @@
 import React from "react";
 
-import Carousel from "../carousel/Carousel";
+import Carousel from "../../carousel/Carousel";
 import Image from "next/image";
 import CatcamImages from "./CatcamImages";
-import ProjectDescription from "../ProjectDescription";
-import TextBubble from "../TextBubble";
+import ProjectDescription from "../../ProjectDescription";
+import TextBubble from "../../ui/TextBubble";
 import catcam1Image from "../../images/catcam/catcam1.png";
 import catcam2Image from "../../images/catcam/catcam2.png";
 import catcam3Image from "../../images/catcam/catcam3.png";

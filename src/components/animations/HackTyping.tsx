@@ -17,11 +17,11 @@ export default function HackTyping({
   if (typingStepDuration < typingSpeed) throw new Error("typingStepDuration must be greater than typingSpeed");
 
   const [text, setText] = useState("");
-  const symbols = "!@#$%&[]{}".split("");
-
+  
   useEffect(() => {
     if (children.length === 0) return;
-
+    
+    const symbols = "!@#$%&[]{}".split("");
     const timeout = setTimeout(() => {
       let i = 0;
       let text = "";
@@ -46,7 +46,7 @@ export default function HackTyping({
       setText("");
       clearTimeout(timeout);
     };
-  }, [typingStepDuration, typingSpeed, children]);
+  }, [typingStepDuration, typingSpeed, initialDelay, children]);
   
   return <span {...props}>{text}</span>;
 }

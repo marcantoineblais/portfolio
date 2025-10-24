@@ -4,6 +4,7 @@ import { openSans } from "../../fonts";
 import { NextIntlClientProvider } from "next-intl";
 import Navbar from "../../components/navbar/Navbar";
 import { twJoin } from "tailwind-merge";
+import { ParallaxProvider } from "@/src/hooks/useParallax";
 
 export const metadata: Metadata = {
   title: "Marc-Antoine Blais",
@@ -34,16 +35,21 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body
-        className={twJoin("w-screen h-screen flex bg-linear-to-br from-default to-default-foreground to-10% text-default", openSans.className)}
-      >
-        <div className="flex flex-col w-dvw h-dvh overflow-hidden">
-          <NextIntlClientProvider locale={locale}>
-            <Navbar />
-            {children}
-          </NextIntlClientProvider>
-        </div>
-      </body>
+      <NextIntlClientProvider locale={locale}>
+        <ParallaxProvider>
+          <body
+            className={twJoin(
+              "w-screen h-screen flex bg-linear-to-br from-default to-default-foreground to-10% text-default",
+              openSans.className
+            )}
+          >
+            <div className="flex flex-col w-dvw h-dvh overflow-hidden">
+              <Navbar />
+              {children}
+            </div>
+          </body>
+        </ParallaxProvider>
+      </NextIntlClientProvider>
     </html>
   );
 }

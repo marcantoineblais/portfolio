@@ -1,21 +1,23 @@
 "use client";
 
-import { anta, kode_mono } from "../fonts";
+import { anta, kode_mono } from "../../fonts";
 import { twJoin, twMerge } from "tailwind-merge";
-import Logo from "./navbar/Logo";
-import { Link } from "../i18n/navigation";
+import Logo from "../../components/navbar/Logo";
 import { useTranslations } from "next-intl";
-import OpacityCascade from "./animations/OpacityCascade";
-import DropAndMirror from "./animations/DropAndMirror";
-import HackTyping from "./animations/HackTyping";
-import CustomButton from "./ui/CustomButtom";
+import OpacityCascade from "../../components/animations/OpacityCascade";
+import DropAndMirror from "../../components/animations/DropAndMirror";
+import HackTyping from "../../components/animations/HackTyping";
+import CustomButton from "../../components/ui/CustomButtom";
 import { useMemo } from "react";
+import useParallax from "@/src/hooks/useParallax";
 
 export default function Hero({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const t = useTranslations("Hero");
+  const { setSelectedKey } = useParallax();
+
   const name = useMemo(() => t("name"), [t]);
   const statement1 = useMemo(() => t("statement1"), [t]);
   const statement2 = useMemo(() => t("statement2"), [t]);
@@ -38,8 +40,8 @@ export default function Hero({
     >
       <div className="container px-1 w-full mx-auto flex flex-col items-center gap-12">
         <div className="relative w-full flex flex-col gap-10 overflow-hidden">
-          <div className="-z-10 w-full flex justify-center">
-            <Logo className="w-full text-default/10" />
+          <div className="w-full flex justify-center">
+            <Logo className="-z-10 w-full text-default/10" />
           </div>
 
           <div className="absolute inset-0 flex flex-col justify-evenly items-center">
@@ -96,20 +98,25 @@ export default function Hero({
             {t("learnMore")}
           </h2>
           <div className="w-full flex justify-start items-center gap-7">
-            <CustomButton className="w-32 sm:w-40 shadow-lg shadow-white/10">
-              <Link href={"/#projects"}>{t("btn.projects")}</Link>
+            <CustomButton
+              className="w-32 sm:w-40 shadow-lg shadow-white/10"
+              onClick={() => setSelectedKey("projects")}
+            >
+              {t("btn.projects")}
             </CustomButton>
             <CustomButton
               color="secondary"
               className="w-32 sm:w-40 shadow-lg shadow-white/10"
+              onClick={() => setSelectedKey("about")}
             >
-              <Link href={"/#about"}>{t("btn.about")}</Link>
+              {t("btn.about")}
             </CustomButton>
             <CustomButton
               color="secondary"
               className="w-32 sm:w-40 shadow-lg shadow-white/10"
+              onClick={() => setSelectedKey("contact")}
             >
-              <Link href="/#contact">{t("btn.contact")}</Link>
+              {t("btn.contact")}
             </CustomButton>
           </div>
         </div>

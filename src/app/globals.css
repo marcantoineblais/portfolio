@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0.5rem;
   background-color: rgb(28, 25, 23);
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: rgb(209, 213, 219);
-} */
+} 
 
-/* body ::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   display: none;
 } */
 

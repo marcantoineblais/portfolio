@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "./Logo";
 import Hamburger from "./Hamburger";
 import { twJoin } from "tailwind-merge";
-import { Link, usePathname } from "@/src/i18n/navigation";
 import NavbarButton from "./NavbarButton";
+import useParallax from "@/src/hooks/useParallax";
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
+  const t = useTranslations("Navbar");
+  const { selectedKey, setSelectedKey } = useParallax();
+
   const [showMenu, setShowMenu] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
 
@@ -40,13 +44,26 @@ export default function Navbar() {
   }
 
   return (
-    <div className="z-30 sticky top-0 w-full shadow-sm shadow-default/25 text-default bg-linear-to-r from-primary to-primary/75 duration-1000 overflow-hidden">
-      <div className="mx-auto container relative px-3 py-1.5 flex justify-between gap-3 items-center">
-        <Link href="/#" scroll={false}>
-          <Logo className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50" />
-        </Link>
+    <div
+      className={twJoin(
+        "w-full shadow-sm shadow-default/25 text-default duration-1000 transition-colors bg-linear-to-r overflow-hidden",
+        "from-default-foreground/75 to-default-foreground",
+        "data-projects:data-projects:from-primary/75 data-projects:to-primary",
+        "data-about:from-secondary/75 data-about:to-secondary",
+        "data-contact:from-ternary/75 data-contact:to-ternary"
+      )}
+      data-hero={selectedKey === "hero" || undefined}
+      data-projects={selectedKey === "projects" || undefined}
+      data-about={selectedKey === "about" || undefined}
+      data-contact={selectedKey === "contact" || undefined}
+    >
+      <div className="mx-auto container px-3 py-1.5 flex justify-between gap-3 items-center bg-inherit">
+        <Logo
+          className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50"
+          onClick={() => setSelectedKey("hero")}
+        />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-inherit">
           <Hamburger
             onClick={(e) => toggleMenu(e)}
             className="w-8 cursor-pointer md:hidden duration-200 data-focused:rotate-90 hover:opacity-50"
@@ -55,13 +72,13 @@ export default function Navbar() {
 
           <div
             className={twJoin(
-              "absolute right-0 top-full z-50 mt-px overflow-hidden",
+              "z-50 absolute right-0 top-full mt-px overflow-hidden bg-inherit",
               "md:static md:mt-0"
             )}
           >
             <ul
               className={twJoin(
-                "w-64 flex flex-col bg-primary border border-primary-foreground rounded-lg text-center font-kode_mono font-bold translate-x-full duration-500 ease-out overflow-hidden",
+                "w-64 flex flex-col bg-inherit border border-primary-foreground rounded-lg text-center font-kode_mono font-bold translate-x-full duration-500 ease-out overflow-hidden",
                 "md:static md:flex-row md:justify-between md:gap-5 md:border-0 md:translate-x-0 md:w-auto md:bg-transparent",
                 "data-focused:translate-x-0",
                 "data-resizing:duration-0"
@@ -70,24 +87,21 @@ export default function Navbar() {
               data-resizing={isResizing || undefined}
             >
               <li>
-                <NavbarButton>
-                  <Link href="/#projects" scroll={false}>
-                    Projets
-                  </Link>
+                <NavbarButton onClick={() => setSelectedKey("projects")}>
+                  {t("projects")}
                 </NavbarButton>
               </li>
               <li>
-                <NavbarButton>
-                  <Link href="/#about" scroll={false}>
-                    À propos
-                  </Link>
+                <NavbarButton onClick={() => setSelectedKey("about")}>
+                  {t("about")}
                 </NavbarButton>
               </li>
               <li>
-                <NavbarButton className="border-0 md:border-b">
-                  <Link href="/#contact" scroll={false}>
-                    Contact
-                  </Link>
+                <NavbarButton
+                  className="border-0 md:border-b"
+                  onClick={() => setSelectedKey("contact")}
+                >
+                  {t("contact")}
                 </NavbarButton>
               </li>
             </ul>

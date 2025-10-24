@@ -1,4 +1,9 @@
 {
+  "Navbar": {
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
   "Hero": {
     "name": "Marc Antoine Blais",
     "title1": "Web Developer",

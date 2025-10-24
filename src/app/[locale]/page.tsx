@@ -1,15 +1,19 @@
 "use client";
 
 import ParallaxScroll from "@/src/components/animations/ParallaxScroll";
-import Hero from "../../components/Hero";
+import Hero from "./Hero";
+import ParallaxScrollItem from "@/src/components/animations/ParallaxScrollItem";
 
 export default function MainPage() {
   return (
-    <main className="h-full w-full flex flex-col items-center">
+    <main className="h-full w-full items-center">
       <ParallaxScroll>
-        <div className="bg-black h-full text-white">This is empty</div>
-        <Hero />
-        <div>This is empty</div>
+        <ParallaxScrollItem key="hero">
+          <Hero />
+        </ParallaxScrollItem>
+        <ParallaxScrollItem key="contact">
+          <div className="bg-white h-full">This is empty</div>
+        </ParallaxScrollItem>
       </ParallaxScroll>
     </main>
   );
