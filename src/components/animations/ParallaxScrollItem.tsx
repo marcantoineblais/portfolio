@@ -1,9 +1,8 @@
-import { ParallaxKey } from "@/src/hooks/useParallax";
 import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type ParallaxScrollItemProps = {
-  key: ParallaxKey;
+  key: string;
   opacity?: number;
   children: ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;

@@ -15,12 +15,10 @@ import {
 } from "react";
 import { ParallaxScrollItemProps } from "../components/animations/ParallaxScrollItem";
 
-export type ParallaxKey = "hero" | "contact" | "about" | "projects" | "projects2";
-
 type ParallaxContextType = {
-  selectedKey: ParallaxKey;
+  selectedKey: string;
   scrollHeight: number;
-  scrollTo: (key: ParallaxKey) => void;
+  scrollTo: (key: string) => void;
   elements: ReactNode[];
   setSections: Dispatch<
     React.SetStateAction<ReactElement<ParallaxScrollItemProps>[]>
@@ -34,7 +32,7 @@ export const ParallaxContext = createContext<ParallaxContextType | undefined>(
 );
 
 export function ParallaxProvider({ children }: { children: ReactNode }) {
-  const [selectedKey, setSelectedKey] = useState<ParallaxKey>("hero");
+  const [selectedKey, setSelectedKey] = useState<string>("hero");
   const [scrollHeight, setScrollHeight] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [snapTimeout, setSnapTimeout] = useState(500);
@@ -47,7 +45,7 @@ export function ParallaxProvider({ children }: { children: ReactNode }) {
   const rafRef = useRef<number>(0);
 
   const scrollTo = useCallback(
-    (key: ParallaxKey) => {
+    (key: string) => {
       const index = sections.findIndex((section) => section.key === key);
       if (index === -1) return;
 
@@ -91,16 +89,16 @@ export function ParallaxProvider({ children }: { children: ReactNode }) {
     const handleScroll = () => {
       if (rafRef.current) return;
 
-      const updateSelectedKey = (prev: ParallaxKey) => {
+      const updateSelectedKey = (prev: string) => {
         const innerHeight = window.innerHeight;
         const sectionHeight = innerHeight * transitionRatio;
         const index = Math.round(scrollY / sectionHeight);
-        const newKey = sections[index]?.key as ParallaxKey;
+        const newKey = sections[index]?.key as string;
 
         return newKey || prev;
       };
 
-      const snapAfterScroll = (key: ParallaxKey) => {
+      const snapAfterScroll = (key: string) => {
         isScrollingRef.current = true;
         clearTimeout(scrollTimeoutRef.current);
         scrollTimeoutRef.current = setTimeout(() => {
