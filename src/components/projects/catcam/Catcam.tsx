@@ -5,19 +5,15 @@ import Image from "next/image";
 import CatcamImages from "./CatcamImages";
 import ProjectDescription from "../../ProjectDescription";
 import TextBubble from "../../ui/TextBubble";
-import catcam1Image from "../../images/catcam/catcam1.png";
-import catcam2Image from "../../images/catcam/catcam2.png";
-import catcam3Image from "../../images/catcam/catcam3.png";
-import catcam4Image from "../../images/catcam/catcam4.png";
+import catcam1Image from "@/src/images/catcam/catcam1.png";
+import catcam2Image from "@/src/images/catcam/catcam2.png";
+import catcam3Image from "@/src/images/catcam/catcam3.png";
+import catcam4Image from "@/src/images/catcam/catcam4.png";
 
-export default function Catcam({
-  disabledCarousel,
-}: {
-  disabledCarousel: boolean;
-}) {
+export default function Catcam() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-7">
-      <Carousel disabled={disabledCarousel} accentColor="bg-sky-700">
+      <Carousel accentColor="bg-sky-700">
         <CatcamImages />
         <ProjectDescription>
           <TextBubble className="bg-gray-200">

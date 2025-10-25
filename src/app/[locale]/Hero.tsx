@@ -16,7 +16,7 @@ export default function Hero({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const t = useTranslations("Hero");
-  const { setSelectedKey } = useParallax();
+  const { scrollTo } = useParallax();
 
   const name = useMemo(() => t("name"), [t]);
   const statement1 = useMemo(() => t("statement1"), [t]);
@@ -103,21 +103,21 @@ export default function Hero({
           <div className="w-full flex justify-start items-center gap-7">
             <CustomButton
               className="w-32 sm:w-40 shadow-lg shadow-white/10"
-              onClick={() => setSelectedKey("projects")}
+              onClick={() => scrollTo("projects")}
             >
               {t("btn.projects")}
             </CustomButton>
             <CustomButton
               color="secondary"
               className="w-32 sm:w-40 shadow-lg shadow-white/10"
-              onClick={() => setSelectedKey("about")}
+              onClick={() => scrollTo("about")}
             >
               {t("btn.about")}
             </CustomButton>
             <CustomButton
               color="secondary"
               className="w-32 sm:w-40 shadow-lg shadow-white/10"
-              onClick={() => setSelectedKey("contact")}
+              onClick={() => scrollTo("contact")}
             >
               {t("btn.contact")}
             </CustomButton>

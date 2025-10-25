@@ -3,6 +3,9 @@
 import ParallaxScroll from "@/src/components/animations/ParallaxScroll";
 import Hero from "./Hero";
 import ParallaxScrollItem from "@/src/components/animations/ParallaxScrollItem";
+import Scrabble from "@/src/components/projects/scrabble/Scrabble";
+import Catcam from "@/src/components/projects/catcam/Catcam";
+import Skills from "@/src/components/about/Skills";
 
 export default function MainPage() {
   return (
@@ -12,12 +15,16 @@ export default function MainPage() {
           <Hero />
         </ParallaxScrollItem>
 
-        <ParallaxScrollItem key="contact">
-          <div className="p-14 bg-white h-full">This is empty</div>
+        <ParallaxScrollItem key="projects">
+          <Scrabble />
+        </ParallaxScrollItem>
+
+        <ParallaxScrollItem key="projects2">
+          <Catcam />
         </ParallaxScrollItem>
 
         <ParallaxScrollItem key="about">
-          <div className="p-14 bg-black h-full">This is empty</div>
+          <Skills />          
         </ParallaxScrollItem>
       </ParallaxScroll>
     </main>

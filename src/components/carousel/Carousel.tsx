@@ -7,12 +7,12 @@ export default function Carousel({
   children,
   accentColor,
   className,
-  disabled,
+  disabled = false,
 }: {
   children: ReactNode[];
   accentColor: string;
   className?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
   const [nbItems, setNbItems] = React.useState<number>(0);

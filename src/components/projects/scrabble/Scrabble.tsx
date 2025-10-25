@@ -3,21 +3,17 @@ import Carousel from "../../carousel/Carousel";
 import ProjectDescription from "../../ProjectDescription";
 import TextBubble from "../../ui/TextBubble";
 import ScrabbleImages from "./ScrabbleImages";
-import scrabble2Image from "../../images/scrabble/scrabble2.png";
-import scrabble3Image from "../../images/scrabble/scrabble3.png";
-import scrabble4Image from "../../images/scrabble/scrabble4.png";
-import scrabble5Image from "../../images/scrabble/scrabble5.png";
+import scrabble2Image from "@/src/images/scrabble/scrabble2.png";
+import scrabble3Image from "@/src/images/scrabble/scrabble3.png";
+import scrabble4Image from "@/src/images/scrabble/scrabble4.png";
+import scrabble5Image from "@/src/images/scrabble/scrabble5.png";
 import Image from "next/image";
 
-export default function Scrabble({
-  disabledCarousel,
-}: {
-  disabledCarousel: boolean;
-}) {
+export default function Scrabble() {
   return (
     <>
       <div className="w-full h-full flex flex-col justify-center items-center gap-7">
-        <Carousel disabled={disabledCarousel} accentColor="bg-emerald-900">
+        <Carousel accentColor="bg-primary">
           <ScrabbleImages />
           <ProjectDescription>
             <TextBubble className="bg-orange-100">

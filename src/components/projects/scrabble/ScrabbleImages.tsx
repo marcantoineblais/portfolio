@@ -3,16 +3,16 @@
 import Image from "next/image";
 import React, { ReactNode } from "react";
 
-import img1 from "../../images/scrabble/board1.png";
-import img2 from "../../images/scrabble/board2.png";
-import img3 from "../../images/scrabble/board3.png";
-import img4 from "../../images/scrabble/board4.png";
-import img5 from "../../images/scrabble/board5.png";
-import img6 from "../../images/scrabble/board6.png";
-import img7 from "../../images/scrabble/board7.png";
-import img8 from "../../images/scrabble/board8.png";
-import img9 from "../../images/scrabble/board9.png";
-import img10 from "../../images/scrabble/board10.png";
+import img1 from "@/src/images/scrabble/board1.png";
+import img2 from "@/src/images/scrabble/board2.png";
+import img3 from "@/src/images/scrabble/board3.png";
+import img4 from "@/src/images/scrabble/board4.png";
+import img5 from "@/src/images/scrabble/board5.png";
+import img6 from "@/src/images/scrabble/board6.png";
+import img7 from "@/src/images/scrabble/board7.png";
+import img8 from "@/src/images/scrabble/board8.png";
+import img9 from "@/src/images/scrabble/board9.png";
+import img10 from "@/src/images/scrabble/board10.png";
 
 export default function ScrabbleImages() {
   const [images, setImages] = React.useState<ReactNode[]>([]);

@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 
 export default function Navbar() {
   const t = useTranslations("Navbar");
-  const { selectedKey, setSelectedKey } = useParallax();
+  const { selectedKey, scrollTo } = useParallax();
 
   const [showMenu, setShowMenu] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
@@ -56,14 +56,14 @@ export default function Navbar() {
         "data-contact:from-ternary/75 data-contact:to-ternary"
       )}
       data-hero={selectedKey === "hero" || undefined}
-      data-projects={selectedKey === "projects" || undefined}
+      data-projects={selectedKey.startsWith("projects") || undefined}
       data-about={selectedKey === "about" || undefined}
       data-contact={selectedKey === "contact" || undefined}
     >
       <div className="mx-auto container px-3 py-1.5 flex justify-between gap-3 items-center bg-inherit">
         <Logo
           className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:opacity-50"
-          onClick={() => setSelectedKey("hero")}
+          onClick={() => scrollTo("hero")}
         />
 
         <div className="flex flex-col bg-inherit">
@@ -90,19 +90,26 @@ export default function Navbar() {
               data-resizing={isResizing || undefined}
             >
               <li>
-                <NavbarButton onClick={() => setSelectedKey("projects")}>
+                <NavbarButton
+                  onClick={() => scrollTo("projects")}
+                  isDisabled={selectedKey.startsWith("projects")}
+                >
                   {t("projects")}
                 </NavbarButton>
               </li>
               <li>
-                <NavbarButton onClick={() => setSelectedKey("about")}>
+                <NavbarButton
+                  onClick={() => scrollTo("about")}
+                  isDisabled={selectedKey === "about"}
+                >
                   {t("about")}
                 </NavbarButton>
               </li>
               <li>
                 <NavbarButton
                   className="border-0 md:border-b"
-                  onClick={() => setSelectedKey("contact")}
+                  onClick={() => scrollTo("contact")}
+                  isDisabled={selectedKey === "contact"}
                 >
                   {t("contact")}
                 </NavbarButton>
