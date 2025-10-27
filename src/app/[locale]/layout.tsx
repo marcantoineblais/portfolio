@@ -39,12 +39,14 @@ export default async function RootLayout({
         <ParallaxProvider>
           <body
             className={twJoin(
-              "w-dvw min-h-dvh bg-default-foreground text-default overflow-x-hidden",
+              "w-screen min-h-screen bg-default-foreground text-default overflow-x-hidden",
               openSans.className
             )}
           >
-            <Navbar />
-            {children}
+            <div className="w-full h-dvh">
+              <Navbar />
+              {children}
+            </div>
           </body>
         </ParallaxProvider>
       </NextIntlClientProvider>

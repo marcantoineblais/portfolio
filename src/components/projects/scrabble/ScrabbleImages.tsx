@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode } from "react";
 
 import img1 from "@/src/images/scrabble/board1.png";
 import img2 from "@/src/images/scrabble/board2.png";
@@ -13,78 +12,48 @@ import img7 from "@/src/images/scrabble/board7.png";
 import img8 from "@/src/images/scrabble/board8.png";
 import img9 from "@/src/images/scrabble/board9.png";
 import img10 from "@/src/images/scrabble/board10.png";
+import { useEffect, useMemo, useState } from "react";
 
 export default function ScrabbleImages() {
-  const [images, setImages] = React.useState<ReactNode[]>([]);
-  const [selectedImage, setSelectedImage] = React.useState<number>(0);
+  const [selectedSrc, setSelectedSrc] = useState(img1);
+  const sources = useMemo(
+    () => [img1, img2, img3, img4, img5, img6, img6, img7, img8, img9, img10],
+    []
+  );
 
-  const imagesRef = React.useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    let index = 0;
+    let interval: NodeJS.Timeout;
+    let timeout: NodeJS.Timeout;
 
-  React.useEffect(() => {
-    const sources = [
-      img1,
-      img2,
-      img3,
-      img4,
-      img5,
-      img6,
-      img7,
-      img8,
-      img9,
-      img10,
-    ];
-    const images = sources.map((src, i) => {
-      return (
-        <div
-          key={i}
-          className={`${i > 0 ? "absolute inset-0 opacity-0" : "h-full relative"}`}
-        >
-          <Image
-            src={src}
-            alt="Capture ecran application scrabble"
-            className="w-full h-full object-contain"
-          />
-        </div>
-      );
-    });
-
-    setImages(images);
-  }, []);
-
-  React.useEffect(() => {
-    if (!imagesRef.current) return;
-
-    const images = imagesRef.current.children;
-
-    let timerDuration;
-    if (selectedImage === 0) timerDuration = 4000;
-    else if (selectedImage === 6) timerDuration = 1000;
-    else timerDuration = 100;
-
-    const toggleImages = () => {
-      for (let i = 0; i < images.length; i++) {
-        if (i === selectedImage) images[i].classList.remove("opacity-0");
-        else images[i].classList.add("opacity-0");
-      }
-
-      setSelectedImage(
-        selectedImage === images.length - 1 ? 0 : selectedImage + 1,
-      );
+    const rollImages = () => {
+      interval = setInterval(() => {
+        setSelectedSrc(sources[index]);
+        index++;
+  
+        if (index >= sources.length) {
+          index = 0;
+          clearInterval(interval);
+          timeout = setTimeout(rollImages, 1000);
+        };
+      }, 100);
     };
 
-    const timeout = setTimeout(toggleImages, timerDuration);
-
+    timeout = setTimeout(rollImages, 1000);
     return () => {
       clearTimeout(timeout);
+      clearInterval(interval);
     };
-  }, [images, selectedImage]);
+  }, [sources]);
 
   return (
-    <div
-      ref={imagesRef}
-      className="relative h-full flex justify-center items-center border border-neutral-300 rounded-lg"
-    >
-      {images}
+    <div className="mx-auto h-fit w-fit max-h-full max-w-full rounded-lg overflow-hidden">
+      <Image
+        src={selectedSrc}
+        alt="Scrabble Cheetah images"
+        className="object-contain"
+        loading="eager"
+      />
     </div>
   );
 }

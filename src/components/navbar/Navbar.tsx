@@ -46,7 +46,7 @@ export default function Navbar() {
   return (
     <div
       className={twJoin(
-        "z-50 sticky top-0 w-full overflow-hidden",
+        "z-50 fixed top-0 w-full overflow-hidden",
         "transition-[color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,height] duration-1000 ease-in-out",
         "h-14 shadow-sm shadow-default/25 text-default bg-linear-to-r",
         "from-default-foreground/75 to-default-foreground",

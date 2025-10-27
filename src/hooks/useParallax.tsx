@@ -86,33 +86,33 @@ export function ParallaxProvider({ children }: { children: ReactNode }) {
 
   // Calculate scroll height and snap on scroll
   useEffect(() => {
+    const updateSelectedKey = (prev: string) => {
+      const innerHeight = window.innerHeight;
+      const sectionHeight = innerHeight * transitionRatio;
+      const index = Math.round(scrollY / sectionHeight);
+      const newKey = sections[index]?.key as string;
+
+      return newKey || prev;
+    };
+
+    const snapToSection = (key: string) => {
+      isScrollingRef.current = true;
+      clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+        scrollTo(key);
+      }, snapTimeout);
+    };
+
     const handleScroll = () => {
       if (rafRef.current) return;
-
-      const updateSelectedKey = (prev: string) => {
-        const innerHeight = window.innerHeight;
-        const sectionHeight = innerHeight * transitionRatio;
-        const index = Math.round(scrollY / sectionHeight);
-        const newKey = sections[index]?.key as string;
-
-        return newKey || prev;
-      };
-
-      const snapAfterScroll = (key: string) => {
-        isScrollingRef.current = true;
-        clearTimeout(scrollTimeoutRef.current);
-        scrollTimeoutRef.current = setTimeout(() => {
-          isScrollingRef.current = false;
-          scrollTo(key);
-        }, snapTimeout);
-      };
 
       rafRef.current = requestAnimationFrame(() => {
         const scrollY = window.scrollY;
         setScrollTop(scrollY);
         setSelectedKey((prev) => {
           const newKey = updateSelectedKey(prev);
-          snapAfterScroll(newKey);
+          snapToSection(newKey);
 
           return newKey;
         });
@@ -120,8 +120,20 @@ export function ParallaxProvider({ children }: { children: ReactNode }) {
       });
     };
 
+    const handleResize = () => {
+      setSelectedKey((prev) => {
+        snapToSection(prev);
+        return prev;
+      });
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, [scrollTo, snapTimeout, sections, transitionRatio]);
 
   // Set scrollable height based on number of children

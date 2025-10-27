@@ -12,8 +12,8 @@ import catcam4Image from "@/src/images/catcam/catcam4.png";
 
 export default function Catcam() {
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-7">
-      <Carousel accentColor="bg-sky-700">
+    <div className="py-14 w-full h-full flex flex-col justify-center items-center gap-7">
+      <Carousel>
         <CatcamImages />
         <ProjectDescription>
           <TextBubble className="bg-gray-200">
