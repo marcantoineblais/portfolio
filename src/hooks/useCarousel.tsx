@@ -22,6 +22,7 @@ export default function useCarousel({
   const [previousPosition, setPreviousPosition] = useState<number>(0);
   const [previousYPosition, setPreviousYPosition] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
+  const [itemsPerView, setItemsPerView] = useState<number>(1);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [scrollDirection, setScrollDirection] = useState<
     "left" | "right" | null
@@ -30,7 +31,10 @@ export default function useCarousel({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const timer = useRef<NodeJS.Timeout | number>(0);
-  const itemsNumber = useMemo(() => children.length, [children]);
+  const itemsNumber = useMemo(
+    () => Math.floor(children.length / itemsPerView),
+    [children, itemsPerView]
+  );
 
   const snapToSelection = useCallback(() => {
     const container = containerRef.current;
@@ -134,20 +138,18 @@ export default function useCarousel({
     clearTimeout(timer.current);
   }, [snapToSelection]);
 
-  function resetTimer() {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setScrollDirection(null);
-    }, 200);
-  }
-
   useEffect(() => {
     const resize = () => {
       const container = containerRef.current;
       if (!container) return;
 
+      const clientWidth = container.clientWidth;
+      const itemsPerView = Math.floor(clientWidth / 1024) || 1;
       setIsResizing(true);
-      setWidth(container.clientWidth * children.length);
+      setItemsPerView(itemsPerView);
+      setSelectedIndex(0);
+      setPosition(0);
+      setWidth((container.clientWidth * children.length) / itemsPerView);
       setTimeout(() => setIsResizing(false), 500);
     };
 
@@ -159,8 +161,16 @@ export default function useCarousel({
     };
   }, [containerRef, children]);
 
+  function resetTimer() {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setScrollDirection(null);
+    }, 200);
+  }
+
   return {
     width,
+    itemsPerView,
     position,
     isScrolling,
     isResizing,

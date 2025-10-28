@@ -47,7 +47,7 @@ export default function ScrabbleImages() {
   }, [sources]);
 
   return (
-    <div className="mx-auto h-fit w-fit max-h-full max-w-full rounded-lg overflow-hidden">
+    <div className="max-h-full max-w-full rounded-lg overflow-hidden">
       <Image
         src={selectedSrc}
         alt="Scrabble Cheetah images"

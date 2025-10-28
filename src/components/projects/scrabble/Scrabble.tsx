@@ -33,26 +33,38 @@ export default function Scrabble() {
             manipuler sur PC et sur mobile.
           </TextBubble>
         </ProjectDescription>
-        <Image
-          src={scrabble2Image}
-          alt="Application scrabble cheetah"
-          className="h-full w-full object-contain"
-        />
-        <Image
-          src={scrabble3Image}
-          alt="Application scrabble cheetah"
-          className="h-full w-full object-contain"
-        />
-        <Image
-          src={scrabble4Image}
-          alt="Application scrabble cheetah"
-          className="h-full w-full object-contain"
-        />
-        <Image
-          src={scrabble5Image}
-          alt="Application scrabble cheetah"
-          className="h-full w-full object-contain"
-        />
+
+        <div className="h-full">
+          <Image
+            src={scrabble2Image}
+            alt="Application scrabble cheetah"
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="h-full">
+          <Image
+            src={scrabble3Image}
+            alt="Application scrabble cheetah"
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="h-full">
+          <Image
+            src={scrabble4Image}
+            alt="Application scrabble cheetah"
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="h-full">
+          <Image
+            src={scrabble5Image}
+            alt="Application scrabble cheetah"
+            className="w-full h-full object-contain"
+          />
+        </div>
       </Carousel>
     </div>
   );

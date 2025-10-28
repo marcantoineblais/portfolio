@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import React from "react";
-import useScroller from "@/src/hooks/useCarousel";
 import ArrowButton from "../ui/ArrowButton";
+import useCarousel from "@/src/hooks/useCarousel";
 
 type CarouselProps = {
   children: ReactElement[];
@@ -11,6 +11,7 @@ type CarouselProps = {
 export default function Carousel({ children, ...props }: CarouselProps) {
   const {
     width,
+    itemsPerView,
     isResizing,
     selectedIndex,
     position,
@@ -20,9 +21,19 @@ export default function Carousel({ children, ...props }: CarouselProps) {
     handleTouchEnd,
     handleTouchMove,
     containerRef,
-  } = useScroller({ children });
-  console.log(position);
-  
+  } = useCarousel({ children });
+
+  // Chunk children based on itemsPerView
+  const chunks = useMemo(() => {
+    const result = [];
+    for (let i = 0; i < children.length; i += itemsPerView) {
+      result.push(children.slice(i, i + itemsPerView));
+    }
+    return result;
+  }, [children, itemsPerView]);
+
+  const widthPerChunk = useMemo(() => width / chunks.length, [width, chunks.length]);
+
   return (
     <div {...props}>
       <div
@@ -37,13 +48,13 @@ export default function Carousel({ children, ...props }: CarouselProps) {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {children.map((child, i) => (
+          {chunks.map((chunk, i) => (
             <div
-              className="h-full"
-              style={{ width: `${width / children.length}px` }}
               key={i}
+              className="px-24 h-full flex justify-center items-center gap-3"
+              style={{ width: widthPerChunk, maxWidth: widthPerChunk }}
             >
-              {child}
+              {chunk}
             </div>
           ))}
         </div>
@@ -66,10 +77,10 @@ export default function Carousel({ children, ...props }: CarouselProps) {
       </div>
 
       <div className="py-3 w-full flex justify-center gap-3">
-        {children.map((_, i) => (
+        {children.slice(0, children.length / itemsPerView).map((_, i) => (
           <button
             key={i}
-            className="bg-default-foreground/50 size-5 rounded-full cursor-pointer hover:opacity-50 data-selected:bg-primary"
+            className="bg-default-foreground/15 size-5 rounded-full cursor-pointer hover:opacity-50 data-selected:bg-primary data-selected:hover:opacity-100"
             data-selected={selectedIndex === i || undefined}
             onClick={() => selectIndex(i)}
           ></button>
