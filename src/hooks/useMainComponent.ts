@@ -2,7 +2,7 @@ import React from "react";
 
 export default function useMainComponent(
   name: string,
-  createComponent: Function,
+  createComponent: (name: string, opacity: number) => React.ReactNode,
 ) {
   const [opacity, setOpacity] = React.useState<number>(0);
   const [start, setStart] = React.useState<number>(0);

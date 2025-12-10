@@ -8,7 +8,7 @@ export default function SideArrow({
   reversed,
   disabled,
 }: {
-  action: Function;
+  action: () => void;
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
   reversed: boolean;
   disabled: boolean;

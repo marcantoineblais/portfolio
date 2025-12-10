@@ -7,7 +7,7 @@ export default function DownArrow({
   text,
   disabled,
 }: {
-  action: Function;
+  action: () => void;
   text: string;
   disabled: boolean;
 }) {

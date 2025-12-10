@@ -19,7 +19,7 @@ export default function Project({
   name: string;
   className: string;
   nextSectionTitle?: string;
-  scrollTo?: Function;
+  scrollTo?: () => void;
 }) {
   const [overflow, setOverflow] = React.useState<string>("overflow-y-hidden");
   const containerRef = React.useRef<HTMLDivElement | null>(null);

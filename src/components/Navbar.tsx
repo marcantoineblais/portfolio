@@ -9,9 +9,9 @@ export default function Navbar({
   scrollToContact,
 }: {
   visible: boolean;
-  scrollToProject: Function;
-  scrollToAbout: Function;
-  scrollToContact: Function;
+  scrollToProject: () => void;
+  scrollToAbout: () => void;
+  scrollToContact: () => void;
 }) {
   const [showMenu, setShowMenu] = React.useState<boolean>(false);
   const menuRef = React.useRef<HTMLUListElement | null>(null);

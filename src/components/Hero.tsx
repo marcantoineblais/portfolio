@@ -11,9 +11,9 @@ export default function Hero({
   scrollToContact,
 }: {
   opacity: number;
-  scrollToProjects: Function;
-  scrollToAbout: Function;
-  scrollToContact: Function;
+  scrollToProjects: () => void;
+  scrollToAbout: () => void;
+  scrollToContact: () => void;
 }) {
   const [lettersSpan, setLettersSpan] = React.useState<ReactNode[]>([]);
   const [slogan1, setSlogan1] = React.useState<string>("");
