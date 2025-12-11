@@ -128,7 +128,7 @@ export default function Navbar({
           <ul
             ref={menuRef}
             className="
-                            z-50 fixed md:static top-12 left-1/2 right-0 mt-[1px] md:mt-0 scale-x-0 md:scale-x-100
+                            z-50 fixed md:static top-12 left-1/2 right-0 mt-px md:mt-0 scale-x-0 md:scale-x-100
                             flex flex-col md:flex-row md:justify-between md:gap-5 border md:border-0 border-gray-300 rounded 
                             bg-inherit text-center font-kode_mono font-bold duration-500 origin-right
                         "

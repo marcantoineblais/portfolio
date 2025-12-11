@@ -217,10 +217,12 @@ export default function Carousel({
     carousel.style.transitionDuration = "";
 
     if (finalDelta >= minDelta) {
-      currentPosition > carouselPosition ? scrollLeft() : scrollRight();
+      if (currentPosition > carouselPosition) scrollLeft()
+      else scrollRight();
     } else {
       carousel.style.left = carouselPosition + "px";
     }
+
     window.onscroll = () => {};
     setTouchStartPosition(null);
     setScrollingCarousel(null);

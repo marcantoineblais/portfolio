@@ -29,7 +29,7 @@ export default function Hero({
     const spans = letters.map((letter, i) => (
       <span
         key={i}
-        className={`opacity-0 duration-1000 ${i === letters.length - 1 && "!tracking-normal"}`}
+        className={`opacity-0 duration-1000 ${i === letters.length - 1 && "tracking-normal!"}`}
       >
         {letter}
       </span>
