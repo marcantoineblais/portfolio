@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { startTransition } from "react";
 
 export default function SideArrow({
   action,
@@ -19,11 +19,13 @@ export default function SideArrow({
   const arrowRef = React.useRef<SVGSVGElement | null>(null);
 
   React.useEffect(() => {
-    if (disabled)
-      setClassList(
-        `${reversed ? "translate-x-full" : "-translate-x-full"} opacity-0`,
-      );
-    else setClassList("cursor-pointer hover:opacity-75");
+    startTransition(() => {
+      if (disabled)
+        setClassList(
+          `${reversed ? "translate-x-full" : "-translate-x-full"} opacity-0`,
+        );
+      else setClassList("cursor-pointer hover:opacity-75");
+    });
   }, [disabled, reversed]);
 
   return (

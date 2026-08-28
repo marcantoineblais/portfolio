@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useMemo } from "react";
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Catcam from "../components/catcam/Catcam";
-import MainSection from "../components/MainSection";
-import Scrabble from "../components/scrabble/Scrabble";
-import useMainComponent from "../hooks/useMainComponent";
+
 import Skills from "../components/about/Skills";
 import Technologies from "../components/about/Technologies";
+import Catcam from "../components/catcam/Catcam";
 import Contact from "../components/contact/Contact";
+import Hero from "../components/Hero";
+import MainSection from "../components/MainSection";
+import Navbar from "../components/Navbar";
+import Scrabble from "../components/scrabble/Scrabble";
+import useMainComponent from "../hooks/useMainComponent";
 
 export default function Home() {
   const [navbarVisible, setNavbarVisible] = React.useState<boolean>(false);
-  const [timers] = React.useState<any>({});
+  const [timers] = React.useState<Record<string, NodeJS.Timeout>>({});
 
   const hero = useMainComponent("Hero", (_name: string, opacity: number) => {
     return (
@@ -215,7 +216,7 @@ export default function Home() {
       });
 
       clearTimeout(timers.scrollTimeout);
-      timers.scrollTimeout = window.setTimeout(
+      timers.scrollTimeout = setTimeout(
         () => scrollToNearestSection(),
         1000,
       );

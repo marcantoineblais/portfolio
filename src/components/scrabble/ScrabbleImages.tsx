@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode } from "react";
+import React, { ReactNode, startTransition } from "react";
 
 import img1 from "../../images/scrabble/board1.png";
 import img2 from "../../images/scrabble/board2.png";
@@ -47,8 +47,7 @@ export default function ScrabbleImages() {
         </div>
       );
     });
-
-    setImages(images);
+    startTransition(() => setImages(images));
   }, []);
 
   React.useEffect(() => {

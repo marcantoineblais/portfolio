@@ -1,14 +1,14 @@
+import Image from "next/image";
 import React from "react";
 
-import Carousel from "../carousel/Carousel";
-import Image from "next/image";
-import CatcamImages from "./CatcamImages";
-import ProjectDescription from "../ProjectDescription";
-import TextBubble from "../TextBubble";
 import catcam1Image from "../../images/catcam/catcam1.png";
 import catcam2Image from "../../images/catcam/catcam2.png";
 import catcam3Image from "../../images/catcam/catcam3.png";
 import catcam4Image from "../../images/catcam/catcam4.png";
+import Carousel from "../carousel/Carousel";
+import ProjectDescription from "../ProjectDescription";
+import TextBubble from "../TextBubble";
+import CatcamImages from "./CatcamImages";
 
 export default function Catcam({
   disabledCarousel,

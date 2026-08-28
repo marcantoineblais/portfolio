@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import React from "react";
-import CatcamImg1 from "../../images/catcam/catcam-light.png";
+
 import CatcamImg2 from "../../images/catcam/catcam-dark.png";
+import CatcamImg1 from "../../images/catcam/catcam-light.png";
 
 export default function CatcamImages() {
   const imageLightRef = React.useRef<HTMLImageElement | null>(null);

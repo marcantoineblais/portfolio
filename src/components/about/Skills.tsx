@@ -1,29 +1,30 @@
 "use client";
 
 import React from "react";
-import AboutSection from "./AboutSection";
-import java from "../../images/languages/java.png";
-import c from "../../images/languages/c.png";
-import nodeJs from "../../images/languages/nodejs.png";
-import typescript from "../../images/languages/typescript.png";
-import python from "../../images/languages/python.png";
-import ruby from "../../images/languages/ruby.png";
-import spring from "../../images/frameworks/spring.png";
-import springboot from "../../images/frameworks/springboot.png";
+
+import mssql from "../../images/databases/mssql.png";
+import mysql from "../../images/databases/mysql.png";
+import plsql from "../../images/databases/plsql.png";
+import postgresql from "../../images/databases/postgresql.png";
+import sql from "../../images/databases/sql.png";
+import angular from "../../images/frameworks/angular.png";
 import dotnet from "../../images/frameworks/dotnet.webp";
 import nextjs from "../../images/frameworks/nextjs.png";
 import react from "../../images/frameworks/react.png";
-import angular from "../../images/frameworks/angular.png";
-import sql from "../../images/databases/sql.png";
-import mysql from "../../images/databases/mysql.png";
-import postgresql from "../../images/databases/postgresql.png";
-import mssql from "../../images/databases/mssql.png";
-import plsql from "../../images/databases/plsql.png";
-import html from "../../images/web/html.png";
-import css from "../../images/web/css.png";
-import javascript from "../../images/web/javascript.png";
+import spring from "../../images/frameworks/spring.png";
+import springboot from "../../images/frameworks/springboot.png";
+import c from "../../images/languages/c.png";
+import java from "../../images/languages/java.png";
+import nodeJs from "../../images/languages/nodejs.png";
+import python from "../../images/languages/python.png";
+import ruby from "../../images/languages/ruby.png";
+import typescript from "../../images/languages/typescript.png";
 import bootstrap from "../../images/web/bootstrap.png";
+import css from "../../images/web/css.png";
+import html from "../../images/web/html.png";
+import javascript from "../../images/web/javascript.png";
 import tailwind from "../../images/web/tailwind.png";
+import AboutSection from "./AboutSection";
 
 export default function Skills() {
   return (

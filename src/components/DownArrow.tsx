@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { startTransition } from "react";
 
 export default function DownArrow({
   action,
@@ -17,8 +17,10 @@ export default function DownArrow({
   const arrowRef = React.useRef<SVGSVGElement | null>(null);
 
   React.useEffect(() => {
-    if (disabled) setClassList("-translate-y-full opacity-0");
-    else setClassList("cursor-pointer hover:opacity-75");
+    startTransition(() => {
+      if (disabled) setClassList("-translate-y-full opacity-0");
+      else setClassList("cursor-pointer hover:opacity-75");
+    });
   }, [disabled]);
 
   return (

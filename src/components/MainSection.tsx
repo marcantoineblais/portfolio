@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, startTransition } from "react";
+
 import { anta, kode_mono } from "../fonts";
 import DownArrow from "./DownArrow";
 
@@ -32,7 +33,9 @@ export default function Project({
   }, [opacity]);
 
   React.useEffect(() => {
-    setOverflow(opacity < 1 ? "overflow-y-hidden" : "overflow-y-auto");
+    startTransition(() =>
+      setOverflow(opacity < 1 ? "overflow-y-hidden" : "overflow-y-auto"),
+    );
   }, [opacity]);
 
   return (
@@ -41,7 +44,7 @@ export default function Project({
       className={`fixed inset-0 opacity-0 flex flex-col justify-between items-center ${className} ${overflow}`}
     >
       <div
-        className={`container grow px-3 mx-auto w-full flex flex-col gap-1 min-h-[720px] border-inherit`}
+        className={`container grow px-3 mx-auto w-full flex flex-col gap-1 min-h-180 border-inherit`}
       >
         <div className="w-full pt-12 flex flex-col gap-3 border-inherit">
           <h2

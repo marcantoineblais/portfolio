@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, startTransition } from "react";
+
 import SideArrow from "./SideArrow";
 
 export default function Carousel({
@@ -139,7 +140,7 @@ export default function Carousel({
       );
     }
 
-    setDots(dots);
+    startTransition(() => setDots(dots));
   }, [nbItems, selectedIndex, accentColor]);
 
   // Make the carousel move when its selection changes

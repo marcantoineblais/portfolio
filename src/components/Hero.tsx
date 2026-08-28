@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, startTransition } from "react";
+
 import { anta, kode_mono } from "../fonts";
 import DownArrow from "./DownArrow";
 
@@ -35,7 +36,7 @@ export default function Hero({
       </span>
     ));
 
-    setLettersSpan(spans);
+    startTransition(() => setLettersSpan(spans));
   }, []);
 
   React.useEffect(() => {
@@ -169,7 +170,7 @@ export default function Hero({
     <div className="fixed w-full inset-0 text-gray-300 overflow-y-auto">
       <div
         ref={containerRef}
-        className="container px-1 w-full h-full mx-auto flex flex-col justify-between items-center gap-12 min-h-[720px] opacity-0"
+        className="container px-1 w-full h-full mx-auto flex flex-col justify-between items-center gap-12 min-h-180 opacity-0"
       >
         <div className="w-full flex flex-col gap-10">
           <div className="relative flex justify-center items-center">

@@ -1,13 +1,14 @@
+import Image from "next/image";
 import React from "react";
-import Carousel from "../carousel/Carousel";
-import ProjectDescription from "../ProjectDescription";
-import TextBubble from "../TextBubble";
-import ScrabbleImages from "./ScrabbleImages";
+
 import scrabble2Image from "../../images/scrabble/scrabble2.png";
 import scrabble3Image from "../../images/scrabble/scrabble3.png";
 import scrabble4Image from "../../images/scrabble/scrabble4.png";
 import scrabble5Image from "../../images/scrabble/scrabble5.png";
-import Image from "next/image";
+import Carousel from "../carousel/Carousel";
+import ProjectDescription from "../ProjectDescription";
+import TextBubble from "../TextBubble";
+import ScrabbleImages from "./ScrabbleImages";
 
 export default function Scrabble({
   disabledCarousel,

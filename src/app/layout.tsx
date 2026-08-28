@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
 import "./globals.css";
+
+import type { Metadata } from "next";
+
 import { openSans } from "../fonts";
 
 export const metadata: Metadata = {
