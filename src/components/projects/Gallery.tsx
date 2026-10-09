@@ -19,41 +19,60 @@ export default function Gallery({
 }) {
   const trackRef = React.useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = React.useState(0);
-  const [overflowing, setOverflowing] = React.useState(true);
+  // Scroll positions the track can actually stop at. When several phones
+  // fit on screen, the last ones can't reach the left edge, so they share
+  // the final stop (the end of the track) instead of each getting a step.
+  const [stops, setStops] = React.useState<number[]>([0]);
+
+  const measure = React.useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const pad = parseFloat(getComputedStyle(track).paddingLeft);
+    const max = track.scrollWidth - track.clientWidth;
+    const next: number[] = [];
+    for (const child of Array.from(track.children) as HTMLElement[]) {
+      const stop = Math.min(Math.max(child.offsetLeft - pad, 0), max);
+      const last = next[next.length - 1];
+      if (last === undefined) next.push(stop);
+      // Merge near-identical stops (keep the later one, but never lose 0)
+      else if (stop - last <= 60 && next.length > 1)
+        next[next.length - 1] = stop;
+      else if (stop - last > 4) next.push(stop);
+    }
+    setStops(next.length ? next : [0]);
+  }, []);
+
+  const current = React.useCallback(
+    (scrollLeft: number) => {
+      let best = 0;
+      stops.forEach((stop, i) => {
+        if (Math.abs(stop - scrollLeft) < Math.abs(stops[best] - scrollLeft))
+          best = i;
+      });
+      return best;
+    },
+    [stops],
+  );
 
   React.useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const check = () =>
-      setOverflowing(track.scrollWidth > track.clientWidth + 4);
-    const observer = new ResizeObserver(check);
+    const observer = new ResizeObserver(measure);
     observer.observe(track);
     return () => observer.disconnect();
-  }, []);
+  }, [measure]);
 
   const onScroll = () => {
     const track = trackRef.current;
-    if (!track) return;
-    const children = Array.from(track.children) as HTMLElement[];
-    const left = track.scrollLeft + track.clientWidth / 2;
-    let current = 0;
-    children.forEach((child, i) => {
-      if (child.offsetLeft <= left) current = i;
-    });
-    setIndex(current);
+    if (track) setIndex(current(track.scrollLeft));
   };
 
-  const go = (dir: number) => {
+  const goTo = (i: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const target = Math.min(Math.max(index + dir, 0), shots.length - 1);
-    const child = track.children[target] as HTMLElement | undefined;
-    if (child)
-      track.scrollTo({
-        left:
-          child.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft),
-        behavior: "smooth",
-      });
+    const target = Math.min(Math.max(i, 0), stops.length - 1);
+    setIndex(target);
+    track.scrollTo({ left: stops[target], behavior: "smooth" });
   };
 
   return (
@@ -84,16 +103,23 @@ export default function Gallery({
       </div>
 
       <div
-        className={`flex items-center justify-between gap-4 ${overflowing ? "" : "hidden"}`}
+        className={`flex items-center justify-between gap-4 ${stops.length > 1 ? "" : "hidden"}`}
       >
-        <div className="flex gap-2" aria-hidden="true">
-          {shots.map((_, i) => (
-            <span
+        <div className="flex gap-1">
+          {stops.map((_, i) => (
+            <button
               key={i}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === index ? `w-8 ${accent}` : "w-1.5 bg-black/20"
-              }`}
-            />
+              onClick={() => goTo(i)}
+              aria-label={`${i + 1} / ${stops.length}`}
+              aria-current={i === index}
+              className="flex h-6 cursor-pointer items-center px-0.5"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-500 ${
+                  i === index ? `w-8 ${accent}` : "w-1.5 bg-black/20"
+                }`}
+              />
+            </button>
           ))}
         </div>
         <div className="hidden gap-2 sm:flex">
@@ -103,9 +129,9 @@ export default function Gallery({
           ].map(({ dir, label, d }) => (
             <button
               key={dir}
-              onClick={() => go(dir)}
+              onClick={() => goTo(index + dir)}
               aria-label={label}
-              disabled={dir < 0 ? index === 0 : index === shots.length - 1}
+              disabled={dir < 0 ? index === 0 : index === stops.length - 1}
               className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-2 border-current transition-all hover:bg-gray-900 hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current"
             >
               <svg

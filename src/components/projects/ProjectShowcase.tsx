@@ -113,7 +113,7 @@ export default function ProjectShowcase({
             </div>
           </div>
           {floating && (
-            <div className="absolute -bottom-6 right-0 w-[27%] max-w-40 sm:-bottom-10">
+            <div className="pointer-events-none absolute -bottom-6 right-0 w-[27%] max-w-40 sm:-bottom-10">
               <div data-speed="-0.1">
                 <div
                   data-reveal="right"
