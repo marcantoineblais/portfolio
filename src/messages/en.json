@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "title": "Marc-Antoine Blais — Full-Stack Web Developer",
+    "description": "Portfolio of full-stack web developer Marc-Antoine Blais: projects, skills, background and contact."
+  },
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "skills": "Skills",
+    "experience": "Experience",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "home": "Back to top",
+    "switchLanguage": "Version française"
+  },
+  "hero": {
+    "role1": "Full-Stack",
+    "role2": "Web Developer",
+    "slogan1": "Your vision,",
+    "slogan2": "Brought to life.",
+    "learnMore": "Learn more",
+    "about": "About",
+    "contact": "Contact",
+    "scroll": "See my work"
+  },
+  "about": {
+    "label": "About",
+    "title": "Who am I?",
+    "intro": "I'm Marc-Antoine. I design and build complete web applications, from the database all the way to the interface.",
+    "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. On the server I mostly work with Java and Spring Boot; on the client, with React, Next.js and TypeScript.",
+    "body2": "When I'm not coding for a client, I build my own tools: a security camera for my cats, a Scrabble solver… and this portfolio.",
+    "location": "Montréal, QC",
+    "available": "Available for new projects",
+    "languages": "Français · English",
+    "resume": "Download my resume",
+    "cta": "Let's talk about your project"
+  },
+  "projects": {
+    "label": "Projects",
+    "title": "Recent work",
+    "stack": "Built with",
+    "features": "Features",
+    "gallery": "Screenshots",
+    "prev": "Previous image",
+    "next": "Next image",
+    "catcam": {
+      "name": "La Catcam",
+      "tagline": "Keep an eye on your pets, even far from home.",
+      "description": "La Catcam is a web application built specifically to watch your pets while you're away from home.",
+      "features": [
+        {
+          "title": "Motion detection",
+          "text": "Automatically records your favourite felines' mischief so you can catch them red-handed!"
+        },
+        {
+          "title": "Privacy first",
+          "text": "A local server in your home streams and records the videos. Nothing leaves the house."
+        },
+        {
+          "title": "Mobile & desktop",
+          "text": "A simple, efficient design on every screen, with light and dark themes."
+        },
+        {
+          "title": "Customizable",
+          "text": "Several aspects of the interface can be tuned to better fit your needs."
+        }
+      ]
+    },
+    "scrabble": {
+      "name": "Scrabble Cheetah",
+      "tagline": "The best moves for your board, in an instant.",
+      "description": "Scrabble Cheetah is an application that gives you the best possible solutions for your Scrabble board.",
+      "features": [
+        {
+          "title": "Bilingual",
+          "text": "Solutions in French and English, with several types of game boards."
+        },
+        {
+          "title": "Saved games",
+          "text": "Up to 8 games per account, each with a custom name and a board preview."
+        },
+        {
+          "title": "Interactive board",
+          "text": "A game board that's easy to handle on desktop and on mobile."
+        },
+        {
+          "title": "Fast engine",
+          "text": "A Spring Boot back-end that searches the dictionary for the highest-scoring move."
+        }
+      ]
+    }
+  },
+  "skills": {
+    "label": "About",
+    "title": "Skills",
+    "intro": "The tools I build with every day.",
+    "languages": "Languages",
+    "frameworks": "Frameworks",
+    "databases": "Databases",
+    "web": "Web technologies"
+  },
+  "experience": {
+    "label": "Experience",
+    "title": "Experience & education",
+    "work": "Experience",
+    "education": "Education",
+    "items": [
+      {
+        "type": "work",
+        "period": "2024 — Present",
+        "role": "Full-Stack Web Developer",
+        "place": "Independent projects",
+        "text": "Designed and built La Catcam and Scrabble Cheetah, from the Spring Boot back-end to the Next.js interfaces."
+      },
+      {
+        "type": "work",
+        "period": "[Year] — [Year]",
+        "role": "[Job title]",
+        "place": "[Company]",
+        "text": "[Describe your main responsibilities and achievements. Edit this text in src/messages/en.json.]"
+      },
+      {
+        "type": "education",
+        "period": "[Year] — [Year]",
+        "role": "[Degree / Program]",
+        "place": "[School]",
+        "text": "[Specialization, notable projects or awards.]"
+      }
+    ]
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "Get in touch",
+    "intro": "For any question about your project or my availability, feel free to reach me through one of the options below.",
+    "phone": "Phone",
+    "email": "Email",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "write": "Send me an email"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "built": "Designed and built with Next.js and Tailwind CSS.",
+    "top": "Back to top"
+  }
+}

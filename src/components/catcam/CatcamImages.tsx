@@ -3,42 +3,35 @@
 import Image from "next/image";
 import React from "react";
 
-import CatcamImg2 from "../../images/catcam/catcam-dark.png";
-import CatcamImg1 from "../../images/catcam/catcam-light.png";
+import dark from "../../images/catcam/catcam-dark.png";
+import light from "../../images/catcam/catcam-light.png";
 
-export default function CatcamImages() {
-  const imageLightRef = React.useRef<HTMLImageElement | null>(null);
-  const imageDarkRef = React.useRef<HTMLImageElement | null>(null);
+/** Cross-fades between the light and dark themes of the app. */
+export default function CatcamImages({ alt }: { alt: string }) {
+  const [isDark, setIsDark] = React.useState(false);
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (!imageLightRef.current || !imageDarkRef.current) return;
-
-      const imageLight = imageLightRef.current;
-      const imageDark = imageDarkRef.current;
-
-      imageLight.classList.toggle("opacity-0");
-      imageDark.classList.toggle("opacity-0");
-    }, 8000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    const interval = setInterval(() => setIsDark((d) => !d), 4500);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="relative h-full flex justify-center items-center">
+    <div className="relative">
       <Image
-        ref={imageLightRef}
-        className="h-full duration-1000 border border-neutral-300 rounded-lg object-contain"
-        src={CatcamImg1}
-        alt="capture d'écran de l'application Catcam"
+        src={light}
+        alt={alt}
+        sizes="(min-width: 1024px) 40vw, 90vw"
+        className="h-auto w-full"
+        priority={false}
       />
       <Image
-        ref={imageDarkRef}
-        className="absolute top-0 h-full duration-1000 opacity-0 border border-neutral-300 rounded-lg bg-neutral-900 object-contain"
-        src={CatcamImg2}
-        alt="capture d'écran de l'application Catcam"
+        src={dark}
+        alt=""
+        aria-hidden="true"
+        sizes="(min-width: 1024px) 40vw, 90vw"
+        className={`absolute inset-0 h-full w-full bg-neutral-900 object-contain transition-opacity duration-1000 ${
+          isDark ? "opacity-100" : "opacity-0"
+        }`}
       />
     </div>
   );

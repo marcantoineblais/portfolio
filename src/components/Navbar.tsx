@@ -1,159 +1,202 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
-export default function Navbar({
-  visible,
-  scrollToProject,
-  scrollToAbout,
-  scrollToContact,
-}: {
-  visible: boolean;
-  scrollToProject: () => void;
-  scrollToAbout: () => void;
-  scrollToContact: () => void;
-}) {
-  const [showMenu, setShowMenu] = React.useState<boolean>(false);
-  const menuRef = React.useRef<HTMLUListElement | null>(null);
-  const iconRef = React.useRef<HTMLSpanElement | null>(null);
-  const navbarRef = React.useRef<HTMLDivElement | null>(null);
+import { Link } from "../i18n/navigation";
+import RackLogo from "./RackLogo";
 
+const SECTIONS = [
+  "about",
+  "projects",
+  "skills",
+  "experience",
+  "contact",
+] as const;
+
+export default function Navbar() {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const otherLocale = locale === "fr" ? "en" : "fr";
+
+  const [scrolled, setScrolled] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [active, setActive] = React.useState<string | null>(null);
+
+  // Solid background once we've left the hero
   React.useEffect(() => {
-    const hideMenu = () => {
-      setShowMenu(false);
-    };
-
-    window.addEventListener("click", hideMenu);
-
-    return () => {
-      window.removeEventListener("click", hideMenu);
-    };
+    const onScroll = () =>
+      setScrolled(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Highlight the section currently in view
   React.useEffect(() => {
-    if (!menuRef.current || !iconRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    SECTIONS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    const top = document.getElementById("top");
+    if (top) observer.observe(top);
+    return () => observer.disconnect();
+  }, []);
 
-    if (showMenu) {
-      menuRef.current.classList.remove("scale-x-0");
-      iconRef.current.classList.add("rotate-90");
-    } else {
-      menuRef.current.classList.add("scale-x-0");
-      iconRef.current.classList.remove("rotate-90");
-    }
-  }, [showMenu]);
-
+  // Lock page scroll + close with Escape while the mobile menu is open
   React.useEffect(() => {
-    if (!navbarRef.current) return;
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
-    const navbar = navbarRef.current;
-
-    if (visible) navbar.classList.remove("-translate-y-full");
-    else navbar.classList.add("-translate-y-full");
-  }, [visible]);
-
-  function toggleMenu(e: React.MouseEvent) {
-    e.stopPropagation();
-    setShowMenu(!showMenu);
-  }
+  const languageLink = (className: string) => (
+    <Link
+      href="/"
+      locale={otherLocale}
+      aria-label={t("switchLanguage")}
+      title={t("switchLanguage")}
+      className={className}
+    >
+      <span className={locale === "fr" ? "text-white" : "opacity-50"}>FR</span>
+      <span className="opacity-40">/</span>
+      <span className={locale === "en" ? "text-white" : "opacity-50"}>EN</span>
+    </Link>
+  );
 
   return (
-    <div
-      ref={navbarRef}
-      className="z-50 fixed top-0 left-0 right-0 text-gray-300 border-b border-b-gray-950 bg-stone-900 -translate-y-full duration-1000"
-    >
-      <div className="container mx-auto px-3 py-1 flex justify-between gap-3 items-center bg-inherit">
-        <div
-          onClick={() => scrollTo({ top: 0 })}
-          className="w-20 flex justify-center items-center cursor-pointer duration-200 hover:text-gray-500"
-        >
-          <svg
-            viewBox="0 -3.82 54.628 54.628"
-            xmlns="http://www.w3.org/2000/svg"
+    <>
+      <nav
+        className={`fixed inset-x-0 top-0 z-50 text-gray-300 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-white/5 bg-stone-900/85 shadow-lg shadow-black/20 backdrop-blur-md"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+          <a
+            href="#top"
+            aria-label={t("home")}
+            className={`h-8 w-16 transition-all duration-500 hover:text-gray-500 ${
+              scrolled ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
           >
-            <path
-              fill="currentColor"
-              d="M573.9,258.61h48.307a.1.1,0,0,0,.1-.093V247.379a.1.1,0,0,0-.1-.093H573.9a.1.1,0,0,0-.1.1v11.135A.1.1,0,0,0,573.9,258.61Zm42.617-7.376h2.764V254h-2.764Zm-16.683,0h11.691V254H599.836Zm-23.011,2.416h1.87v-2.064h-1.87v-2.766h2.765v2.414h.971v-2.414h2.767v2.414h.971v-2.414h2.765v2.416h.972v-2.416H590.8v2.416h.973v-2.416h2.766v2.414h1.869V254h-1.869v2.412h-2.766V254H590.8v2.416h-2.764V254h-.972v2.413H584.3V254h-.971v2.412h-2.767V254h-.971v2.415h-2.765Zm43.311,9.142v-1.851H575.974v1.851Zm5.138,22.225h-.644v7.2h.644a.1.1,0,0,0,.1-.1v-7.008A.1.1,0,0,0,625.274,285.015Zm-.005-35.666h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7.006A.105.105,0,0,0,625.269,249.349Zm0,17.833h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7A.105.105,0,0,0,625.269,267.182Zm-54.528,17.93v7.006a.1.1,0,0,0,.1.093h.64v-7.2h-.64A.1.1,0,0,0,570.741,285.112Zm0-17.834v7a.1.1,0,0,0,.1.1h.636v-7.2h-.637A.1.1,0,0,0,570.741,267.278Zm49.395,13.344v-1.85H575.974v1.85Zm2.073,2.328H573.9a.1.1,0,0,0-.1.1V294.18a.1.1,0,0,0,.1.1h48.307a.1.1,0,0,0,.1-.1V283.044A.1.1,0,0,0,622.209,282.95Zm-25.8,6.712h-1.869v2.413h-2.766v-2.414H590.8v2.416h-2.764v-2.415h-.972v2.413H584.3v-2.412h-.971v2.414h-2.767v-2.416h-.971v2.414h-2.765v-2.763h1.87v-2.065h-1.87v-2.764h2.765V286.9h.971v-2.415h2.767V286.9h.971v-2.415h2.765V286.9h.972v-2.415H590.8V286.9h.973v-2.415h2.766V286.9h1.869Zm15.119,0H599.836V286.9h11.691Zm7.756,0h-2.764V286.9h2.764ZM573.9,276.444h48.309a.1.1,0,0,0,.1-.093V265.213a.1.1,0,0,0-.1-.1H573.9a.1.1,0,0,0-.1.1v11.136A.1.1,0,0,0,573.9,276.444Zm42.619-7.38h2.764v2.767h-2.764Zm-16.683,0h11.691v2.769H599.836Zm-23.011,2.417h1.87v-2.062h-1.87v-2.766h2.765v2.413h.971v-2.413h2.767v2.413h.971V266.65h2.765v2.412h.972v-2.413H590.8v2.416h.973V266.65h2.766v2.412h1.869v2.769h-1.869v2.412h-2.766v-2.414H590.8v2.416h-2.764v-2.414h-.972v2.414H584.3v-2.414h-.971v2.414h-2.767v-2.414h-.971v2.414h-2.765Zm-6.084-22.032v7a.1.1,0,0,0,.1.094h.637v-7.2h-.637A.1.1,0,0,0,570.741,249.447Z"
-              transform="translate(-570.741 -247.286)"
-            />
-          </svg>
+            <RackLogo double className="h-full w-full" />
+          </a>
 
-          <svg
-            viewBox="0 -3.82 54.628 54.628"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="currentColor"
-              d="M573.9,258.61h48.307a.1.1,0,0,0,.1-.093V247.379a.1.1,0,0,0-.1-.093H573.9a.1.1,0,0,0-.1.1v11.135A.1.1,0,0,0,573.9,258.61Zm42.617-7.376h2.764V254h-2.764Zm-16.683,0h11.691V254H599.836Zm-23.011,2.416h1.87v-2.064h-1.87v-2.766h2.765v2.414h.971v-2.414h2.767v2.414h.971v-2.414h2.765v2.416h.972v-2.416H590.8v2.416h.973v-2.416h2.766v2.414h1.869V254h-1.869v2.412h-2.766V254H590.8v2.416h-2.764V254h-.972v2.413H584.3V254h-.971v2.412h-2.767V254h-.971v2.415h-2.765Zm43.311,9.142v-1.851H575.974v1.851Zm5.138,22.225h-.644v7.2h.644a.1.1,0,0,0,.1-.1v-7.008A.1.1,0,0,0,625.274,285.015Zm-.005-35.666h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7.006A.105.105,0,0,0,625.269,249.349Zm0,17.833h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7A.105.105,0,0,0,625.269,267.182Zm-54.528,17.93v7.006a.1.1,0,0,0,.1.093h.64v-7.2h-.64A.1.1,0,0,0,570.741,285.112Zm0-17.834v7a.1.1,0,0,0,.1.1h.636v-7.2h-.637A.1.1,0,0,0,570.741,267.278Zm49.395,13.344v-1.85H575.974v1.85Zm2.073,2.328H573.9a.1.1,0,0,0-.1.1V294.18a.1.1,0,0,0,.1.1h48.307a.1.1,0,0,0,.1-.1V283.044A.1.1,0,0,0,622.209,282.95Zm-25.8,6.712h-1.869v2.413h-2.766v-2.414H590.8v2.416h-2.764v-2.415h-.972v2.413H584.3v-2.412h-.971v2.414h-2.767v-2.416h-.971v2.414h-2.765v-2.763h1.87v-2.065h-1.87v-2.764h2.765V286.9h.971v-2.415h2.767V286.9h.971v-2.415h2.765V286.9h.972v-2.415H590.8V286.9h.973v-2.415h2.766V286.9h1.869Zm15.119,0H599.836V286.9h11.691Zm7.756,0h-2.764V286.9h2.764ZM573.9,276.444h48.309a.1.1,0,0,0,.1-.093V265.213a.1.1,0,0,0-.1-.1H573.9a.1.1,0,0,0-.1.1v11.136A.1.1,0,0,0,573.9,276.444Zm42.619-7.38h2.764v2.767h-2.764Zm-16.683,0h11.691v2.769H599.836Zm-23.011,2.417h1.87v-2.062h-1.87v-2.766h2.765v2.413h.971v-2.413h2.767v2.413h.971V266.65h2.765v2.412h.972v-2.413H590.8v2.416h.973V266.65h2.766v2.412h1.869v2.769h-1.869v2.412h-2.766v-2.414H590.8v2.416h-2.764v-2.414h-.972v2.414H584.3v-2.414h-.971v2.414h-2.767v-2.414h-.971v2.414h-2.765Zm-6.084-22.032v7a.1.1,0,0,0,.1.094h.637v-7.2h-.637A.1.1,0,0,0,570.741,249.447Z"
-              transform="translate(-570.741 -247.286)"
-            />
-          </svg>
+          <div className="flex items-center gap-2">
+            <ul className="font-mono hidden items-center gap-1 font-bold md:flex">
+              {SECTIONS.map((id) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    className={`relative rounded-md px-3 py-1.5 transition-colors duration-200 hover:text-white ${
+                      active === id ? "text-white" : ""
+                    }`}
+                  >
+                    {t(id)}
+                    <span
+                      className={`absolute inset-x-3 -bottom-0.5 h-px origin-left bg-current transition-transform duration-300 ${
+                        active === id ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {languageLink(
+              "font-mono flex items-center gap-1 rounded-md border border-white/15 px-2.5 py-1 text-sm font-bold transition-colors hover:border-white/40",
+            )}
+
+            <button
+              onClick={() => setOpen(true)}
+              aria-label={t("menu")}
+              aria-expanded={open}
+              className="-mr-2 flex h-10 w-10 cursor-pointer items-center justify-center md:hidden"
+            >
+              <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+                <path
+                  d="M3 6h18M3 12h18M3 18h18"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
+      </nav>
 
-        <div className="flex flex-col bg-inherit">
-          <span
-            ref={iconRef}
-            onClick={(e) => toggleMenu(e)}
-            className="w-8 cursor-pointer md:hidden duration-500"
+      {/* Mobile full-screen menu */}
+      <div
+        className={`fixed inset-0 z-[60] flex flex-col bg-stone-900/95 text-gray-300 backdrop-blur-lg transition-all duration-500 md:hidden ${
+          open ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+        aria-hidden={!open}
+      >
+        <div className="flex h-14 items-center justify-between px-4">
+          <RackLogo double className="h-8 w-16" />
+          <button
+            onClick={() => setOpen(false)}
+            aria-label={t("close")}
+            className="-mr-2 flex h-10 w-10 cursor-pointer items-center justify-center"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-              <rect
-                fill="currentColor"
-                x="212"
-                y="-121.02"
-                width="76"
-                height="463.89"
-                rx="4.12"
-                transform="translate(360.92 -139.08) rotate(90)"
-              />
-              <rect
-                fill="currentColor"
-                x="212"
-                y="157.13"
-                width="76"
-                height="463.89"
-                rx="4.12"
-                transform="translate(639.08 139.08) rotate(90)"
-              />
-              <rect
-                fill="currentColor"
-                x="212"
-                y="18.05"
-                width="76"
-                height="463.89"
-                rx="4.12"
-                transform="translate(500 0) rotate(90)"
+            <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+              <path
+                d="M5 5l14 14M19 5L5 19"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
               />
             </svg>
-          </span>
-          <ul
-            ref={menuRef}
-            className="
-                            z-50 fixed md:static top-12 left-1/2 right-0 mt-px md:mt-0 scale-x-0 md:scale-x-100
-                            flex flex-col md:flex-row md:justify-between md:gap-5 border md:border-0 border-gray-300 rounded 
-                            bg-inherit text-center font-kode_mono font-bold duration-500 origin-right
-                        "
-          >
+          </button>
+        </div>
+
+        <ul className="flex grow flex-col justify-center gap-2 px-6">
+          {SECTIONS.map((id, i) => (
             <li
-              onClick={() => scrollToAbout()}
-              className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200"
+              key={id}
+              style={{ transitionDelay: open ? `${100 + i * 60}ms` : "0ms" }}
+              className={`transition-all duration-500 ${
+                open ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
+              }`}
             >
-              À propos
+              <a
+                href={`#${id}`}
+                tabIndex={open ? 0 : -1}
+                onClick={() => setOpen(false)}
+                className="flex items-baseline gap-4 border-b border-white/10 py-4"
+              >
+                <span className="font-mono text-sm text-gray-500">
+                  0{i + 1}
+                </span>
+                <span
+                  className={`font-display text-3xl ${active === id ? "text-white" : ""}`}
+                >
+                  {t(id)}
+                </span>
+              </a>
             </li>
-            <li
-              onClick={() => scrollToProject()}
-              className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200"
-            >
-              Réalisations
-            </li>
-            <li
-              onClick={() => scrollToContact()}
-              className="py-3 md:py-1 px-3 border-b border-gray-300 hover:text-gray-500 hover:border-gray-500 cursor-pointer duration-200"
-            >
-              Contact
-            </li>
-          </ul>
+          ))}
+        </ul>
+
+        <div className="flex items-center justify-between px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+          {languageLink(
+            "font-mono flex items-center gap-2 rounded-md border border-white/15 px-4 py-2 font-bold",
+          )}
+          <span className="font-mono text-sm text-gray-500">marcblais.xyz</span>
         </div>
       </div>
-    </div>
+    </>
   );
 }

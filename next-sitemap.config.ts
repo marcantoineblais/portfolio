@@ -1,6 +1,7 @@
 module.exports = {
   siteUrl: "https://marcblais.xyz",
   generateRobotsTxt: true,
+  exclude: ["/icon"],
   robotsTxtOptions: {
     policies: [
       {

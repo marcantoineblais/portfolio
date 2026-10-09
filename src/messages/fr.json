@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "title": "Marc-Antoine Blais — Développeur web full-stack",
+    "description": "Portfolio du développeur web full-stack Marc-Antoine Blais : réalisations, compétences, parcours et contact."
+  },
+  "nav": {
+    "about": "À propos",
+    "projects": "Réalisations",
+    "skills": "Compétences",
+    "experience": "Parcours",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Fermer",
+    "home": "Retour en haut",
+    "switchLanguage": "English version"
+  },
+  "hero": {
+    "role1": "Développeur web",
+    "role2": "Full-Stack",
+    "slogan1": "Votre vision,",
+    "slogan2": "Notre réalisation.",
+    "learnMore": "Pour en savoir plus",
+    "about": "À propos",
+    "contact": "Contact",
+    "scroll": "Voir les réalisations"
+  },
+  "about": {
+    "label": "À propos",
+    "title": "Qui suis-je ?",
+    "intro": "Je m'appelle Marc-Antoine. Je conçois et développe des applications web complètes, de la base de données jusqu'à l'interface.",
+    "body": "J'aime transformer une idée floue en un produit concret, rapide et agréable à utiliser — autant sur mobile que sur ordinateur. Côté serveur, je travaille surtout avec Java et Spring Boot ; côté client, avec React, Next.js et TypeScript.",
+    "body2": "Quand je ne code pas pour un client, je bâtis mes propres outils : une caméra de surveillance pour mes chats, un solveur de Scrabble… et ce portfolio.",
+    "location": "Montréal, QC",
+    "available": "Disponible pour de nouveaux projets",
+    "languages": "Français · English",
+    "resume": "Télécharger mon CV",
+    "cta": "Discutons de votre projet"
+  },
+  "projects": {
+    "label": "Réalisations",
+    "title": "Projets récents",
+    "stack": "Technologies utilisées",
+    "features": "Fonctionnalités",
+    "gallery": "Captures d'écran",
+    "prev": "Image précédente",
+    "next": "Image suivante",
+    "catcam": {
+      "name": "La Catcam",
+      "tagline": "Surveillez vos animaux, même loin de la maison.",
+      "description": "La Catcam est une application web conçue spécifiquement pour regarder vos animaux lorsque vous quittez votre foyer.",
+      "features": [
+        {
+          "title": "Détection de mouvement",
+          "text": "Enregistre automatiquement les méfaits de vos félins favoris pour les prendre la main dans le sac !"
+        },
+        {
+          "title": "Vie privée protégée",
+          "text": "Un serveur local dans votre résidence diffuse et enregistre les vidéos. Rien ne quitte la maison."
+        },
+        {
+          "title": "Mobile et PC",
+          "text": "Un design simple et efficace sur tous les écrans, avec thème clair ou sombre."
+        },
+        {
+          "title": "Personnalisable",
+          "text": "Plusieurs aspects de l'interface s'ajustent pour mieux répondre à vos besoins."
+        }
+      ]
+    },
+    "scrabble": {
+      "name": "Scrabble Cheetah",
+      "tagline": "Les meilleurs coups pour votre grille, en un instant.",
+      "description": "Scrabble Cheetah est une application qui vous propose les meilleures solutions possibles pour votre grille de Scrabble.",
+      "features": [
+        {
+          "title": "Bilingue",
+          "text": "Des solutions en français et en anglais, avec plusieurs types de grilles de jeu."
+        },
+        {
+          "title": "Parties sauvegardées",
+          "text": "Jusqu'à 8 parties par compte, chacune avec un nom personnalisé et un aperçu de la grille."
+        },
+        {
+          "title": "Grille interactive",
+          "text": "Une grille de jeu facile à manipuler, autant sur PC que sur mobile."
+        },
+        {
+          "title": "Moteur rapide",
+          "text": "Un back-end Spring Boot qui explore le dictionnaire pour trouver le coup le plus payant."
+        }
+      ]
+    }
+  },
+  "skills": {
+    "label": "À propos",
+    "title": "Compétences",
+    "intro": "Les outils avec lesquels je construis au quotidien.",
+    "languages": "Langages",
+    "frameworks": "Frameworks",
+    "databases": "Bases de données",
+    "web": "Technologies web"
+  },
+  "experience": {
+    "label": "Parcours",
+    "title": "Expérience et formation",
+    "work": "Expérience",
+    "education": "Formation",
+    "items": [
+      {
+        "type": "work",
+        "period": "2024 — Aujourd'hui",
+        "role": "Développeur web full-stack",
+        "place": "Projets indépendants",
+        "text": "Conception et développement de La Catcam et de Scrabble Cheetah, du back-end Spring Boot jusqu'aux interfaces Next.js."
+      },
+      {
+        "type": "work",
+        "period": "[Année] — [Année]",
+        "role": "[Titre du poste]",
+        "place": "[Entreprise]",
+        "text": "[Décrivez vos responsabilités et réalisations principales. Modifiez ce texte dans src/messages/fr.json.]"
+      },
+      {
+        "type": "education",
+        "period": "[Année] — [Année]",
+        "role": "[Diplôme / Programme]",
+        "place": "[Établissement]",
+        "text": "[Spécialisation, projets marquants ou distinctions.]"
+      }
+    ]
+  },
+  "contact": {
+    "label": "Contact",
+    "title": "Rejoignez-moi",
+    "intro": "Pour toute demande d'information concernant vos projets et mes disponibilités, n'hésitez pas à me joindre par l'une des options ci-dessous.",
+    "phone": "Téléphone",
+    "email": "Courriel",
+    "copy": "Copier",
+    "copied": "Copié !",
+    "write": "M'écrire un courriel"
+  },
+  "footer": {
+    "rights": "Tous droits réservés.",
+    "built": "Conçu et développé avec Next.js et Tailwind CSS.",
+    "top": "Haut de page"
+  }
+}
