@@ -1,5 +1,6 @@
 import type { StaticImageData } from "next/image";
 
+import mongodb from "../images/databases/mongodb.png";
 import mssql from "../images/databases/mssql.png";
 import mysql from "../images/databases/mysql.png";
 import plsql from "../images/databases/plsql.png";
@@ -40,6 +41,7 @@ export const TECH = {
   angular: { name: "Angular", logo: angular },
   sql: { name: "SQL", logo: sql },
   mysql: { name: "MySQL", logo: mysql },
+  mongodb: { name: "MongoDB", logo: mongodb },
   postgresql: { name: "PostgreSQL", logo: postgresql },
   mssql: { name: "SQL Server", logo: mssql },
   plsql: { name: "PL/SQL", logo: plsql },
@@ -64,6 +66,9 @@ export const SKILL_GROUPS: {
     key: "frameworks",
     items: ["spring", "springboot", "dotnet", "nextjs", "react", "angular"],
   },
-  { key: "databases", items: ["sql", "mysql", "postgresql", "mssql", "plsql"] },
+  {
+    key: "databases",
+    items: ["sql", "mysql", "postgresql", "mongodb", "mssql", "plsql"],
+  },
   { key: "web", items: ["html", "css", "javascript", "bootstrap", "tailwind"] },
 ];
