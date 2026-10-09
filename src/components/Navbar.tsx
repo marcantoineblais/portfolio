@@ -81,11 +81,11 @@ export default function Navbar() {
           <a
             href="#top"
             aria-label={t("home")}
-            className={`h-8 w-16 transition-all duration-500 hover:text-gray-500 ${
+            className={`h-9 w-9 transition-all duration-500 hover:text-white ${
               scrolled ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           >
-            <RackLogo double className="h-full w-full" />
+            <RackLogo className="h-full w-full" />
           </a>
 
           <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export default function Navbar() {
         aria-hidden={!open}
       >
         <div className="flex h-14 items-center justify-between px-4">
-          <RackLogo double className="h-8 w-16" />
+          <RackLogo className="h-9 w-9" />
           <button
             onClick={() => setOpen(false)}
             aria-label={t("close")}

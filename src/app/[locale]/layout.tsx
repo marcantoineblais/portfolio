@@ -40,7 +40,7 @@ export async function generateMetadata({
       url: `/${locale}`,
       title: t("title"),
       description: t("description"),
-      siteName: "Marc-Antoine Blais",
+      siteName: "Marc Antoine Blais",
       locale: locale === "fr" ? "fr_CA" : "en_CA",
       images: [{ url: "/logo.png", width: 1200, height: 630 }],
     },

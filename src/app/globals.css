@@ -127,6 +127,46 @@
   animation: caret 1s steps(1) infinite;
 }
 
+/* Hero rack: blinking status LEDs, gentle float, CRT scanlines */
+@keyframes led-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+.led {
+  animation: led-blink var(--d, 1.6s) ease-in-out infinite;
+  animation-delay: var(--dl, 0s);
+}
+.led-glow {
+  filter: brightness(1.2);
+}
+@keyframes rack-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+.rack-float {
+  animation: rack-float 6s ease-in-out infinite;
+}
+.scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+}
+
 /* Simple fade used by captions */
 @keyframes fade-in {
   from {
@@ -182,6 +222,8 @@
   }
   .animate-cue,
   .animate-ping-soft,
+  .led,
+  .rack-float,
   .caret::after {
     animation: none;
   }

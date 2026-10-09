@@ -131,7 +131,7 @@ export default async function Contact() {
         >
           <div className="flex items-center justify-between px-3 pb-3 pt-2">
             <p className="font-display text-xl sm:text-2xl">
-              Marc-Antoine Blais
+              Marc Antoine Blais
             </p>
             <span className="flex gap-1.5" aria-hidden="true">
               <span className="h-2.5 w-2.5 rounded-full bg-gray-900/15" />

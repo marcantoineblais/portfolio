@@ -18,7 +18,7 @@ export default async function About() {
       {/* Decorative parallax rack */}
       <div className="pointer-events-none absolute -right-24 top-10 w-[28rem] opacity-[0.04] sm:w-[40rem]">
         <div data-speed="0.25">
-          <RackLogo className="w-full" />
+          <RackLogo className="w-full" leds={false} />
         </div>
       </div>
 
@@ -33,7 +33,7 @@ export default async function About() {
               <div className="rack-grid pointer-events-none absolute inset-0 text-white/[0.05]" />
               <div className="relative flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <RackLogo double className="h-8 w-16 text-gray-400" />
+                  <RackLogo className="h-9 w-9 text-gray-400" />
                   <span className="font-mono text-xs tracking-widest text-gray-500">
                     ID / MAB-01
                   </span>
@@ -45,7 +45,7 @@ export default async function About() {
 
                 <div>
                   <p className="font-display text-2xl tracking-wider text-white">
-                    Marc-Antoine Blais
+                    Marc Antoine Blais
                   </p>
                   <p className="font-mono text-sm text-gray-400">
                     {tHero("role1")} {tHero("role2")}

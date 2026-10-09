@@ -18,12 +18,12 @@ export default async function Footer() {
             <a
               href="#top"
               aria-label={tNav("home")}
-              className="h-10 w-20 text-stone-700 transition-colors hover:text-gray-300"
+              className="h-11 w-11 text-gray-500 transition-colors hover:text-gray-200"
             >
-              <RackLogo double className="h-full w-full" />
+              <RackLogo className="h-full w-full" />
             </a>
             <p className="font-display text-2xl tracking-widest text-gray-200">
-              Marc-Antoine Blais
+              Marc Antoine Blais
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export default async function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-white/10 pt-6 text-xs sm:flex-row sm:justify-between sm:text-sm">
           <p>
-            © {year} Marc-Antoine Blais. {t("rights")}
+            © {year} Marc Antoine Blais. {t("rights")}
           </p>
           <p>{t("built")}</p>
         </div>

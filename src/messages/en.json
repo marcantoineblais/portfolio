@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Marc-Antoine Blais — Full-Stack Web Developer",
-    "description": "Portfolio of full-stack web developer Marc-Antoine Blais: projects, skills, background and contact."
+    "title": "Marc Antoine Blais — Full-Stack Web Developer",
+    "description": "Portfolio of full-stack web developer Marc Antoine Blais: projects, skills, background and contact."
   },
   "nav": {
     "about": "About",
@@ -18,15 +18,15 @@
     "role2": "Web Developer",
     "slogan1": "Your vision,",
     "slogan2": "Brought to life.",
-    "learnMore": "Learn more",
-    "about": "About",
-    "contact": "Contact",
-    "scroll": "See my work"
+    "scroll": "Scroll",
+    "status": "Available · Montréal, QC",
+    "ctaProjects": "See my work",
+    "ctaContact": "Get in touch"
   },
   "about": {
     "label": "About",
     "title": "Who am I?",
-    "intro": "I'm Marc-Antoine. I design and build complete web applications, from the database all the way to the interface.",
+    "intro": "I'm Marc Antoine. I design and build complete web applications, from the database all the way to the interface.",
     "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. I mostly build with Next.js, React and TypeScript, with Node.js and MongoDB on the server, and ship everything with Docker.",
     "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a media library manager… and this portfolio.",
     "location": "Montréal, QC",

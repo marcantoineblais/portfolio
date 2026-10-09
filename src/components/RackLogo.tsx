@@ -1,37 +1,58 @@
-// The "server rack" mark used throughout the site (originally inlined 5 times).
-export const RACK_PATH =
-  "M573.9,258.61h48.307a.1.1,0,0,0,.1-.093V247.379a.1.1,0,0,0-.1-.093H573.9a.1.1,0,0,0-.1.1v11.135A.1.1,0,0,0,573.9,258.61Zm42.617-7.376h2.764V254h-2.764Zm-16.683,0h11.691V254H599.836Zm-23.011,2.416h1.87v-2.064h-1.87v-2.766h2.765v2.414h.971v-2.414h2.767v2.414h.971v-2.414h2.765v2.416h.972v-2.416H590.8v2.416h.973v-2.416h2.766v2.414h1.869V254h-1.869v2.412h-2.766V254H590.8v2.416h-2.764V254h-.972v2.413H584.3V254h-.971v2.412h-2.767V254h-.971v2.415h-2.765Zm43.311,9.142v-1.851H575.974v1.851Zm5.138,22.225h-.644v7.2h.644a.1.1,0,0,0,.1-.1v-7.008A.1.1,0,0,0,625.274,285.015Zm-.005-35.666h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7.006A.105.105,0,0,0,625.269,249.349Zm0,17.833h-.639v7.2h.644a.1.1,0,0,0,.1-.1v-7A.105.105,0,0,0,625.269,267.182Zm-54.528,17.93v7.006a.1.1,0,0,0,.1.093h.64v-7.2h-.64A.1.1,0,0,0,570.741,285.112Zm0-17.834v7a.1.1,0,0,0,.1.1h.636v-7.2h-.637A.1.1,0,0,0,570.741,267.278Zm49.395,13.344v-1.85H575.974v1.85Zm2.073,2.328H573.9a.1.1,0,0,0-.1.1V294.18a.1.1,0,0,0,.1.1h48.307a.1.1,0,0,0,.1-.1V283.044A.1.1,0,0,0,622.209,282.95Zm-25.8,6.712h-1.869v2.413h-2.766v-2.414H590.8v2.416h-2.764v-2.415h-.972v2.413H584.3v-2.412h-.971v2.414h-2.767v-2.416h-.971v2.414h-2.765v-2.763h1.87v-2.065h-1.87v-2.764h2.765V286.9h.971v-2.415h2.767V286.9h.971v-2.415h2.765V286.9h.972v-2.415H590.8V286.9h.973v-2.415h2.766V286.9h1.869Zm15.119,0H599.836V286.9h11.691Zm7.756,0h-2.764V286.9h2.764ZM573.9,276.444h48.309a.1.1,0,0,0,.1-.093V265.213a.1.1,0,0,0-.1-.1H573.9a.1.1,0,0,0-.1.1v11.136A.1.1,0,0,0,573.9,276.444Zm42.619-7.38h2.764v2.767h-2.764Zm-16.683,0h11.691v2.769H599.836Zm-23.011,2.417h1.87v-2.062h-1.87v-2.766h2.765v2.413h.971v-2.413h2.767v2.413h.971V266.65h2.765v2.412h.972v-2.413H590.8v2.416h.973V266.65h2.766v2.412h1.869v2.769h-1.869v2.412h-2.766v-2.414H590.8v2.416h-2.764v-2.414h-.972v2.414H584.3v-2.414h-.971v2.414h-2.767v-2.414h-.971v2.414h-2.765Zm-6.084-22.032v7a.1.1,0,0,0,.1.094h.637v-7.2h-.637A.1.1,0,0,0,570.741,249.447Z";
+// The server-rack mark: a cabinet holding three 1U servers.
+// Lines use currentColor; the status LEDs keep their own colours.
+// Drawn on a 48×48 grid so it stays crisp from favicon size up.
+
+export const RACK_UNITS = [9.5, 20, 30.5];
 
 export default function RackLogo({
   className,
-  double = false,
+  leds = true,
 }: {
   className?: string;
-  /** Renders two racks side by side, like the original hero/navbar logo. */
-  double?: boolean;
+  /** Coloured status LEDs (turn off for single-colour uses) */
+  leds?: boolean;
 }) {
-  const rack = (key?: number) => (
+  return (
     <svg
-      key={key}
-      viewBox="0 -3.82 54.628 54.628"
+      viewBox="0 0 48 48"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      className={double ? "h-full w-1/2" : className}
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
     >
-      <path
-        fill="currentColor"
-        d={RACK_PATH}
-        transform="translate(-570.741 -247.286)"
-      />
+      {/* Cabinet */}
+      <rect x="4" y="3.5" width="40" height="41" rx="6" strokeWidth="3" />
+      {/* Feet */}
+      <path d="M12 44.5v1.5M36 44.5v1.5" strokeWidth="3" />
+
+      {RACK_UNITS.map((y, i) => (
+        <g key={y}>
+          <rect x="10" y={y} width="28" height="8" rx="2" strokeWidth="2.2" />
+          {/* Vents */}
+          <path
+            d={`M27 ${y + 2.6}v2.8M30.5 ${y + 2.6}v2.8M34 ${y + 2.6}v2.8`}
+            strokeWidth="1.8"
+          />
+          {/* Status LEDs */}
+          <circle
+            cx="15"
+            cy={y + 4}
+            r="1.7"
+            stroke="none"
+            fill={leds ? (i === 1 ? "#fbbf24" : "#34d399") : "currentColor"}
+          />
+          <circle
+            cx="20"
+            cy={y + 4}
+            r="1.7"
+            stroke="none"
+            fill="currentColor"
+            opacity="0.45"
+          />
+        </g>
+      ))}
     </svg>
-  );
-
-  if (!double) return rack();
-
-  return (
-    <span className={`flex ${className ?? ""}`} aria-hidden="true">
-      {rack(0)}
-      {rack(1)}
-    </span>
   );
 }

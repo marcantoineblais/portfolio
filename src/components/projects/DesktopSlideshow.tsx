@@ -17,6 +17,25 @@ export default function DesktopSlideshow({
 }) {
   const [index, setIndex] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
+  const touch = React.useRef<{ x: number; y: number } | null>(null);
+
+  // Swipe left/right on touch screens to change screenshot
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touch.current = { x: t.clientX, y: t.clientY };
+    setPaused(true);
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    setPaused(false);
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    setIndex((i) => (i + (dx < 0 ? 1 : -1) + shots.length) % shots.length);
+  };
 
   React.useEffect(() => {
     if (paused || shots.length < 2) return;
@@ -47,7 +66,11 @@ export default function DesktopSlideshow({
           <span className="w-[42px]" aria-hidden="true" />
         </div>
 
-        <div className="relative aspect-[16/10] bg-stone-900">
+        <div
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          className="relative aspect-[16/10] touch-pan-y bg-stone-900"
+        >
           {shots.map((shot, i) => (
             <Image
               key={i}

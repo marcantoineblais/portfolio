@@ -19,7 +19,7 @@ export default async function Skills() {
     >
       <div className="pointer-events-none absolute -left-32 bottom-0 w-[30rem] opacity-[0.06] sm:w-[44rem]">
         <div data-speed="-0.2">
-          <RackLogo className="w-full" />
+          <RackLogo className="w-full" leds={false} />
         </div>
       </div>
 
