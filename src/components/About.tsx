@@ -4,7 +4,7 @@ import NextCue from "./NextCue";
 import RackLogo from "./RackLogo";
 import SectionHeader from "./SectionHeader";
 
-export default async function About({ resumeHref }: { resumeHref?: string }) {
+export default async function About() {
   const t = await getTranslations("about");
   const tHero = await getTranslations("hero");
   const tNav = await getTranslations("nav");
@@ -118,26 +118,6 @@ export default async function About({ resumeHref }: { resumeHref?: string }) {
             style={{ "--delay": "220ms" } as React.CSSProperties}
             className="flex flex-col gap-3 sm:flex-row"
           >
-            {resumeHref && (
-              <a
-                href={resumeHref}
-                download
-                className="font-mono inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-6 py-3 font-bold text-gray-200 shadow-lg shadow-stone-900/20 transition-colors hover:bg-gray-950"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  aria-hidden="true"
-                >
-                  <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" />
-                </svg>
-                {t("resume")}
-              </a>
-            )}
             <a
               href="#contact"
               className="font-mono inline-flex items-center justify-center gap-2 rounded-lg border-2 border-stone-900 px-6 py-3 font-bold transition-colors hover:bg-stone-900 hover:text-gray-200"

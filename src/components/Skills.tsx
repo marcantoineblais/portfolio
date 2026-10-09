@@ -68,7 +68,7 @@ export default async function Skills() {
             </div>
           ))}
         </div>
-        <NextCue href="#experience" label={tNav("experience")} />
+        <NextCue href="#contact" label={tNav("contact")} />
       </div>
     </section>
   );

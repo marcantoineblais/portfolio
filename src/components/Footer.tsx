@@ -3,18 +3,11 @@ import { getTranslations } from "next-intl/server";
 import { ICONS, LINKS } from "./Contact";
 import RackLogo from "./RackLogo";
 
-const SECTIONS = [
-  "about",
-  "projects",
-  "skills",
-  "experience",
-  "contact",
-] as const;
+const SECTIONS = ["about", "projects", "skills", "contact"] as const;
 
-export default async function Footer({ resumeHref }: { resumeHref?: string }) {
+export default async function Footer() {
   const t = await getTranslations("footer");
   const tNav = await getTranslations("nav");
-  const tAbout = await getTranslations("about");
   const year = new Date().getFullYear();
 
   return (
@@ -32,26 +25,6 @@ export default async function Footer({ resumeHref }: { resumeHref?: string }) {
             <p className="font-display text-2xl tracking-widest text-gray-200">
               Marc-Antoine Blais
             </p>
-            {resumeHref && (
-              <a
-                href={resumeHref}
-                download
-                className="font-mono inline-flex items-center gap-2 self-start rounded-lg border border-white/15 px-4 py-2 text-sm font-bold text-gray-300 transition-colors hover:border-white/40 hover:text-white"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  aria-hidden="true"
-                >
-                  <path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" />
-                </svg>
-                {tAbout("resume")}
-              </a>
-            )}
           </div>
 
           <nav className="font-mono grid grid-cols-2 gap-x-12 gap-y-3 text-sm sm:grid-cols-3">

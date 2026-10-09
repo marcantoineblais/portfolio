@@ -7,7 +7,6 @@
     "about": "À propos",
     "projects": "Réalisations",
     "skills": "Compétences",
-    "experience": "Parcours",
     "contact": "Contact",
     "menu": "Menu",
     "close": "Fermer",
@@ -28,69 +27,168 @@
     "label": "À propos",
     "title": "Qui suis-je ?",
     "intro": "Je m'appelle Marc-Antoine. Je conçois et développe des applications web complètes, de la base de données jusqu'à l'interface.",
-    "body": "J'aime transformer une idée floue en un produit concret, rapide et agréable à utiliser — autant sur mobile que sur ordinateur. Côté serveur, je travaille surtout avec Java et Spring Boot ; côté client, avec React, Next.js et TypeScript.",
-    "body2": "Quand je ne code pas pour un client, je bâtis mes propres outils : une caméra de surveillance pour mes chats, un solveur de Scrabble… et ce portfolio.",
+    "body": "J'aime transformer une idée floue en un produit concret, rapide et agréable à utiliser — autant sur mobile que sur ordinateur. Je bâtis surtout avec Next.js, React et TypeScript, avec Node.js et MongoDB côté serveur, et je déploie le tout avec Docker.",
+    "body2": "Je conçois des plateformes web pour des clients en agence, comme des concours en ligne bilingues. Et quand je ne code pas pour un client, je bâtis mes propres outils auto-hébergés : une caméra pour surveiller mes chats, un gestionnaire de médiathèque… et ce portfolio.",
     "location": "Montréal, QC",
     "available": "Disponible pour de nouveaux projets",
     "languages": "Français · English",
-    "resume": "Télécharger mon CV",
     "cta": "Discutons de votre projet"
   },
   "projects": {
     "label": "Réalisations",
-    "title": "Projets récents",
-    "stack": "Technologies utilisées",
-    "features": "Fonctionnalités",
-    "gallery": "Captures d'écran",
     "prev": "Image précédente",
     "next": "Image suivante",
-    "catcam": {
-      "name": "La Catcam",
-      "tagline": "Surveillez vos animaux, même loin de la maison.",
-      "description": "La Catcam est une application web conçue spécifiquement pour regarder vos animaux lorsque vous quittez votre foyer.",
-      "features": [
-        {
-          "title": "Détection de mouvement",
-          "text": "Enregistre automatiquement les méfaits de vos félins favoris pour les prendre la main dans le sac !"
-        },
-        {
-          "title": "Vie privée protégée",
-          "text": "Un serveur local dans votre résidence diffuse et enregistre les vidéos. Rien ne quitte la maison."
-        },
-        {
-          "title": "Mobile et PC",
-          "text": "Un design simple et efficace sur tous les écrans, avec thème clair ou sombre."
-        },
-        {
-          "title": "Personnalisable",
-          "text": "Plusieurs aspects de l'interface s'ajustent pour mieux répondre à vos besoins."
+    "features": "Fonctionnalités",
+    "stack": "Technologies",
+    "architecture": "Comment c'est bâti",
+    "gallery": "Sur mobile",
+    "kindClient": "Projet client",
+    "kindPersonal": "Projet perso",
+    "nextProject": "Projet suivant",
+    "title": "Projets récents",
+    "intro": "Des plateformes bâties pour des clients et des outils que j'utilise tous les jours à la maison — du back-end jusqu'à l'interface.",
+    "items": {
+      "concours": {
+        "name": "Plateforme de concours",
+        "meta": "Plateforme web en marque blanche · Réalisé en agence",
+        "tagline": "Une plateforme en marque blanche pour gérer des concours en ligne bilingues, du formulaire de participation au tirage.",
+        "description": "Concours permet à une équipe marketing de lancer des concours à son image, sur ses propres domaines, sans passer par un développeur : un assistant en 7 étapes couvre les paramètres, les questions du formulaire, le design, les règlements, les courriels, l'exonération et le domaine. Les participants s'inscrivent sur un site public pensé pour le mobile, avec autocomplétion d'adresse et code de confirmation. L'équipe gère ensuite les participations, les tirages, les gagnants et l'envoi des prix dans une interface d'administration avec rôles.",
+        "features": [
+          {
+            "title": "Assistant sans code",
+            "text": "On monte le formulaire en glissant-déposant les questions, on téléverse les images de fond par taille d'écran avec une zone réservée au formulaire et on rédige les règlements FR/EN dans un éditeur de texte enrichi."
+          },
+          {
+            "title": "Tirages et suivi des gagnants",
+            "text": "Le tirage au sort respecte l'inventaire de chaque prix et de chaque succursale, puis chaque gagnant passe par des statuts, de l'exonération envoyée jusqu'au prix expédié."
+          },
+          {
+            "title": "Plusieurs types de concours",
+            "text": "En plus des concours standards, la plateforme gère les concours groupés répartis entre succursales (avec recherche de la succursale la plus proche) et les primes à l'achat avec preuve d'achat et approbation des récompenses."
+          },
+          {
+            "title": "Administration sécurisée",
+            "text": "Rôles personnalisés avec permissions par section, connexion à deux facteurs, appareils de confiance, journal d'activité et exports Excel des participations."
+          }
+        ],
+        "architecture": "Monorepo Turborepo + pnpm avec quatre applications (admin Next.js, site public Next.js, un worker node-cron et un worker de file de courriels) qui partagent un package de modèles Mongoose, de services, de schémas Zod et de composants React. Tout est stocké dans MongoDB; les courriels sont mis en file dans la base, puis envoyés par le worker via Microsoft Graph, et le worker cron fait expirer les exonérations, envoie les rappels et synchronise les domaines personnalisés avec Caddy, qui gère le TLS automatiquement. Les deux sites sont bilingues avec next-intl (fr-CA/en-CA, URL traduites) et sont déployés en images Docker avec Docker Compose.",
+        "captions": {
+          "desktop-contest-landing": "Page publique d'un concours : l'image de fond s'adapte à la taille de l'écran et le formulaire se place dans la zone réservée définie dans l'admin.",
+          "desktop-admin-dashboard": "Tableau de bord : participations du jour et de la semaine, concours actifs, exonérations en attente et prix prêts à expédier.",
+          "desktop-admin-design-editor": "Assistant de concours, étape Design : une image de fond par taille d'écran, avec la zone du formulaire affichée sur chaque aperçu.",
+          "desktop-admin-winners": "Participations filtrées sur les gagnants, avec le prix remporté et le statut de l'exonération ou de l'envoi.",
+          "mobile-contest-landing": "Page d'accès mobile avec la vérification de la province et de l'âge qui précède le formulaire.",
+          "mobile-entry-address-autocomplete": "Formulaire de participation avec autocomplétion d'adresse.",
+          "mobile-entry-form": "Formulaire rempli, généré à partir des questions configurées dans l'admin.",
+          "mobile-entry-confirmation": "Écran de confirmation avec le code unique du participant."
         }
-      ]
-    },
-    "scrabble": {
-      "name": "Scrabble Cheetah",
-      "tagline": "Les meilleurs coups pour votre grille, en un instant.",
-      "description": "Scrabble Cheetah est une application qui vous propose les meilleures solutions possibles pour votre grille de Scrabble.",
-      "features": [
-        {
-          "title": "Bilingue",
-          "text": "Des solutions en français et en anglais, avec plusieurs types de grilles de jeu."
-        },
-        {
-          "title": "Parties sauvegardées",
-          "text": "Jusqu'à 8 parties par compte, chacune avec un nom personnalisé et un aperçu de la grille."
-        },
-        {
-          "title": "Grille interactive",
-          "text": "Une grille de jeu facile à manipuler, autant sur PC que sur mobile."
-        },
-        {
-          "title": "Moteur rapide",
-          "text": "Un back-end Spring Boot qui explore le dictionnaire pour trouver le coup le plus payant."
+      },
+      "molson": {
+        "name": "Ton équipe. Ta Molson.",
+        "meta": "Molson Canada × Couche-Tard · Automne 2025",
+        "tagline": "Concours de hockey bilingue pour Molson, exclusif à Couche-Tard au Québec.",
+        "description": "Un concours promotionnel pensé d'abord pour le mobile, où les adultes du Québec forment des équipes de hockey d'au plus 11 joueurs. Chaque joueur choisit son nom de chandail, son numéro et sa position, puis accumule des points avec un bonus quotidien et des achats de produits Molson, preuve d'achat à l'appui. Chaque point vaut une participation à un tirage pondéré d'uniformes d'équipe personnalisés. Un back-office complet permet à la marque de modérer les participations et de faire le tirage.",
+        "features": [
+          {
+            "title": "Création d'équipe",
+            "text": "Le capitaine crée son équipe avec un nom et une couleur, puis invite ses coéquipiers par courriel ou par lien, jusqu'à 11 joueurs."
+          },
+          {
+            "title": "Points et reçus",
+            "text": "Les joueurs réclament leurs points quotidiens et ajoutent leurs achats Molson avec une photo du reçu compressée, à raison d'un produit par jour."
+          },
+          {
+            "title": "Connexion sans mot de passe",
+            "text": "Inscription avec validation de l'âge et captcha Altcha, puis code à usage unique par courriel, sessions JWT et protection CSRF."
+          },
+          {
+            "title": "Admin et tirage",
+            "text": "Tableaux filtrables des équipes, des utilisateurs et des points, avec consultation des reçus, disqualification et tirage où les chances de chaque équipe suivent sa part du total des points."
+          }
+        ],
+        "architecture": "Next.js (App Router) en TypeScript, avec HeroUI et Tailwind. Les routes d'API s'appuient sur une couche de services et de repositories au-dessus de MongoDB (Mongoose, transactions sur replica set). La langue dépend du domaine grâce à next-intl (sous-domaines français et anglais, chemins traduits). Un worker node-cron distinct appelle des endpoints protégés par jeton pour les courriels hebdomadaires de score (React Email + Resend) et le nettoyage, et les inscrits consentants sont synchronisés avec Cyberimpact.",
+        "captions": {
+          "desktop-hero": "Page d'accueil : inscris ton équipe, accumule des points, gagne un uniforme personnalisé.",
+          "desktop-my-team": "Tableau de bord de l'équipe, aux couleurs de l'équipe, avec la silhouette de la position et le numéro du joueur.",
+          "desktop-my-score": "Historique des points : points quotidiens, produits ajoutés et bonus de lettre manuscrite.",
+          "desktop-admin-teams": "Back-office : liste filtrable des équipes et tirage pondéré des prix.",
+          "mobile-hero": "Page d'accueil sur mobile.",
+          "mobile-my-team": "Alignement et score total de l'équipe sur mobile.",
+          "mobile-my-score": "Réclamer ses points quotidiens ou ajouter un produit Molson.",
+          "mobile-my-player": "Personnalise ton joueur : nom, numéro et position."
         }
-      ]
-    },
-    "nextProject": "Réalisation suivante"
+      },
+      "catcam": {
+        "name": "La Catcam",
+        "meta": "Auto-hébergé · Interface pour Shinobi NVR",
+        "tagline": "Un coup d'œil sur les chats à la maison, de partout, branché sur un enregistreur Shinobi.",
+        "description": "Catcam est une application web auto-hébergée pour garder un œil sur les chats quand on n'est pas à la maison. Elle se branche devant un enregistreur vidéo réseau Shinobi : on se connecte avec son compte Shinobi, puis on regarde n'importe quelle caméra en direct ou on parcourt les enregistrements de mouvement par vignettes, sur son cell comme sur un ordi.",
+        "features": [
+          {
+            "title": "Caméras en direct",
+            "text": "Flux HLS lus avec hls.js, avec un sélecteur de caméra en un clic et un bouton de qualité HQ/SQ."
+          },
+          {
+            "title": "Enregistrements",
+            "text": "Une grille de vignettes avec défilement infini, un filtre par caméra et des plages horaires prédéfinies ou personnalisées avec un sélecteur date-heure."
+          },
+          {
+            "title": "Lecteur vidéo maison",
+            "text": "Contrôles en superposition, barre de progression, clip précédent ou suivant, plein écran et double-tap pour reculer ou avancer sur mobile."
+          },
+          {
+            "title": "Préférences par usager",
+            "text": "Thème clair, sombre ou automatique selon l'heure, caméra et page d'accueil par défaut, qualité du flux, et interrupteurs admin pour allumer ou éteindre les caméras."
+          }
+        ],
+        "architecture": "Next.js 16 (App Router, React 19, TypeScript) et Tailwind CSS 4. Des route handlers Next.js servent de proxy vers l'API Shinobi pour la connexion, les caméras, les vidéos, les manifestes et segments HLS et les vignettes, redimensionnées à la volée avec sharp. Le serveur Shinobi n'est donc jamais exposé au navigateur. La session est un cookie JWT signé (jose), vérifié dans le proxy Next.js, et les préférences sont enregistrées dans un fichier JSON par usager. L'app est livrée en image Docker standalone, bâtie et publiée sur GHCR par GitHub Actions.",
+        "captions": {
+          "desktop-live-light": "Vue en direct : la caméra du salon, avec le sélecteur de caméra et le bouton HQ/SQ.",
+          "desktop-live-dark": "Thème sombre : on passe à la caméra de la cuisine.",
+          "desktop-recordings-dark": "Le tiroir des enregistrements déplié en grille de vignettes, toutes caméras confondues.",
+          "desktop-settings-light": "Paramètres : préférences d'affichage et de lecture, et interrupteurs admin pour chaque caméra.",
+          "mobile-live-dark": "Vue en direct sur cellulaire, thème sombre.",
+          "mobile-recordings-light": "Lecture d'un enregistrement avec le lecteur maison.",
+          "mobile-filters-dark": "Filtres des enregistrements : choix de la caméra et de la plage horaire.",
+          "mobile-settings-light": "Paramètres sur mobile."
+        }
+      },
+      "jelly": {
+        "name": "Jelly",
+        "meta": "Auto-hébergé · Compagnon pour Jellyfin",
+        "tagline": "Un compagnon auto-hébergé pour Jellyfin, de la recherche jusqu'à une médiathèque bien rangée.",
+        "description": "Jelly est un gestionnaire de médiathèque et de téléchargements auto-hébergé, conçu pour un serveur Jellyfin à la maison. Il interroge plusieurs indexeurs via Jackett, envoie les téléchargements à qBittorrent en suivant leur progression, puis analyse les fichiers terminés pour les renommer et les déplacer dans la bonne bibliothèque de films ou de séries, avec la progression du transfert diffusée en direct par WebSocket.",
+        "features": [
+          {
+            "title": "Tri intelligent des fichiers",
+            "text": "Extrait le titre, l'année, la saison et l'épisode à partir du nom de fichier, reconnaît les dossiers de séries existants et permet de corriger, d'ignorer ou de modifier les fichiers en lot avant de les déplacer."
+          },
+          {
+            "title": "Transferts en temps réel",
+            "text": "Un serveur de fichiers dédié copie les fichiers vers les bibliothèques et diffuse la progression, par fichier et globale, à tous les navigateurs ouverts grâce à un relais WebSocket."
+          },
+          {
+            "title": "Recherche multi-indexeurs",
+            "text": "Interroge l'API Torznab de Jackett sur tous les indexeurs configurés ou un seul, avec filtres par catégorie et tri par date, sources, taille ou nom."
+          },
+          {
+            "title": "Suivi des épisodes",
+            "text": "Garde en mémoire les séries suivies, repère le dernier épisode présent dans la bibliothèque et lance la recherche du suivant en un clic."
+          }
+        ],
+        "architecture": "Une application Next.js 16 (App Router, React 19) roule à côté d'un serveur relais WebSocket et d'un serveur de fichiers Express, orchestrés en développement par Turborepo et empaquetés avec tsup pour la production. Docker Compose déploie ces trois processus avec Jackett, qBittorrent et FlareSolverr, qui passent par un conteneur VPN Gluetun (WireGuard). Au premier lancement, un écran de configuration crée un compte unique (mot de passe haché avec bcrypt); les sessions reposent sur un témoin JWT signé, validé par un proxy Next.js, et les préférences d'affichage sont conservées par navigateur dans un témoin.",
+        "captions": {
+          "desktop-transfers": "Transferts : les téléchargements terminés, analysés et regroupés par bibliothèque de destination, prêts à être renommés et déplacés.",
+          "desktop-torrents": "Torrents : l'état de qBittorrent en direct, avec progression, débits, pairs et temps restant, actualisé aux quelques secondes.",
+          "desktop-downloads-search": "Téléchargements : une seule recherche sur tous les indexeurs Jackett, avec taille, sources, clients et date de publication.",
+          "desktop-transfer-progress": "Progression du transfert de fichiers diffusée en temps réel du serveur de fichiers par le relais WebSocket.",
+          "mobile-transfers": "Affichage mobile avec barre d'onglets en bas et barre d'action de transfert fixe.",
+          "mobile-torrents": "Les fiches d'état des torrents, adaptées aux téléphones.",
+          "mobile-downloads-search": "Résultats de recherche des indexeurs sur mobile.",
+          "mobile-trackers": "Suivi : le prochain épisode manquant d'une série suivie, trouvé en un seul geste."
+        }
+      }
+    }
   },
   "skills": {
     "label": "À propos",
@@ -100,35 +198,6 @@
     "frameworks": "Frameworks",
     "databases": "Bases de données",
     "web": "Technologies web"
-  },
-  "experience": {
-    "label": "Parcours",
-    "title": "Expérience et formation",
-    "work": "Expérience",
-    "education": "Formation",
-    "items": [
-      {
-        "type": "work",
-        "period": "2024 — Aujourd'hui",
-        "role": "Développeur web full-stack",
-        "place": "Projets indépendants",
-        "text": "Conception et développement de La Catcam et de Scrabble Cheetah, du back-end Spring Boot jusqu'aux interfaces Next.js."
-      },
-      {
-        "type": "work",
-        "period": "[Année] — [Année]",
-        "role": "[Titre du poste]",
-        "place": "[Entreprise]",
-        "text": "[Décrivez vos responsabilités et réalisations principales. Modifiez ce texte dans src/messages/fr.json.]"
-      },
-      {
-        "type": "education",
-        "period": "[Année] — [Année]",
-        "role": "[Diplôme / Programme]",
-        "place": "[Établissement]",
-        "text": "[Spécialisation, projets marquants ou distinctions.]"
-      }
-    ]
   },
   "contact": {
     "label": "Contact",

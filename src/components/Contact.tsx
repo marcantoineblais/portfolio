@@ -104,7 +104,7 @@ export default async function Contact() {
       <div className="mx-auto grid max-w-7xl items-start gap-14 [&>*]:min-w-0 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-2 lg:gap-20">
         <div className="flex flex-col gap-8">
           <SectionHeader
-            index="05"
+            index="04"
             label={t("label")}
             title={t("title")}
             intro={t("intro")}

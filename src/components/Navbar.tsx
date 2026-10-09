@@ -6,13 +6,7 @@ import React from "react";
 import { Link } from "../i18n/navigation";
 import RackLogo from "./RackLogo";
 
-const SECTIONS = [
-  "about",
-  "projects",
-  "skills",
-  "experience",
-  "contact",
-] as const;
+const SECTIONS = ["about", "projects", "skills", "contact"] as const;
 
 export default function Navbar() {
   const t = useTranslations("nav");
@@ -42,9 +36,10 @@ export default function Navbar() {
       const middle = window.innerHeight / 2;
       let current: string | null = null;
       for (const scene of scenes) {
-        if (scene.getBoundingClientRect().top <= middle) current = scene.id;
+        if (scene.getBoundingClientRect().top <= middle)
+          current = scene.dataset.nav ?? scene.id;
       }
-      setActive(current === "scrabble" ? "projects" : current);
+      setActive(current);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

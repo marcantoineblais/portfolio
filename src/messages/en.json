@@ -7,7 +7,6 @@
     "about": "About",
     "projects": "Projects",
     "skills": "Skills",
-    "experience": "Experience",
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close",
@@ -28,69 +27,168 @@
     "label": "About",
     "title": "Who am I?",
     "intro": "I'm Marc-Antoine. I design and build complete web applications, from the database all the way to the interface.",
-    "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. On the server I mostly work with Java and Spring Boot; on the client, with React, Next.js and TypeScript.",
-    "body2": "When I'm not coding for a client, I build my own tools: a security camera for my cats, a Scrabble solver… and this portfolio.",
+    "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. I mostly build with Next.js, React and TypeScript, with Node.js and MongoDB on the server, and ship everything with Docker.",
+    "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a media library manager… and this portfolio.",
     "location": "Montréal, QC",
     "available": "Available for new projects",
     "languages": "Français · English",
-    "resume": "Download my resume",
     "cta": "Let's talk about your project"
   },
   "projects": {
     "label": "Projects",
-    "title": "Recent work",
-    "stack": "Built with",
-    "features": "Features",
-    "gallery": "Screenshots",
     "prev": "Previous image",
     "next": "Next image",
-    "catcam": {
-      "name": "La Catcam",
-      "tagline": "Keep an eye on your pets, even far from home.",
-      "description": "La Catcam is a web application built specifically to watch your pets while you're away from home.",
-      "features": [
-        {
-          "title": "Motion detection",
-          "text": "Automatically records your favourite felines' mischief so you can catch them red-handed!"
-        },
-        {
-          "title": "Privacy first",
-          "text": "A local server in your home streams and records the videos. Nothing leaves the house."
-        },
-        {
-          "title": "Mobile & desktop",
-          "text": "A simple, efficient design on every screen, with light and dark themes."
-        },
-        {
-          "title": "Customizable",
-          "text": "Several aspects of the interface can be tuned to better fit your needs."
+    "features": "Features",
+    "stack": "Tech stack",
+    "architecture": "How it's built",
+    "gallery": "On mobile",
+    "kindClient": "Client project",
+    "kindPersonal": "Personal project",
+    "nextProject": "Next project",
+    "title": "Recent work",
+    "intro": "Platforms built for clients and tools I use every day at home — from the back end to the interface.",
+    "items": {
+      "concours": {
+        "name": "Contest Platform",
+        "meta": "White-label web platform · Agency project",
+        "tagline": "A white-label platform for running bilingual online contests, from entry form to prize draw.",
+        "description": "Concours lets a marketing team launch branded contests on their own domains without a developer: a 7-step wizard covers settings, entry form questions, design, rules, emails, prize waivers and domain. Participants enter through a mobile-first public site with address autocomplete and a confirmation code. Staff manage entries, draws, winners and prize shipping from a role-based back office.",
+        "features": [
+          {
+            "title": "No-code contest wizard",
+            "text": "Admins build the entry form with drag-and-drop questions, upload backgrounds per screen size with a form safe zone, and edit FR/EN rules in a rich-text editor."
+          },
+          {
+            "title": "Draws and winner tracking",
+            "text": "A random prize draw respects stock per prize and per branch, then each winner goes through statuses from waiver sent to prize shipped."
+          },
+          {
+            "title": "Contest variants",
+            "text": "Besides standard contests, it handles grouped contests split across store branches (with a nearest-branch lookup) and purchase incentives with proof of purchase and reward approval."
+          },
+          {
+            "title": "Secure back office",
+            "text": "Custom roles with per-section permissions, two-factor login, trusted devices, an audit log and Excel exports of participations."
+          }
+        ],
+        "architecture": "Turborepo + pnpm monorepo with four apps (Next.js admin, Next.js public contest site, a node-cron worker and an email-queue worker) sharing a package of Mongoose models, services, Zod schemas and React components. MongoDB stores everything; emails are queued in the database and sent by the worker through Microsoft Graph, and the cron worker expires prize waivers, sends reminders and syncs custom domains to Caddy, which handles TLS automatically. Both sites are bilingual with next-intl (fr-CA/en-CA, localized URLs) and ship as Docker images via Docker Compose.",
+        "captions": {
+          "desktop-contest-landing": "A public contest page: the background art adapts to the screen size and the form sits in the safe zone defined in the admin.",
+          "desktop-admin-dashboard": "Back-office dashboard: today's and weekly participations, active contests, pending waivers and prizes ready to ship.",
+          "desktop-admin-design-editor": "Contest wizard, Design step: one background per screen size, with the form safe zone shown on each preview.",
+          "desktop-admin-winners": "Participations filtered to winners, each with the prize won and its waiver or shipping status.",
+          "mobile-contest-landing": "Mobile entry page with the province and age check that comes before the form.",
+          "mobile-entry-address-autocomplete": "Entry form with address autocomplete.",
+          "mobile-entry-form": "A completed entry form built from the questions configured in the admin.",
+          "mobile-entry-confirmation": "Confirmation screen with the participant's unique code."
         }
-      ]
-    },
-    "scrabble": {
-      "name": "Scrabble Cheetah",
-      "tagline": "The best moves for your board, in an instant.",
-      "description": "Scrabble Cheetah is an application that gives you the best possible solutions for your Scrabble board.",
-      "features": [
-        {
-          "title": "Bilingual",
-          "text": "Solutions in French and English, with several types of game boards."
-        },
-        {
-          "title": "Saved games",
-          "text": "Up to 8 games per account, each with a custom name and a board preview."
-        },
-        {
-          "title": "Interactive board",
-          "text": "A game board that's easy to handle on desktop and on mobile."
-        },
-        {
-          "title": "Fast engine",
-          "text": "A Spring Boot back-end that searches the dictionary for the highest-scoring move."
+      },
+      "molson": {
+        "name": "Your team. Your Molson.",
+        "meta": "Molson Canada × Couche-Tard · Fall 2025",
+        "tagline": "Bilingual hockey-team contest for Molson, exclusive to Couche-Tard in Québec.",
+        "description": "A mobile-first promotional contest where adults in Québec form hockey teams of up to 11 players. Each player picks a jersey name, number and position, then earns points through daily check-ins and Molson purchases backed by a receipt. Every point counts as an entry in a weighted draw for personalized team uniforms. A full admin back office lets the brand moderate entries and run the draw.",
+        "features": [
+          {
+            "title": "Team building",
+            "text": "Captains create a team with a name and color, then invite teammates by email or share link, up to 11 players."
+          },
+          {
+            "title": "Points & receipts",
+            "text": "Players claim daily points and submit Molson purchases with a compressed receipt photo, limited to one product entry per day."
+          },
+          {
+            "title": "Passwordless sign-in",
+            "text": "Sign-up with an age gate and Altcha captcha, then one-time codes sent by email, JWT sessions and CSRF protection."
+          },
+          {
+            "title": "Admin & draw",
+            "text": "Filterable tables of teams, users and points with receipt review, disqualification, and a draw where each team's odds match its share of total points."
+          }
+        ],
+        "architecture": "Next.js (App Router) with TypeScript, HeroUI and Tailwind. API route handlers sit on a services/repositories layer over MongoDB (Mongoose, replica-set transactions). Locale comes from the domain via next-intl (French and English subdomains with translated paths). A separate node-cron worker calls token-protected endpoints for weekly score emails (React Email + Resend) and cleanup, and opted-in users sync to Cyberimpact.",
+        "captions": {
+          "desktop-hero": "Landing page: sign up your team, earn points, win a custom uniform.",
+          "desktop-my-team": "Team dashboard, tinted in the team's color, with the player's position silhouette and jersey number.",
+          "desktop-my-score": "Points history with daily points, product entries and handwritten-letter bonus.",
+          "desktop-admin-teams": "Admin back office: filterable team list with the weighted prize draw.",
+          "mobile-hero": "Mobile landing page.",
+          "mobile-my-team": "Team roster and total score on mobile.",
+          "mobile-my-score": "Claim daily points or add a Molson product.",
+          "mobile-my-player": "Customize your player: jersey name, number and position."
         }
-      ]
-    },
-    "nextProject": "Next project"
+      },
+      "catcam": {
+        "name": "La Catcam",
+        "meta": "Self-hosted · Front end for Shinobi NVR",
+        "tagline": "A warm, mobile-first window on the cats at home, built on top of a Shinobi NVR.",
+        "description": "Catcam is a self-hosted web app for checking on the house cats from anywhere. It sits in front of a Shinobi network video recorder: you sign in with your Shinobi account, then watch any camera live or browse motion recordings by thumbnail, from a phone or a desktop browser.",
+        "features": [
+          {
+            "title": "Live camera feeds",
+            "text": "HLS livestreams played with hls.js, with a one-tap camera switcher and an HQ/SQ quality toggle."
+          },
+          {
+            "title": "Recordings browser",
+            "text": "A thumbnail grid of recent clips with infinite scroll, per-camera filtering and time-range presets or a custom date-time picker."
+          },
+          {
+            "title": "Custom video player",
+            "text": "Overlay controls, seek bar, previous/next clip, fullscreen and double-tap to skip back or forward on mobile."
+          },
+          {
+            "title": "Per-user preferences",
+            "text": "Light, dark or automatic (time-of-day) theme, default camera, home page and stream quality, plus admin switches to turn cameras on or off."
+          }
+        ],
+        "architecture": "Next.js 16 (App Router, React 19, TypeScript) with Tailwind CSS 4. Next.js route handlers act as a proxy to the Shinobi API for logins, monitors, videos, HLS manifests and segments, and thumbnails, which are resized on the fly with sharp, so the Shinobi server is never exposed to the browser. Sessions are signed JWT cookies (jose) checked in the Next.js proxy, and settings are saved as one JSON file per user. The app ships as a standalone Docker image that GitHub Actions builds and pushes to GHCR.",
+        "captions": {
+          "desktop-live-light": "Live view: the living-room camera streaming, with the camera picker and HQ/SQ toggle.",
+          "desktop-live-dark": "Dark theme: switching to the kitchen camera.",
+          "desktop-recordings-dark": "Recordings drawer expanded into a thumbnail grid of motion clips from all cameras.",
+          "desktop-settings-light": "Settings: display and playback preferences, plus admin on/off switches for each camera.",
+          "mobile-live-dark": "Live view on a phone, dark theme.",
+          "mobile-recordings-light": "Playing a recording with the custom player controls.",
+          "mobile-filters-dark": "Recording filters: pick a camera and a time range.",
+          "mobile-settings-light": "Settings on mobile."
+        }
+      },
+      "jelly": {
+        "name": "Jelly",
+        "meta": "Self-hosted · Jellyfin companion",
+        "tagline": "A self-hosted companion for Jellyfin that takes media from search to a tidy library.",
+        "description": "Jelly is a self-hosted media library and download manager built for a home Jellyfin server. It searches multiple indexers through Jackett, sends downloads to qBittorrent and tracks their progress, then parses finished files to rename and move them into the right movie or show library, with live transfer progress streamed over WebSockets.",
+        "features": [
+          {
+            "title": "Smart file sorting",
+            "text": "Parses titles, years, seasons and episodes from file names, matches existing show folders, and lets you fix, ignore or bulk-edit files before moving them."
+          },
+          {
+            "title": "Live transfer progress",
+            "text": "A dedicated file server copies files to their libraries and streams per-file and overall progress to every open browser through a WebSocket relay."
+          },
+          {
+            "title": "Multi-indexer search",
+            "text": "Queries Jackett's Torznab API across all configured indexers or a single one, with category filters and sorting by date, seeds, size or name."
+          },
+          {
+            "title": "Episode trackers",
+            "text": "Remembers the shows you follow, checks the library for the last episode on disk and searches for the next one in one click."
+          }
+        ],
+        "architecture": "A Next.js 16 (App Router, React 19) app runs alongside a WebSocket relay server and an Express file server, orchestrated in development by Turborepo and bundled with tsup for production. Docker Compose deploys the three processes next to Jackett, qBittorrent and FlareSolverr, which run behind a Gluetun WireGuard VPN container. A first-run setup screen creates a single account (bcrypt-hashed password), sessions use a signed JWT cookie checked by a Next.js proxy, and UI preferences are kept per browser in a cookie.",
+        "captions": {
+          "desktop-transfers": "Transfers: finished downloads parsed and grouped by destination library, ready to be renamed and moved.",
+          "desktop-torrents": "Torrents: live qBittorrent status with progress, speeds, peers and ETA, refreshed every few seconds.",
+          "desktop-downloads-search": "Downloads: one search across every Jackett indexer, with size, seeders, leechers and publish date.",
+          "desktop-transfer-progress": "File transfer progress streamed in real time from the file server through the WebSocket relay.",
+          "mobile-transfers": "Mobile layout with a bottom tab bar and a sticky transfer action bar.",
+          "mobile-torrents": "Torrent status cards adapted for phones.",
+          "mobile-downloads-search": "Indexer search results on mobile.",
+          "mobile-trackers": "Trackers: the next missing episode of a followed show, found in one tap."
+        }
+      }
+    }
   },
   "skills": {
     "label": "About",
@@ -100,35 +198,6 @@
     "frameworks": "Frameworks",
     "databases": "Databases",
     "web": "Web technologies"
-  },
-  "experience": {
-    "label": "Experience",
-    "title": "Experience & education",
-    "work": "Experience",
-    "education": "Education",
-    "items": [
-      {
-        "type": "work",
-        "period": "2024 — Present",
-        "role": "Full-Stack Web Developer",
-        "place": "Independent projects",
-        "text": "Designed and built La Catcam and Scrabble Cheetah, from the Spring Boot back-end to the Next.js interfaces."
-      },
-      {
-        "type": "work",
-        "period": "[Year] — [Year]",
-        "role": "[Job title]",
-        "place": "[Company]",
-        "text": "[Describe your main responsibilities and achievements. Edit this text in src/messages/en.json.]"
-      },
-      {
-        "type": "education",
-        "period": "[Year] — [Year]",
-        "role": "[Degree / Program]",
-        "place": "[School]",
-        "text": "[Specialization, notable projects or awards.]"
-      }
-    ]
   },
   "contact": {
     "label": "Contact",
