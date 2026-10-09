@@ -9,10 +9,20 @@ import RackIllustration from "./RackIllustration";
 const SYMBOLS = "!@#$%&[]{}<>/".split("");
 
 /** Types a string one character at a time with a scrambling last character. */
-function useGlitchText(text: string, startDelay: number) {
+function useGlitchText(
+  text: string,
+  startDelay: number,
+  active: boolean,
+  run: number,
+) {
   const [value, setValue] = React.useState("");
 
   React.useEffect(() => {
+    // Hidden (scrolled away): clear the text so it types again on return
+    if (!active) {
+      const clear = setTimeout(() => setValue(""), 0);
+      return () => clearTimeout(clear);
+    }
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -47,7 +57,7 @@ function useGlitchText(text: string, startDelay: number) {
       clearInterval(typing);
       clearInterval(scramble);
     };
-  }, [text, startDelay]);
+  }, [text, startDelay, active, run]);
 
   return value;
 }
@@ -59,11 +69,35 @@ export default function Hero() {
   const [visibleLetters, setVisibleLetters] = React.useState(0);
   const [stage, setStage] = React.useState(0); // 0: name, 1: subtitle in, 2: subtitle flipped, 3: slogan
   const [mirrored, setMirrored] = React.useState(false);
+  // The intro replays each time you scroll back up to the hero
+  const [active, setActive] = React.useState(true);
+  const [run, setRun] = React.useState(0);
 
-  const slogan1 = useGlitchText(t("slogan1"), 3000);
-  const slogan2 = useGlitchText(t("slogan2"), 4200);
+  const slogan1 = useGlitchText(t("slogan1"), 3000, active, run);
+  const slogan2 = useGlitchText(t("slogan2"), 4200, active, run);
 
   React.useEffect(() => {
+    let away = false;
+    const onScroll = () => {
+      const vh = window.innerHeight;
+      if (!away && window.scrollY > vh * 0.9) {
+        // Hero is out of view: reset, ready to replay
+        away = true;
+        setActive(false);
+        setVisibleLetters(0);
+        setStage(0);
+      } else if (away && window.scrollY < vh * 0.25) {
+        away = false;
+        setActive(true);
+        setRun((r) => r + 1);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    if (!active) return;
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -90,7 +124,7 @@ export default function Hero() {
       clearInterval(letters);
       timers.forEach(clearTimeout);
     };
-  }, []);
+  }, [active, run]);
 
   // "Marc Antoine" / "Blais" on two lines
   const parts = name.split(" ");
@@ -207,7 +241,7 @@ export default function Hero() {
             </div>
 
             <p
-              className={`font-mono flex min-h-[2.6em] w-full max-w-xl justify-between gap-3 whitespace-nowrap text-[4.2vw] text-emerald-300/90 transition-opacity duration-1000 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem] ${
+              className={`font-mono flex min-h-[2.6em] w-fit gap-6 whitespace-nowrap sm:gap-10 text-[4.2vw] text-emerald-300/90 transition-opacity duration-1000 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem] ${
                 stage >= 3 ? "opacity-100" : "opacity-0"
               }`}
             >
