@@ -127,7 +127,7 @@ export default async function Contact() {
 
         <div
           data-reveal="zoom"
-          className="rounded-3xl border border-gray-900/10 bg-white/60 p-3 shadow-xl shadow-gray-500/10 backdrop-blur sm:p-4"
+          className="rounded-3xl border border-gray-900/10 bg-white/70 p-3 shadow-xl shadow-gray-500/10 sm:p-4"
         >
           <div className="flex items-center justify-between px-3 pb-3 pt-2">
             <p className="font-display text-xl sm:text-2xl">

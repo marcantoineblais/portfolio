@@ -9,6 +9,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Pinned sections confuse Chrome's scroll anchoring (jumps) */
+    overflow-anchor: none;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -187,7 +189,7 @@
 
 /* ---------- Stacked scenes ----------
  * Each [data-scene] scrolls normally, then pins once its bottom reaches the
- * bottom of the screen (--scene-top is set by <ScrollEffects />). The next
+ * bottom of the screen (--scene-h is set by <ScrollEffects />). The next
  * scene slides over it while it dims and recedes (--cover: 0 → 1),
  * echoing the screen-by-screen transitions of the original site.
  */
@@ -215,8 +217,15 @@
 }
 .scenes-ready .scene {
   position: sticky;
-  top: var(--scene-top, 0px);
+  top: min(0px, calc(100vh - var(--scene-h, 0px)));
+  top: min(0px, calc(100svh - var(--scene-h, 0px)));
   scale: calc(1 - var(--cover, 0) * 0.06);
+}
+/* The last scene (Contact) just scrolls into the footer */
+.scenes-ready .scene[data-scene-last] {
+  position: relative;
+  top: auto;
+  scale: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .scenes-ready .scene {

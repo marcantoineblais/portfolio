@@ -10,7 +10,7 @@ import { scrollToSection } from "../lib/scrollToSection";
  *  - [data-speed]   → parallax: receives `--py` based on its distance to the viewport center
  *  - [data-hero]    → receives `--hp` (0 → 1) as the hero scrolls out
  *  - [data-progress]→ receives `--progress` (0 → 1) as it scrolls through the viewport
- *  - [data-scene]   → stacked sections: pinned with `--scene-top`, receive `--cover` (0 → 1)
+ *  - [data-scene]   → stacked sections: receive `--scene-h` (for pinning) and `--cover` (0 → 1)
  *                     as the next scene slides over them
  * Everything is skipped when the user prefers reduced motion.
  */
@@ -46,14 +46,14 @@ export default function ScrollEffects() {
     );
     let frame = 0;
 
-    // Pin each scene when its bottom edge reaches the bottom of the screen
+    // Each scene pins when its bottom edge reaches the bottom of the screen.
+    // We only publish its height (--scene-h); the CSS computes the pin offset
+    // against 100svh, so it doesn't jump when a phone's address bar shows/hides.
+    // The last scene has nothing sliding over it, so it never pins.
     const layoutScenes = () => {
-      const vh = window.innerHeight;
-      scenes.forEach((scene) => {
-        scene.style.setProperty(
-          "--scene-top",
-          `${Math.min(0, vh - scene.offsetHeight)}px`,
-        );
+      scenes.forEach((scene, i) => {
+        scene.style.setProperty("--scene-h", `${scene.offsetHeight}px`);
+        scene.toggleAttribute("data-scene-last", i === scenes.length - 1);
       });
       document.documentElement.classList.add("scenes-ready");
     };
@@ -118,8 +118,17 @@ export default function ScrollEffects() {
 
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    window.addEventListener("resize", layoutScenes);
+    // Mobile browsers fire "resize" while scrolling (address bar); only
+    // re-layout when the width actually changes.
+    let lastWidth = window.innerWidth;
+    const onResize = () => {
+      if (window.innerWidth !== lastWidth) {
+        lastWidth = window.innerWidth;
+        layoutScenes();
+      }
+      onScroll();
+    };
+    window.addEventListener("resize", onResize);
 
     return () => {
       observer.disconnect();
@@ -127,8 +136,7 @@ export default function ScrollEffects() {
       document.removeEventListener("click", onClick);
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.removeEventListener("resize", layoutScenes);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 

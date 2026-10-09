@@ -37,7 +37,7 @@ export default async function Skills() {
               key={group.key}
               data-reveal
               style={{ "--delay": `${(g % 2) * 120}ms` } as CSSProperties}
-              className="rounded-3xl border border-stone-300 bg-stone-100/80 p-6 shadow-sm backdrop-blur sm:p-8"
+              className="rounded-3xl border border-stone-300 bg-stone-100 p-6 shadow-sm sm:p-8"
             >
               <h3 className="font-mono mb-6 flex items-center justify-between text-lg font-bold tracking-widest sm:text-xl">
                 {t(group.key)}
