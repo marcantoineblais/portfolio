@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import React from "react";
 
+import { scrollToSection } from "../lib/scrollToSection";
 import RackLogo from "./RackLogo";
 
 const SYMBOLS = "!@#$%&[]{}<>/".split("");
@@ -121,8 +122,7 @@ export default function Hero() {
   const subtitleIn = stage >= 1;
   const flipped = stage < 2 || mirrored;
 
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = scrollToSection;
 
   return (
     <header

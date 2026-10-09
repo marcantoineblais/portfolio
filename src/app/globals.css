@@ -185,3 +185,46 @@
     transform: none;
   }
 }
+
+/* ---------- Stacked scenes ----------
+ * Each [data-scene] scrolls normally, then pins once its bottom reaches the
+ * bottom of the screen (--scene-top is set by <ScrollEffects />). The next
+ * scene slides over it while it dims and recedes (--cover: 0 → 1),
+ * echoing the screen-by-screen transitions of the original site.
+ */
+.scene {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  box-shadow: 0 -30px 60px -15px rgba(0, 0, 0, 0.55);
+  transform-origin: 50% calc(100% - 50vh);
+}
+@media (min-width: 640px) {
+  .scene {
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+  }
+}
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  border-radius: inherit;
+  background: #030712;
+  opacity: calc(var(--cover, 0) * 0.6);
+  pointer-events: none;
+}
+.scenes-ready .scene {
+  position: sticky;
+  top: var(--scene-top, 0px);
+  scale: calc(1 - var(--cover, 0) * 0.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scenes-ready .scene {
+    position: relative;
+    scale: 1;
+  }
+  .scene::after {
+    display: none;
+  }
+}

@@ -18,7 +18,7 @@ export default async function Footer({ resumeHref }: { resumeHref?: string }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-gray-950 text-gray-400">
+    <footer className="scene relative bg-gray-950 text-gray-400">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-14 sm:px-6">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-start">
           <div className="flex flex-col gap-4">

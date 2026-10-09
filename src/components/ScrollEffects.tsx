@@ -2,12 +2,16 @@
 
 import React from "react";
 
+import { scrollToSection } from "../lib/scrollToSection";
+
 /**
  * One global, lightweight scroll engine:
  *  - [data-reveal]  → gets `.is-visible` once it enters the viewport
  *  - [data-speed]   → parallax: receives `--py` based on its distance to the viewport center
  *  - [data-hero]    → receives `--hp` (0 → 1) as the hero scrolls out
  *  - [data-progress]→ receives `--progress` (0 → 1) as it scrolls through the viewport
+ *  - [data-scene]   → stacked sections: pinned with `--scene-top`, receive `--cover` (0 → 1)
+ *                     as the next scene slides over them
  * Everything is skipped when the user prefers reduced motion.
  */
 export default function ScrollEffects() {
@@ -37,7 +41,28 @@ export default function ScrollEffects() {
     const progressEls = Array.from(
       document.querySelectorAll<HTMLElement>("[data-progress]"),
     );
+    const scenes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-scene]"),
+    );
     let frame = 0;
+
+    // Pin each scene when its bottom edge reaches the bottom of the screen
+    const layoutScenes = () => {
+      const vh = window.innerHeight;
+      scenes.forEach((scene) => {
+        scene.style.setProperty(
+          "--scene-top",
+          `${Math.min(0, vh - scene.offsetHeight)}px`,
+        );
+      });
+      document.documentElement.classList.add("scenes-ready");
+    };
+    const sceneObserver = new ResizeObserver(() => {
+      layoutScenes();
+      onScroll();
+    });
+    scenes.forEach((scene) => sceneObserver.observe(scene));
+    layoutScenes();
 
     const update = () => {
       frame = 0;
@@ -50,6 +75,14 @@ export default function ScrollEffects() {
         const progress = Math.min(Math.max(window.scrollY / vh, 0), 1);
         hero.style.setProperty("--hp", progress.toFixed(3));
       }
+
+      scenes.forEach((scene, i) => {
+        const next = scenes[i + 1];
+        const cover = next
+          ? Math.min(Math.max(1 - next.getBoundingClientRect().top / vh, 0), 1)
+          : 0;
+        scene.style.setProperty("--cover", cover.toFixed(3));
+      });
 
       for (const el of progressEls) {
         const rect = el.getBoundingClientRect();
@@ -72,15 +105,30 @@ export default function ScrollEffects() {
       if (!frame) frame = requestAnimationFrame(update);
     };
 
+    // In-page links go through scrollToSection (sticky-aware)
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>(
+        'a[href^="#"]',
+      );
+      if (!link || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
+      e.preventDefault();
+      scrollToSection(link.getAttribute("href")!.slice(1));
+    };
+    document.addEventListener("click", onClick);
+
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", layoutScenes);
 
     return () => {
       observer.disconnect();
+      sceneObserver.disconnect();
+      document.removeEventListener("click", onClick);
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", layoutScenes);
     };
   }, []);
 

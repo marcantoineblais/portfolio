@@ -89,7 +89,8 @@
           "text": "Un back-end Spring Boot qui explore le dictionnaire pour trouver le coup le plus payant."
         }
       ]
-    }
+    },
+    "nextProject": "Réalisation suivante"
   },
   "skills": {
     "label": "À propos",

@@ -3,16 +3,19 @@ import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 
 import { SKILL_GROUPS, TECH } from "../data/tech";
+import NextCue from "./NextCue";
 import RackLogo from "./RackLogo";
 import SectionHeader from "./SectionHeader";
 
 export default async function Skills() {
   const t = await getTranslations("skills");
+  const tNav = await getTranslations("nav");
 
   return (
     <section
       id="skills"
-      className="relative overflow-hidden bg-stone-200 text-gray-900"
+      data-scene
+      className="scene relative overflow-hidden bg-stone-200 text-gray-900"
     >
       <div className="pointer-events-none absolute -left-32 bottom-0 w-[30rem] opacity-[0.06] sm:w-[44rem]">
         <div data-speed="-0.2">
@@ -20,7 +23,7 @@ export default async function Skills() {
         </div>
       </div>
 
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-14 px-4 py-20 sm:px-6 sm:py-28">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-14 px-4 pb-10 pt-20 sm:px-6 sm:pt-28">
         <SectionHeader
           index="03"
           label={t("label")}
@@ -65,6 +68,7 @@ export default async function Skills() {
             </div>
           ))}
         </div>
+        <NextCue href="#experience" label={tNav("experience")} />
       </div>
     </section>
   );

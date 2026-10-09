@@ -89,7 +89,8 @@
           "text": "A Spring Boot back-end that searches the dictionary for the highest-scoring move."
         }
       ]
-    }
+    },
+    "nextProject": "Next project"
   },
   "skills": {
     "label": "About",

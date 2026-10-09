@@ -9,6 +9,7 @@ import scrabble3 from "../../images/scrabble/scrabble3.png";
 import scrabble4 from "../../images/scrabble/scrabble4.png";
 import scrabble5 from "../../images/scrabble/scrabble5.png";
 import CatcamImages from "../catcam/CatcamImages";
+import NextCue from "../NextCue";
 import ScrabbleImages from "../scrabble/ScrabbleImages";
 import SectionHeader from "../SectionHeader";
 import ProjectShowcase from "./ProjectShowcase";
@@ -17,6 +18,7 @@ type Feature = { title: string; text: string };
 
 export default async function Projects() {
   const t = await getTranslations("projects");
+  const tNav = await getTranslations("nav");
 
   const labels = {
     features: t("features"),
@@ -27,10 +29,14 @@ export default async function Projects() {
   };
 
   return (
-    <section id="projects" className="relative">
+    <>
       {/* La Catcam — keeps its original light gray / sky palette */}
-      <div className="bg-gray-100 text-gray-950">
-        <div className="mx-auto flex max-w-7xl flex-col gap-16 px-4 py-20 sm:px-6 sm:py-28">
+      <section
+        id="projects"
+        data-scene
+        className="scene relative bg-gray-100 text-gray-950"
+      >
+        <div className="mx-auto flex max-w-7xl flex-col gap-16 px-4 pb-10 pt-20 sm:px-6 sm:pt-28">
           <SectionHeader index="02" label={t("label")} title={t("title")} />
           <ProjectShowcase
             number="02.1"
@@ -55,12 +61,17 @@ export default async function Projects() {
             cardClass="bg-white"
             labels={labels}
           />
+          <NextCue href="#scrabble" label={t("nextProject")} />
         </div>
-      </div>
+      </section>
 
       {/* Scrabble Cheetah — keeps its warm orange / emerald palette */}
-      <div className="bg-orange-50 text-gray-950">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+      <section
+        id="scrabble"
+        data-scene
+        className="scene relative bg-orange-50 text-gray-950"
+      >
+        <div className="mx-auto max-w-7xl px-4 pb-10 pt-20 sm:px-6 sm:pt-28">
           <ProjectShowcase
             number="02.2"
             name={t("scrabble.name")}
@@ -88,8 +99,9 @@ export default async function Projects() {
             cardClass="bg-orange-100"
             labels={labels}
           />
+          <NextCue href="#skills" label={tNav("skills")} />
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

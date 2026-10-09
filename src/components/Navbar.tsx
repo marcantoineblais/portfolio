@@ -32,23 +32,23 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Highlight the section currently in view
+  // Highlight the section currently in view. Scenes stack on top of each
+  // other, so the visible one is the last scene whose top passed mid-screen.
   React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
+    const scenes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-scene][id]"),
     );
-    SECTIONS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    const top = document.getElementById("top");
-    if (top) observer.observe(top);
-    return () => observer.disconnect();
+    const onScroll = () => {
+      const middle = window.innerHeight / 2;
+      let current: string | null = null;
+      for (const scene of scenes) {
+        if (scene.getBoundingClientRect().top <= middle) current = scene.id;
+      }
+      setActive(current === "scrabble" ? "projects" : current);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Lock page scroll + close with Escape while the mobile menu is open

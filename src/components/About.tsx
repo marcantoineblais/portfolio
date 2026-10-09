@@ -1,16 +1,19 @@
 import { getTranslations } from "next-intl/server";
 
+import NextCue from "./NextCue";
 import RackLogo from "./RackLogo";
 import SectionHeader from "./SectionHeader";
 
 export default async function About({ resumeHref }: { resumeHref?: string }) {
   const t = await getTranslations("about");
   const tHero = await getTranslations("hero");
+  const tNav = await getTranslations("nav");
 
   return (
     <section
       id="about"
-      className="relative overflow-hidden rounded-t-[2rem] bg-stone-200 text-gray-900 shadow-[0_-30px_60px_-15px_rgba(0,0,0,0.6)] sm:rounded-t-[3rem]"
+      data-scene
+      className="scene relative overflow-hidden bg-stone-200 text-gray-900"
     >
       {/* Decorative parallax rack */}
       <div className="pointer-events-none absolute -right-24 top-10 w-[28rem] opacity-[0.04] sm:w-[40rem]">
@@ -19,7 +22,7 @@ export default async function About({ resumeHref }: { resumeHref?: string }) {
         </div>
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 [&>*]:min-w-0 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+      <div className="relative mx-auto grid max-w-7xl gap-12 [&>*]:min-w-0 px-4 pt-20 sm:px-6 sm:pt-28 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
         {/* ID badge */}
         <div className="order-2 lg:order-1">
           <div data-speed="0.06">
@@ -144,6 +147,9 @@ export default async function About({ resumeHref }: { resumeHref?: string }) {
             </a>
           </div>
         </div>
+      </div>
+      <div className="relative pb-10">
+        <NextCue href="#projects" label={tNav("projects")} />
       </div>
     </section>
   );

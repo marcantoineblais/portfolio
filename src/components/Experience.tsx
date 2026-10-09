@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 
+import NextCue from "./NextCue";
 import SectionHeader from "./SectionHeader";
 
 type Item = {
@@ -13,18 +14,20 @@ type Item = {
 
 export default async function Experience() {
   const t = await getTranslations("experience");
+  const tNav = await getTranslations("nav");
   const items = t.raw("items") as Item[];
 
   return (
     <section
       id="experience"
-      className="relative overflow-clip bg-stone-900 text-gray-300"
+      data-scene
+      className="scene relative overflow-clip bg-stone-900 text-gray-300"
     >
       <div
         aria-hidden="true"
         className="rack-grid pointer-events-none absolute inset-0 text-white/[0.035]"
       />
-      <div className="relative mx-auto grid max-w-7xl gap-14 [&>*]:min-w-0 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1fr_1.6fr]">
+      <div className="relative mx-auto grid max-w-7xl gap-14 [&>*]:min-w-0 px-4 pt-20 sm:px-6 sm:pt-28 lg:grid-cols-[1fr_1.6fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeader index="04" label={t("label")} title={t("title")} />
         </div>
@@ -94,6 +97,9 @@ export default async function Experience() {
             </li>
           ))}
         </ol>
+      </div>
+      <div className="relative pb-10">
+        <NextCue href="#contact" label={tNav("contact")} />
       </div>
     </section>
   );
