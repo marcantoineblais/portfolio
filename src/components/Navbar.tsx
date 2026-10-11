@@ -189,7 +189,7 @@ export default function Navbar() {
           {languageLink(
             "font-mono flex items-center gap-2 rounded-md border border-white/15 px-4 py-2 font-bold",
           )}
-          <span className="font-mono text-sm text-gray-500">marcblais.xyz</span>
+          <span className="font-mono text-sm text-gray-500">marcblais.net</span>
         </div>
       </div>
     </>

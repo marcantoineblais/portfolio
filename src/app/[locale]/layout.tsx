@@ -8,7 +8,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { anta, kode_mono, openSans } from "../../fonts";
 import { routing } from "../../i18n/routing";
 
-const SITE_URL = "https://marcblais.xyz";
+const SITE_URL = "https://marcblais.net";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

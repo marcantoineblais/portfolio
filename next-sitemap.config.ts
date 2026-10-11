@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: "https://marcblais.xyz",
+  siteUrl: "https://marcblais.net",
   generateRobotsTxt: true,
   exclude: ["/icon"],
   robotsTxtOptions: {

@@ -11,7 +11,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://marcblais.xyz
+Host: https://marcblais.net
 
 # Sitemaps
-Sitemap: https://marcblais.xyz/sitemap.xml
+Sitemap: https://marcblais.net/sitemap.xml

@@ -1,4 +1,4 @@
-# marcblais.xyz — Portfolio
+# marcblais.net — Portfolio
 
 Bilingual (FR / EN) portfolio built with Next.js 16, next-intl and Tailwind CSS 4.
 
