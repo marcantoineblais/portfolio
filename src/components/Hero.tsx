@@ -94,7 +94,7 @@ export default function Hero() {
     <header
       id="top"
       data-hero
-      className="sticky top-0 h-svh min-h-144 overflow-hidden bg-gray-950 text-gray-300"
+      className="sticky top-0 h-svh min-h-144 overflow-hidden bg-gray-950 text-gray-300 short:min-h-0"
     >
       {/* Background: grid, glows, scanlines */}
       <div
@@ -114,27 +114,27 @@ export default function Hero() {
         className="pointer-events-none absolute inset-0 scanlines"
       />
 
-      <div className="relative mx-auto grid h-full max-w-7xl hero-content grid-rows-[auto_1fr_auto] px-4 pt-16 pb-5 sm:px-6 lg:pt-20">
+      <div className="relative mx-auto grid h-full max-w-7xl hero-content grid-rows-[auto_1fr_auto] px-4 pt-16 pb-5 sm:px-6 lg:pt-20 short:pt-14 short:pb-1">
         <div />
 
-        <div className="grid items-center gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:gap-10">
+        <div className="grid items-center gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:gap-10 short:grid-cols-[1fr_auto] short:gap-8">
           {/* Animated rack (parallax: drifts down slower than the page) */}
           <div
             aria-hidden="true"
             style={{ translate: "0 calc(var(--hp, 0) * 14vh)" }}
-            className="order-first flex justify-center lg:order-last"
+            className="order-first flex justify-center lg:order-last short:order-last"
           >
             <div className="relative animate-rack-float">
               <div className="absolute inset-x-[10%] -bottom-4 h-8 rounded-[50%] bg-black/60 blur-xl" />
-              <RackIllustration className="relative h-[24vh] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] sm:h-[30vh] lg:h-[min(62vh,36rem)]" />
+              <RackIllustration className="relative h-[24vh] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] sm:h-[30vh] lg:h-[min(62vh,36rem)] short:h-[60svh]" />
             </div>
           </div>
 
-          <div className="flex flex-col items-start gap-6 lg:gap-8">
+          <div className="flex flex-col items-start gap-6 lg:gap-8 short:gap-[3svh]">
             {/* Status chip */}
             <p
               data-shown={visibleLetters > 0 || undefined}
-              className="flex translate-y-2 items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-3.5 py-1.5 font-mono text-xs text-gray-300 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:text-sm"
+              className="flex translate-y-2 items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-3.5 py-1.5 font-mono text-xs text-gray-300 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:text-sm short:py-1 short:text-xs"
             >
               <span className="relative flex size-2.5 items-center justify-center">
                 <span className="absolute size-2 animate-ping-soft rounded-full bg-emerald-400" />
@@ -154,7 +154,7 @@ export default function Hero() {
               <div
                 data-in={subtitleIn || undefined}
                 data-flipped={flipped || undefined}
-                className="mt-4 flex -translate-y-full items-stretch justify-between gap-3 font-mono text-[4.4vw] leading-tight opacity-0 transition-all duration-1000 data-flipped:-scale-x-100 data-in:translate-y-0 data-in:opacity-100 sm:text-[3vw] lg:text-[2vw] xl:text-[1.8rem]"
+                className="mt-4 flex -translate-y-full items-stretch justify-between gap-3 font-mono text-[4.4vw] leading-tight opacity-0 transition-all duration-1000 data-flipped:-scale-x-100 data-in:translate-y-0 data-in:opacity-100 sm:text-[3vw] lg:text-[2vw] xl:text-[1.8rem] short:mt-[2svh] short:text-[4.5svh]"
               >
                 <div
                   aria-hidden="true"
@@ -173,7 +173,7 @@ export default function Hero() {
 
             <p
               data-shown={sloganShown || undefined}
-              className="flex min-h-[2.6em] w-fit gap-6 font-mono text-[4.2vw] whitespace-nowrap text-emerald-300/90 opacity-0 transition-opacity duration-1000 data-shown:opacity-100 sm:gap-10 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem]"
+              className="flex min-h-[2.6em] w-fit gap-6 font-mono text-[4.2vw] whitespace-nowrap text-emerald-300/90 opacity-0 transition-opacity duration-1000 data-shown:opacity-100 sm:gap-10 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem] short:text-[4svh]"
             >
               <span>
                 <span className="text-gray-500">&gt; </span>
@@ -184,12 +184,12 @@ export default function Hero() {
 
             <div
               data-shown={sloganShown || undefined}
-              className="flex w-full translate-y-3 flex-col gap-3 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:w-auto sm:flex-row"
+              className="flex w-full translate-y-3 flex-col gap-3 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:w-auto sm:flex-row short:w-auto short:flex-row"
             >
               <a
                 href={sectionHref(locale, "projects")}
                 data-section="projects"
-                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-mono text-base font-bold text-gray-950 shadow-[0_0_40px_rgba(255,255,255,0.25)] transition-all duration-200 hover:bg-emerald-300 hover:shadow-[0_0_50px_rgba(52,211,153,0.45)] sm:text-lg"
+                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-mono text-base font-bold text-gray-950 shadow-[0_0_40px_rgba(255,255,255,0.25)] transition-all duration-200 hover:bg-emerald-300 hover:shadow-[0_0_50px_rgba(52,211,153,0.45)] sm:text-lg short:px-5 short:py-2 short:text-sm"
               >
                 {t("ctaProjects")}
                 <span
@@ -202,7 +202,7 @@ export default function Hero() {
               <a
                 href={sectionHref(locale, "contact")}
                 data-section="contact"
-                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/3 px-7 py-3.5 font-mono text-base font-bold text-gray-200 transition-colors duration-200 hover:border-white/50 hover:bg-white/10 sm:text-lg"
+                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/3 px-7 py-3.5 font-mono text-base font-bold text-gray-200 transition-colors duration-200 hover:border-white/50 hover:bg-white/10 sm:text-lg short:px-5 short:py-2 short:text-sm"
               >
                 {tCta("write")}
                 <span
@@ -220,9 +220,11 @@ export default function Hero() {
           href={sectionHref(locale, "about")}
           data-section="about"
           aria-label={t("scroll")}
-          className="mx-auto mt-4 flex cursor-pointer flex-col items-center gap-1 text-xs font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors hover:text-gray-300"
+          className="mx-auto mt-4 flex cursor-pointer flex-col items-center gap-1 text-xs font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors hover:text-gray-300 short:mt-0"
         >
-          <span className="hidden font-mono sm:block">{t("scroll")}</span>
+          <span className="hidden font-mono sm:block short:hidden">
+            {t("scroll")}
+          </span>
           <svg
             className="h-5 w-8 animate-cue"
             viewBox="0 0 40 24"

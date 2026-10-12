@@ -16,7 +16,7 @@ export default function HeroName({
   return (
     <h1
       aria-label={name}
-      className="font-display text-[12.5vw] leading-[0.98] tracking-[0.06em] text-white glow sm:text-[9vw] lg:text-[6.2vw] xl:text-[5.6rem]"
+      className="font-display text-[12.5vw] leading-[0.98] tracking-[0.06em] text-white glow sm:text-[9vw] lg:text-[6.2vw] xl:text-[5.6rem] short:text-[12svh]"
     >
       {lines.map((line, l) => {
         // Index of the line's first letter in the whole name

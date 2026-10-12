@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Wide but short screens (phones in landscape): layouts sized by height */
+@custom-variant short (@media (orientation: landscape) and (max-height: 32rem));
+
 @theme inline {
   --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-anta), var(--font-open-sans), sans-serif;
@@ -305,6 +308,7 @@
 @media (prefers-reduced-motion: reduce) {
   .scenes-ready .scene {
     position: relative;
+    top: auto;
     scale: 1;
   }
   .scene::after {
