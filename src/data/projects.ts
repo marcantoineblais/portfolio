@@ -32,6 +32,14 @@ import molson_mobile_hero from "../images/projects/molson/mobile-hero.webp";
 import molson_mobile_my_player from "../images/projects/molson/mobile-my-player.webp";
 import molson_mobile_my_score from "../images/projects/molson/mobile-my-score.webp";
 import molson_mobile_my_team from "../images/projects/molson/mobile-my-team.webp";
+import scrabble_desktop_best_to_win from "../images/projects/scrabble/desktop-best-to-win.webp";
+import scrabble_desktop_games from "../images/projects/scrabble/desktop-games.webp";
+import scrabble_desktop_suggestions from "../images/projects/scrabble/desktop-suggestions.webp";
+import scrabble_desktop_wordfeud from "../images/projects/scrabble/desktop-wordfeud.webp";
+import scrabble_mobile_best_to_win from "../images/projects/scrabble/mobile-best-to-win.webp";
+import scrabble_mobile_home from "../images/projects/scrabble/mobile-home.webp";
+import scrabble_mobile_keyboard from "../images/projects/scrabble/mobile-keyboard.webp";
+import scrabble_mobile_suggestions from "../images/projects/scrabble/mobile-suggestions.webp";
 
 export type ProjectShot = { key: string; src: StaticImageData };
 
@@ -134,6 +142,44 @@ export const PROJECTS: Project[] = [
       { key: "mobile-my-team", src: molson_mobile_my_team },
       { key: "mobile-my-score", src: molson_mobile_my_score },
       { key: "mobile-my-player", src: molson_mobile_my_player },
+    ],
+  },
+  {
+    slug: "scrabble",
+    kind: "personal",
+    bg: "bg-amber-50",
+    accent: "bg-amber-500",
+    accentText: "text-amber-700",
+    card: "bg-white",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "next-intl",
+      "Better Auth",
+      "MongoDB",
+      "Mongoose",
+      "Zod",
+      "Web Workers",
+      "Turborepo",
+      "pnpm",
+      "Vitest",
+      "Docker",
+      "GitHub Actions",
+      "Caddy",
+    ],
+    desktop: [
+      { key: "desktop-suggestions", src: scrabble_desktop_suggestions },
+      { key: "desktop-best-to-win", src: scrabble_desktop_best_to_win },
+      { key: "desktop-wordfeud", src: scrabble_desktop_wordfeud },
+      { key: "desktop-games", src: scrabble_desktop_games },
+    ],
+    mobile: [
+      { key: "mobile-suggestions", src: scrabble_mobile_suggestions },
+      { key: "mobile-keyboard", src: scrabble_mobile_keyboard },
+      { key: "mobile-best-to-win", src: scrabble_mobile_best_to_win },
+      { key: "mobile-home", src: scrabble_mobile_home },
     ],
   },
   {

@@ -1,126 +1,24 @@
-import type { CSSProperties } from "react";
+import {
+  RACK_DETAIL as DETAIL,
+  LED_AMBER,
+  LED_BLUE,
+  LED_GREEN,
+  RACK_LINE as LINE,
+  RACK_UNIT as UNIT,
+  RACK_WIDTH as W,
+} from "../data/rack";
+import { pseudoRandom } from "../lib/pseudoRandom";
+import { rackLayout } from "../lib/rackLayout";
+import RackLed from "./rack/RackLed";
+import RackServer from "./rack/RackServer";
+
+const LAYOUT = rackLayout();
 
 /**
  * Detailed server cabinet for the hero: switch, patch panel, servers,
  * storage and a UPS, with status LEDs that blink at their own pace.
  * Pure SVG + CSS animations (see .led in globals.css).
  */
-
-const W = 220;
-const LINE = "rgba(255,255,255,0.14)";
-const DETAIL = "rgba(255,255,255,0.28)";
-const UNIT = "#1c1917";
-const GREEN = "#34d399";
-const AMBER = "#fbbf24";
-const BLUE = "#38bdf8";
-
-// Deterministic pseudo-random so server and client render the same thing
-function rand(seed: number) {
-  const x = Math.sin(seed * 999.13) * 10000;
-  return x - Math.floor(x);
-}
-
-function Led({
-  x,
-  y,
-  color,
-  seed,
-  r = 2,
-  steady = false,
-}: {
-  x: number;
-  y: number;
-  color: string;
-  seed: number;
-  r?: number;
-  steady?: boolean;
-}) {
-  const style = steady
-    ? undefined
-    : ({
-        "--d": `${(0.6 + rand(seed) * 2.8).toFixed(2)}s`,
-        "--dl": `${(-rand(seed + 7) * 3).toFixed(2)}s`,
-      } as CSSProperties);
-  return (
-    <circle
-      cx={x}
-      cy={y}
-      r={r}
-      fill={color}
-      className={steady ? "led-glow" : "led led-glow"}
-      style={style}
-    />
-  );
-}
-
-// Vertical layout of the units (computed once)
-const LAYOUT = (() => {
-  const heights = {
-    sw: 26,
-    patch: 18,
-    s1: 24,
-    s2: 24,
-    storage: 56,
-    s3: 24,
-    blank: 16,
-    ups: 44,
-  };
-  let y = 40;
-  const tops = {} as Record<keyof typeof heights, number>;
-  for (const [key, h] of Object.entries(heights)) {
-    tops[key as keyof typeof heights] = y;
-    y += h + 6;
-  }
-  return { ...tops, H: y + 26 };
-})();
-
-function Server({ y, seed }: { y: number; seed: number }) {
-  return (
-    <g>
-      <rect
-        x="30"
-        y={y}
-        width="160"
-        height="24"
-        rx="3"
-        fill={UNIT}
-        stroke={LINE}
-      />
-      <Led x={42} y={y + 12} color={GREEN} seed={seed} steady />
-      <Led
-        x={51}
-        y={y + 12}
-        color={seed % 3 === 0 ? AMBER : GREEN}
-        seed={seed + 1}
-      />
-      {[0, 1, 2, 3].map((i) => (
-        <rect
-          key={i}
-          x={64 + i * 18}
-          y={y + 6}
-          width="14"
-          height="12"
-          rx="1.5"
-          fill="none"
-          stroke={DETAIL}
-        />
-      ))}
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <line
-          key={i}
-          x1={142 + i * 7}
-          x2={142 + i * 7}
-          y1={y + 7}
-          y2={y + 17}
-          stroke={DETAIL}
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      ))}
-    </g>
-  );
-}
-
 export default function RackIllustration({
   className,
 }: {
@@ -226,12 +124,12 @@ export default function RackIllustration({
               stroke={DETAIL}
               strokeWidth="0.8"
             />
-            {rand(i + 3) > 0.25 && (
-              <Led
+            {pseudoRandom(i + 3) > 0.25 && (
+              <RackLed
                 x={px + 4}
                 y={py - 1.6}
                 r={1.1}
-                color={rand(i) > 0.8 ? AMBER : GREEN}
+                color={pseudoRandom(i) > 0.8 ? LED_AMBER : LED_GREEN}
                 seed={i + 40}
               />
             )}
@@ -263,21 +161,21 @@ export default function RackIllustration({
       {/* A few patch cables */}
       <path
         d={`M${40 + 2 * 9.4} ${patch + 9} C ${60} ${patch + 30}, ${150} ${patch - 10}, ${40 + 13 * 9.4} ${patch + 9}`}
-        stroke={BLUE}
+        stroke={LED_BLUE}
         strokeOpacity="0.55"
         strokeWidth="2"
         fill="none"
       />
       <path
         d={`M${40 + 5 * 9.4} ${patch + 9} C ${90} ${patch + 24}, ${120} ${patch + 24}, ${40 + 9 * 9.4} ${patch + 9}`}
-        stroke={GREEN}
+        stroke={LED_GREEN}
         strokeOpacity="0.45"
         strokeWidth="2"
         fill="none"
       />
 
-      <Server y={s1} seed={11} />
-      <Server y={s2} seed={21} />
+      <RackServer y={s1} seed={11} />
+      <RackServer y={s2} seed={21} />
 
       {/* Storage: 2U with 6 drive bays */}
       <rect
@@ -311,10 +209,10 @@ export default function RackIllustration({
               strokeWidth="2"
               strokeLinecap="round"
             />
-            <Led
+            <RackLed
               x={bx + 10}
               y={storage + 14}
-              color={i === 4 ? BLUE : GREEN}
+              color={i === 4 ? LED_BLUE : LED_GREEN}
               seed={60 + i}
               r={1.8}
             />
@@ -322,7 +220,7 @@ export default function RackIllustration({
         );
       })}
 
-      <Server y={s3} seed={33} />
+      <RackServer y={s3} seed={33} />
 
       {/* Blank panel */}
       <rect
@@ -361,11 +259,18 @@ export default function RackIllustration({
         textAnchor="middle"
         fontSize="13"
         fontFamily="var(--font-kode-mono), monospace"
-        fill={GREEN}
+        fill={LED_GREEN}
       >
         100%
       </text>
-      <Led x={110} y={ups + 22} color={GREEN} seed={90} steady r={2.4} />
+      <RackLed
+        x={110}
+        y={ups + 22}
+        color={LED_GREEN}
+        seed={90}
+        steady
+        r={2.4}
+      />
       <circle
         cx="128"
         cy={ups + 22}

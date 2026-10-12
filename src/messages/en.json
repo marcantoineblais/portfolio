@@ -13,6 +13,9 @@
     "home": "Back to top",
     "switchLanguage": "Version française"
   },
+  "cta": {
+    "write": "Write to me"
+  },
   "hero": {
     "role1": "Full-Stack",
     "role2": "Web Developer",
@@ -20,19 +23,17 @@
     "slogan2": "Brought to life.",
     "scroll": "Scroll",
     "status": "Available · Montréal, QC",
-    "ctaProjects": "See my work",
-    "ctaContact": "Get in touch"
+    "ctaProjects": "See my work"
   },
   "about": {
     "label": "About",
     "title": "Who am I?",
     "intro": "I'm Marc Antoine. I design and build complete web applications, from the database all the way to the interface.",
     "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. I mostly build with Next.js, React and TypeScript, with Node.js and MongoDB on the server, and ship everything with Docker.",
-    "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a media library manager… and this portfolio.",
+    "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a Scrabble solver, a media library manager… and this portfolio.",
     "location": "Montréal, QC",
     "available": "Available for new projects",
-    "languages": "Français · English",
-    "cta": "Let's talk about your project"
+    "languages": "Français · English"
   },
   "projects": {
     "label": "Projects",
@@ -116,6 +117,41 @@
           "mobile-my-team": "Team roster and total score on mobile.",
           "mobile-my-score": "Claim daily points or add a Molson product.",
           "mobile-my-player": "Customize your player: jersey name, number and position."
+        }
+      },
+      "scrabble": {
+        "name": "Scrabble Cheetah",
+        "meta": "Self-hosted · Scrabble & Wordfeud solver",
+        "tagline": "A Scrabble and Wordfeud solver: type in the board and your rack, get every legal move ranked in milliseconds.",
+        "description": "Scrabble Cheetah follows a real game: you type each word played onto the board, enter your rack, and it lists every legal move ranked by its points plus the value of the tiles you keep. A “Best to win” mode goes further and simulates hundreds of games to rank moves by their chance of winning. Games autosave to your account, for Scrabble or Wordfeud, in English or French.",
+        "features": [
+          {
+            "title": "Every move in milliseconds",
+            "text": "A compact DAWG dictionary and an anchor-based move generator, blanks included, find every legal move (over a thousand on a busy board) in a few milliseconds."
+          },
+          {
+            "title": "Best to win",
+            "text": "Simulates random futures for the best moves across a pool of Web Workers and ranks them by chance of winning, with a margin of error. Once the bag is empty, an exact endgame search takes over."
+          },
+          {
+            "title": "Fast board entry",
+            "text": "Click a square and type, or use the built-in tile keyboard on phones: the word's score shows live, invalid words are flagged, and past moves can be corrected or undone."
+          },
+          {
+            "title": "Two games, two languages",
+            "text": "Scrabble and Wordfeud boards, tile sets and bonuses, in English and French. Every change autosaves, and a version check keeps two devices from overwriting each other."
+          }
+        ],
+        "architecture": "pnpm + Turborepo monorepo with two packages. The engine is a pure TypeScript package (rules presets, DAWG dictionaries compiled from open word lists, move generation, scoring, simulation and endgame search) tested with Vitest. The Next.js 16 app runs it off the main thread in Web Workers, signs users in with Better Auth and stores one MongoDB document per game through Mongoose, with optimistic concurrency and transactions. Routes and server actions validate with Zod and hand off to services; next-intl serves translated paths without a locale in the URL. GitHub Actions builds a Docker image to GHCR, deployed with Portainer next to a MongoDB replica set behind Caddy.",
+        "captions": {
+          "desktop-suggestions": "A game in progress: the cheat sheet lists every legal move ranked by value, and the picked move (RATINES, +92) is previewed on the board.",
+          "desktop-best-to-win": "The “Best to win” tab ranks moves by their chance of winning, from hundreds of simulated games, each with its margin of error.",
+          "desktop-wordfeud": "A Wordfeud game, with its own board and tile values: the top suggestion, GRADINE for 154 points, is previewed on the board.",
+          "desktop-games": "The games list: start a Scrabble or Wordfeud game in English or French, and pick up saved games from their board previews and scores.",
+          "mobile-suggestions": "On mobile, the picked suggestion is previewed on the board above the rack and the ranked cheat sheet.",
+          "mobile-keyboard": "Entering a word with the built-in tile keyboard: the score shows live, then you pick who played it.",
+          "mobile-best-to-win": "The win simulation on mobile: each move with its chance of winning, after a few seconds of simulated games.",
+          "mobile-home": "The home page: “Win at Scrabble. We won't tell.”"
         }
       },
       "catcam": {
@@ -206,8 +242,7 @@
     "phone": "Phone",
     "email": "Email",
     "copy": "Copy",
-    "copied": "Copied!",
-    "write": "Send me an email"
+    "copied": "Copied!"
   },
   "footer": {
     "rights": "All rights reserved.",

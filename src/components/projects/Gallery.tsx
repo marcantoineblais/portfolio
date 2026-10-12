@@ -4,12 +4,14 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import React from "react";
 
+import ArrowButton from "./ArrowButton";
 import type { Shot } from "./DesktopSlideshow";
 
 /**
  * Row of phone screenshots, powered by Embla. Dots are the positions the row
  * can scroll to (one per picture on phones); controls hide when everything
- * fits on screen.
+ * fits on screen. Their row always keeps its height, so the page doesn't
+ * shift once Embla has measured it.
  */
 export default function Gallery({
   shots,
@@ -40,24 +42,29 @@ export default function Gallery({
       setCanNext(emblaApi.canScrollNext());
     };
     update();
-    emblaApi.on("select", update).on("reInit", update);
+    emblaApi.on("select", update);
+    emblaApi.on("reInit", update);
     return () => {
-      emblaApi.off("select", update).off("reInit", update);
+      emblaApi.off("select", update);
+      emblaApi.off("reInit", update);
     };
   }, [emblaApi]);
+
+  const scrollPrev = () => emblaApi?.scrollPrev();
+  const scrollNext = () => emblaApi?.scrollNext();
 
   return (
     <div className="flex flex-col gap-4">
       <div
         ref={emblaRef}
         data-gallery
-        className="-mx-4 overflow-hidden px-4 pb-4 pt-2 sm:-mx-6 sm:px-6"
+        className="-mx-4 overflow-hidden px-4 pt-2 pb-4 sm:-mx-6 sm:px-6"
       >
         <div className="flex touch-pan-y gap-5">
           {shots.map((shot, i) => (
             <figure
               key={i}
-              className="flex w-56 shrink-0 select-none flex-col gap-3 sm:w-60"
+              className="flex w-56 shrink-0 flex-col gap-3 select-none sm:w-60"
             >
               <div className="overflow-hidden rounded-[1.6rem] border-[5px] border-stone-900 bg-stone-900 shadow-xl shadow-black/15">
                 <Image
@@ -68,7 +75,7 @@ export default function Gallery({
                   className="pointer-events-none h-auto w-full rounded-[1.2rem]"
                 />
               </div>
-              <figcaption className="px-1 text-sm leading-snug text-gray-600">
+              <figcaption className="px-1 text-sm/snug text-gray-600">
                 {shot.caption}
               </figcaption>
             </figure>
@@ -76,56 +83,44 @@ export default function Gallery({
         </div>
       </div>
 
-      {snaps.length > 1 && (
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex gap-1">
-            {snaps.map((_, i) => (
+      <div
+        data-hidden={snaps.length < 2 || undefined}
+        className="flex min-h-6 items-center justify-between gap-4 data-hidden:invisible sm:min-h-11"
+      >
+        <div className="flex gap-1">
+          {snaps.map((_, i) => {
+            const scrollTo = () => emblaApi?.scrollTo(i);
+            return (
               <button
                 key={i}
-                onClick={() => emblaApi?.scrollTo(i)}
+                onClick={scrollTo}
                 aria-label={`${i + 1} / ${snaps.length}`}
                 aria-current={i === index}
                 className="flex h-6 cursor-pointer items-center px-0.5"
               >
                 <span
-                  className={`block h-1.5 rounded-full transition-all duration-500 ${
-                    i === index ? `w-8 ${accent}` : "w-1.5 bg-black/20"
-                  }`}
+                  data-active={i === index || undefined}
+                  className={`block size-1.5 rounded-full transition-all duration-500 not-data-active:bg-black/20 data-active:w-8 ${accent}`}
                 />
               </button>
-            ))}
-          </div>
-          <div className="hidden gap-2 sm:flex">
-            {[
-              { dir: -1, label: prevLabel, d: "M15 5l-7 7 7 7" },
-              { dir: 1, label: nextLabel, d: "M9 5l7 7-7 7" },
-            ].map(({ dir, label, d }) => (
-              <button
-                key={dir}
-                onClick={() =>
-                  dir < 0 ? emblaApi?.scrollPrev() : emblaApi?.scrollNext()
-                }
-                aria-label={label}
-                disabled={dir < 0 ? !canPrev : !canNext}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-2 border-current transition-all hover:bg-gray-900 hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-current"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d={d} />
-                </svg>
-              </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      )}
+        <div className="hidden gap-2 sm:flex">
+          <ArrowButton
+            label={prevLabel}
+            path="M15 5l-7 7 7 7"
+            disabled={!canPrev}
+            onClick={scrollPrev}
+          />
+          <ArrowButton
+            label={nextLabel}
+            path="M9 5l7 7-7 7"
+            disabled={!canNext}
+            onClick={scrollNext}
+          />
+        </div>
+      </div>
     </div>
   );
 }

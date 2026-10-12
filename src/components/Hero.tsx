@@ -1,70 +1,19 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
-import { scrollToSection } from "../lib/scrollToSection";
+import { sectionHref } from "../lib/sectionHref";
+import { useGlitchText } from "../lib/useGlitchText";
+import HeroName from "./HeroName";
 import RackIllustration from "./RackIllustration";
 
-const SYMBOLS = "!@#$%&[]{}<>/".split("");
-
-/** Types a string one character at a time with a scrambling last character. */
-function useGlitchText(
-  text: string,
-  startDelay: number,
-  active: boolean,
-  run: number,
-) {
-  const [value, setValue] = React.useState("");
-
-  React.useEffect(() => {
-    // Hidden (scrolled away): clear the text so it types again on return
-    if (!active) {
-      const clear = setTimeout(() => setValue(""), 0);
-      return () => clearTimeout(clear);
-    }
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    let typing: ReturnType<typeof setInterval>;
-    let scramble: ReturnType<typeof setInterval>;
-    let typed = "";
-    let i = 0;
-
-    const start = setTimeout(
-      () => {
-        if (reduced) return setValue(text);
-
-        typing = setInterval(() => {
-          if (i < text.length) typed += text[i++];
-          else {
-            clearInterval(typing);
-            clearInterval(scramble);
-            setValue(text);
-          }
-        }, 70);
-
-        scramble = setInterval(() => {
-          const random = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-          setValue(typed + random);
-        }, 16);
-      },
-      reduced ? 0 : startDelay,
-    );
-
-    return () => {
-      clearTimeout(start);
-      clearInterval(typing);
-      clearInterval(scramble);
-    };
-  }, [text, startDelay, active, run]);
-
-  return value;
-}
+const NAME = "Marc Antoine Blais";
 
 export default function Hero() {
   const t = useTranslations("hero");
-  const name = "Marc Antoine Blais";
+  const tCta = useTranslations("cta");
+  const locale = useLocale();
 
   const [visibleLetters, setVisibleLetters] = React.useState(0);
   const [stage, setStage] = React.useState(0); // 0: name, 1: subtitle in, 2: subtitle flipped, 3: slogan
@@ -92,8 +41,13 @@ export default function Hero() {
         setRun((r) => r + 1);
       }
     };
+    // The page can open further down (/projects…): start away from the hero
+    const initial = requestAnimationFrame(onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      cancelAnimationFrame(initial);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -103,17 +57,18 @@ export default function Hero() {
     ).matches;
     if (reduced) {
       React.startTransition(() => {
-        setVisibleLetters(name.length);
+        setVisibleLetters(NAME.length);
         setStage(3);
       });
       return;
     }
 
     let i = 0;
-    const letters = setInterval(() => {
+    const showLetter = () => {
       setVisibleLetters(++i);
-      if (i >= name.length) clearInterval(letters);
-    }, 60);
+      if (i >= NAME.length) clearInterval(letters);
+    };
+    const letters = setInterval(showLetter, 60);
     const timers = [
       setTimeout(() => setStage(1), 1400),
       setTimeout(() => setStage(2), 2200),
@@ -126,56 +81,40 @@ export default function Hero() {
     };
   }, [active, run]);
 
-  // "Marc Antoine" / "Blais" on two lines
-  const parts = name.split(" ");
-  const lines = [parts.slice(0, -1).join(" "), parts[parts.length - 1]];
-  let index = 0;
-  const words = lines.map((line, l) => (
-    <span key={l} className="block whitespace-nowrap">
-      {line.split("").map((char) => {
-        const n = index++;
-        return (
-          <span
-            key={n}
-            className={`transition-opacity duration-700 ${n < visibleLetters ? "opacity-100" : "opacity-0"}`}
-          >
-            {char}
-          </span>
-        );
-      })}
-    </span>
-  ));
-
   const subtitleIn = stage >= 1;
   const flipped = stage < 2 || mirrored;
+  const sloganShown = stage >= 3;
 
-  const scrollTo = scrollToSection;
+  const mirror = () => {
+    if (stage >= 2) setMirrored(true);
+  };
+  const unmirror = () => setMirrored(false);
 
   return (
     <header
       id="top"
       data-hero
-      className="sticky top-0 h-svh min-h-[36rem] overflow-hidden bg-gray-950 text-gray-300"
+      className="sticky top-0 h-svh min-h-144 overflow-hidden bg-gray-950 text-gray-300"
     >
       {/* Background: grid, glows, scanlines */}
       <div
         aria-hidden="true"
-        className="rack-grid pointer-events-none absolute inset-0 text-white/[0.05]"
+        className="pointer-events-none absolute inset-0 rack-grid text-white/5"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-[10vw] top-[15%] h-[70vmin] w-[70vmin] rounded-full bg-emerald-500/10 blur-[110px]"
+        className="pointer-events-none absolute top-[15%] right-[-10vw] size-[70vmin] rounded-full bg-emerald-500/10 blur-[110px]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-[15vw] bottom-0 h-[60vmin] w-[80vmin] rounded-full bg-stone-400/10 blur-[110px]"
+        className="pointer-events-none absolute bottom-0 left-[-15vw] h-[60vmin] w-[80vmin] rounded-full bg-stone-400/10 blur-[110px]"
       />
       <div
         aria-hidden="true"
-        className="scanlines pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 scanlines"
       />
 
-      <div className="hero-content relative mx-auto grid h-full max-w-7xl grid-rows-[auto_1fr_auto] px-4 pb-5 pt-16 sm:px-6 lg:pt-20">
+      <div className="relative mx-auto grid h-full max-w-7xl hero-content grid-rows-[auto_1fr_auto] px-4 pt-16 pb-5 sm:px-6 lg:pt-20">
         <div />
 
         <div className="grid items-center gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:gap-10">
@@ -185,7 +124,7 @@ export default function Hero() {
             style={{ translate: "0 calc(var(--hp, 0) * 14vh)" }}
             className="order-first flex justify-center lg:order-last"
           >
-            <div className="rack-float relative">
+            <div className="relative animate-rack-float">
               <div className="absolute inset-x-[10%] -bottom-4 h-8 rounded-[50%] bg-black/60 blur-xl" />
               <RackIllustration className="relative h-[24vh] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] sm:h-[30vh] lg:h-[min(62vh,36rem)]" />
             </div>
@@ -194,36 +133,28 @@ export default function Hero() {
           <div className="flex flex-col items-start gap-6 lg:gap-8">
             {/* Status chip */}
             <p
-              className={`font-mono flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs text-gray-300 transition-all duration-700 sm:text-sm ${
-                visibleLetters > 0 ? "opacity-100" : "translate-y-2 opacity-0"
-              }`}
+              data-shown={visibleLetters > 0 || undefined}
+              className="flex translate-y-2 items-center gap-2.5 rounded-full border border-white/10 bg-white/4 px-3.5 py-1.5 font-mono text-xs text-gray-300 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:text-sm"
             >
-              <span className="relative flex h-2.5 w-2.5 items-center justify-center">
-                <span className="animate-ping-soft absolute h-2 w-2 rounded-full bg-emerald-400" />
-                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="relative flex size-2.5 items-center justify-center">
+                <span className="absolute size-2 animate-ping-soft rounded-full bg-emerald-400" />
+                <span className="size-2 rounded-full bg-emerald-400" />
               </span>
               {t("status")}
             </p>
 
             <div
-              onMouseEnter={() => stage >= 2 && setMirrored(true)}
-              onMouseLeave={() => setMirrored(false)}
+              onMouseEnter={mirror}
+              onMouseLeave={unmirror}
               className="flex w-fit flex-col"
             >
-              <h1
-                aria-label={name}
-                className="glow font-display text-[12.5vw] leading-[0.98] tracking-[0.06em] text-white sm:text-[9vw] lg:text-[6.2vw] xl:text-[5.6rem]"
-              >
-                {words}
-              </h1>
+              <HeroName name={NAME} visibleLetters={visibleLetters} />
 
               {/* Mirrored subtitle — flips into place, flips back on hover */}
               <div
-                className={`font-mono mt-4 flex items-stretch justify-between gap-3 text-[4.4vw] leading-tight transition-all duration-1000 sm:text-[3vw] lg:text-[2vw] xl:text-[1.8rem] ${
-                  subtitleIn
-                    ? "translate-y-0 opacity-100"
-                    : "-translate-y-full opacity-0"
-                } ${flipped ? "-scale-x-100" : ""}`}
+                data-in={subtitleIn || undefined}
+                data-flipped={flipped || undefined}
+                className="mt-4 flex -translate-y-full items-stretch justify-between gap-3 font-mono text-[4.4vw] leading-tight opacity-0 transition-all duration-1000 data-flipped:-scale-x-100 data-in:translate-y-0 data-in:opacity-100 sm:text-[3vw] lg:text-[2vw] xl:text-[1.8rem]"
               >
                 <div
                   aria-hidden="true"
@@ -241,9 +172,8 @@ export default function Hero() {
             </div>
 
             <p
-              className={`font-mono flex min-h-[2.6em] w-fit gap-6 whitespace-nowrap sm:gap-10 text-[4.2vw] text-emerald-300/90 transition-opacity duration-1000 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem] ${
-                stage >= 3 ? "opacity-100" : "opacity-0"
-              }`}
+              data-shown={sloganShown || undefined}
+              className="flex min-h-[2.6em] w-fit gap-6 font-mono text-[4.2vw] whitespace-nowrap text-emerald-300/90 opacity-0 transition-opacity duration-1000 data-shown:opacity-100 sm:gap-10 sm:text-[2.6vw] lg:text-[1.6vw] xl:text-[1.5rem]"
             >
               <span>
                 <span className="text-gray-500">&gt; </span>
@@ -253,13 +183,13 @@ export default function Hero() {
             </p>
 
             <div
-              className={`flex w-full flex-col gap-3 transition-all duration-700 sm:w-auto sm:flex-row ${
-                stage >= 3 ? "opacity-100" : "translate-y-3 opacity-0"
-              }`}
+              data-shown={sloganShown || undefined}
+              className="flex w-full translate-y-3 flex-col gap-3 opacity-0 transition-all duration-700 data-shown:translate-y-0 data-shown:opacity-100 sm:w-auto sm:flex-row"
             >
-              <button
-                onClick={() => scrollTo("projects")}
-                className="font-mono group flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 text-base font-bold text-gray-950 shadow-[0_0_40px_rgba(255,255,255,0.25)] transition-all duration-200 hover:bg-emerald-300 hover:shadow-[0_0_50px_rgba(52,211,153,0.45)] sm:text-lg"
+              <a
+                href={sectionHref(locale, "projects")}
+                data-section="projects"
+                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-mono text-base font-bold text-gray-950 shadow-[0_0_40px_rgba(255,255,255,0.25)] transition-all duration-200 hover:bg-emerald-300 hover:shadow-[0_0_50px_rgba(52,211,153,0.45)] sm:text-lg"
               >
                 {t("ctaProjects")}
                 <span
@@ -268,25 +198,33 @@ export default function Hero() {
                 >
                   →
                 </span>
-              </button>
-              <button
-                onClick={() => scrollTo("contact")}
-                className="font-mono flex cursor-pointer items-center justify-center rounded-xl border border-white/20 bg-white/[0.03] px-7 py-3.5 text-base font-bold text-gray-200 transition-colors duration-200 hover:border-white/50 hover:bg-white/10 sm:text-lg"
+              </a>
+              <a
+                href={sectionHref(locale, "contact")}
+                data-section="contact"
+                className="group flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/3 px-7 py-3.5 font-mono text-base font-bold text-gray-200 transition-colors duration-200 hover:border-white/50 hover:bg-white/10 sm:text-lg"
               >
-                {t("ctaContact")}
-              </button>
+                {tCta("write")}
+                <span
+                  aria-hidden="true"
+                  className="transition-transform group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </a>
             </div>
           </div>
         </div>
 
-        <button
-          onClick={() => scrollTo("about")}
+        <a
+          href={sectionHref(locale, "about")}
+          data-section="about"
           aria-label={t("scroll")}
-          className="mx-auto mt-4 flex cursor-pointer flex-col items-center gap-1 text-xs font-bold uppercase tracking-[0.2em] text-gray-500 transition-colors hover:text-gray-300"
+          className="mx-auto mt-4 flex cursor-pointer flex-col items-center gap-1 text-xs font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors hover:text-gray-300"
         >
-          <span className="font-mono hidden sm:block">{t("scroll")}</span>
+          <span className="hidden font-mono sm:block">{t("scroll")}</span>
           <svg
-            className="animate-cue h-5 w-8"
+            className="h-5 w-8 animate-cue"
             viewBox="0 0 40 24"
             fill="none"
             stroke="currentColor"
@@ -296,7 +234,7 @@ export default function Hero() {
           >
             <path d="M4 4l16 14L36 4" />
           </svg>
-        </button>
+        </a>
       </div>
     </header>
   );

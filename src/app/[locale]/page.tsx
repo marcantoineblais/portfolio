@@ -1,37 +1,19 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
-import About from "../../components/About";
-import Contact from "../../components/Contact";
-import Footer from "../../components/Footer";
-import Hero from "../../components/Hero";
-import Navbar from "../../components/Navbar";
-import Projects from "../../components/projects/Projects";
-import ScrollEffects from "../../components/ScrollEffects";
-import Skills from "../../components/Skills";
+import Home from "../../components/Home";
+import { pageMetadata } from "../../lib/metadata";
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return pageMetadata(locale, null);
+}
+
+export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        {/* Content slides over the sticky hero (parallax) */}
-        <div className="relative z-10 overflow-x-clip">
-          <About />
-          <Projects />
-          <Skills />
-          <Contact />
-          <Footer />
-        </div>
-      </main>
-      <ScrollEffects />
-    </>
-  );
+  return <Home section={null} />;
 }

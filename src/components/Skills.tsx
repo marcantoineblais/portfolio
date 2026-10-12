@@ -1,29 +1,28 @@
+import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 
 import { SKILL_GROUPS, TECH } from "../data/tech";
+import { sectionHref } from "../lib/sectionHref";
 import NextCue from "./NextCue";
 import RackLogo from "./RackLogo";
+import Scene from "./Scene";
 import SectionHeader from "./SectionHeader";
 
 export default async function Skills() {
   const t = await getTranslations("skills");
   const tNav = await getTranslations("nav");
+  const locale = await getLocale();
 
   return (
-    <section
-      id="skills"
-      data-scene
-      className="scene relative overflow-hidden bg-stone-200 text-gray-900"
-    >
-      <div className="pointer-events-none absolute -left-32 bottom-0 w-[30rem] opacity-[0.06] sm:w-[44rem]">
+    <Scene id="skills" className="overflow-clip bg-stone-200 text-gray-900">
+      <div className="pointer-events-none absolute bottom-0 -left-32 w-120 opacity-[0.06] sm:w-176">
         <div data-speed="-0.2">
           <RackLogo className="w-full" leds={false} />
         </div>
       </div>
 
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-14 px-4 pb-10 pt-20 sm:px-6 sm:pt-28">
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-14 px-4 pt-20 pb-10 sm:px-6 sm:pt-28">
         <SectionHeader
           index="03"
           label={t("label")}
@@ -39,7 +38,7 @@ export default async function Skills() {
               style={{ "--delay": `${(g % 2) * 120}ms` } as CSSProperties}
               className="rounded-3xl border border-stone-300 bg-stone-100 p-6 shadow-sm sm:p-8"
             >
-              <h3 className="font-mono mb-6 flex items-center justify-between text-lg font-bold tracking-widest sm:text-xl">
+              <h3 className="mb-6 flex items-center justify-between font-mono text-lg font-bold tracking-widest sm:text-xl">
                 {t(group.key)}
                 <span className="text-sm text-gray-500">
                   {String(group.items.length).padStart(2, "0")}
@@ -68,8 +67,12 @@ export default async function Skills() {
             </div>
           ))}
         </div>
-        <NextCue href="#contact" label={tNav("contact")} />
+        <NextCue
+          href={sectionHref(locale, "contact")}
+          section="contact"
+          label={tNav("contact")}
+        />
       </div>
-    </section>
+    </Scene>
   );
 }

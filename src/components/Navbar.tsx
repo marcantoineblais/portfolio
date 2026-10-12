@@ -3,43 +3,27 @@
 import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 
-import { Link } from "../i18n/navigation";
+import { currentSection } from "../lib/scenes";
+import { sectionHref } from "../lib/sectionHref";
+import { SECTIONS, type Section } from "../lib/sections";
+import LanguageSwitch from "./LanguageSwitch";
+import MobileMenu from "./MobileMenu";
 import RackLogo from "./RackLogo";
-
-const SECTIONS = ["about", "projects", "skills", "contact"] as const;
 
 export default function Navbar() {
   const t = useTranslations("nav");
   const locale = useLocale();
-  const otherLocale = locale === "fr" ? "en" : "fr";
 
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [active, setActive] = React.useState<string | null>(null);
+  const [active, setActive] = React.useState<Section | null>(null);
 
-  // Solid background once we've left the hero
+  // Solid background once we've left the hero, and highlight the section
+  // currently in view
   React.useEffect(() => {
-    const onScroll = () =>
-      setScrolled(window.scrollY > window.innerHeight * 0.6);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Highlight the section currently in view. Scenes stack on top of each
-  // other, so the visible one is the last scene whose top passed mid-screen.
-  React.useEffect(() => {
-    const scenes = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-scene][id]"),
-    );
     const onScroll = () => {
-      const middle = window.innerHeight / 2;
-      let current: string | null = null;
-      for (const scene of scenes) {
-        if (scene.getBoundingClientRect().top <= middle)
-          current = scene.dataset.nav ?? scene.id;
-      }
-      setActive(current);
+      setScrolled(window.scrollY > window.innerHeight * 0.6);
+      setActive(currentSection());
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -54,72 +38,52 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const languageLink = (className: string) => (
-    <Link
-      href="/"
-      locale={otherLocale}
-      aria-label={t("switchLanguage")}
-      title={t("switchLanguage")}
-      className={className}
-    >
-      <span className={locale === "fr" ? "text-white" : "opacity-50"}>FR</span>
-      <span className="opacity-40">/</span>
-      <span className={locale === "en" ? "text-white" : "opacity-50"}>EN</span>
-    </Link>
-  );
+  const openMenu = () => setOpen(true);
+  const closeMenu = () => setOpen(false);
 
   return (
     <>
       <nav
-        className={`fixed inset-x-0 top-0 z-50 text-gray-300 transition-all duration-500 ${
-          scrolled
-            ? "border-b border-white/5 bg-stone-900/85 shadow-lg shadow-black/20 backdrop-blur-md"
-            : "bg-transparent"
-        }`}
+        data-scrolled={scrolled || undefined}
+        className="fixed inset-x-0 top-0 z-50 bg-transparent text-gray-300 transition-all duration-500 data-scrolled:border-b data-scrolled:border-white/5 data-scrolled:bg-stone-900/85 data-scrolled:shadow-lg data-scrolled:shadow-black/20 data-scrolled:backdrop-blur-md"
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
           <a
-            href="#top"
+            href={sectionHref(locale, null)}
+            data-section="top"
+            data-scrolled={scrolled || undefined}
             aria-label={t("home")}
-            className={`h-9 w-9 transition-all duration-500 hover:text-white ${
-              scrolled ? "opacity-100" : "pointer-events-none opacity-0"
-            }`}
+            className="pointer-events-none size-9 opacity-0 transition-all duration-500 hover:text-white data-scrolled:pointer-events-auto data-scrolled:opacity-100"
           >
-            <RackLogo className="h-full w-full" />
+            <RackLogo className="size-full" />
           </a>
 
           <div className="flex items-center gap-2">
-            <ul className="font-mono hidden items-center gap-1 font-bold md:flex">
+            <ul className="hidden items-center gap-1 font-mono font-bold md:flex">
               {SECTIONS.map((id) => (
                 <li key={id}>
                   <a
-                    href={`#${id}`}
-                    className={`relative rounded-md px-3 py-1.5 transition-colors duration-200 hover:text-white ${
-                      active === id ? "text-white" : ""
-                    }`}
+                    href={sectionHref(locale, id)}
+                    data-section={id}
+                    data-active={active === id || undefined}
+                    className="group relative rounded-md px-3 py-1.5 transition-colors duration-200 hover:text-white data-active:text-white"
                   >
                     {t(id)}
-                    <span
-                      className={`absolute inset-x-3 -bottom-0.5 h-px origin-left bg-current transition-transform duration-300 ${
-                        active === id ? "scale-x-100" : "scale-x-0"
-                      }`}
-                    />
+                    <span className="absolute inset-x-3 -bottom-0.5 h-px origin-left scale-x-0 bg-current transition-transform duration-300 group-data-active:scale-x-100" />
                   </a>
                 </li>
               ))}
             </ul>
 
-            {languageLink(
-              "font-mono flex items-center gap-1 rounded-md border border-white/15 px-2.5 py-1 text-sm font-bold transition-colors hover:border-white/40",
-            )}
+            <LanguageSwitch className="flex items-center gap-1 rounded-md border border-white/15 px-2.5 py-1 font-mono text-sm font-bold transition-colors hover:border-white/40" />
 
             <button
-              onClick={() => setOpen(true)}
+              onClick={openMenu}
               aria-label={t("menu")}
               aria-expanded={open}
-              className="-mr-2 flex h-10 w-10 cursor-pointer items-center justify-center md:hidden"
+              className="-mr-2 flex size-10 cursor-pointer items-center justify-center md:hidden"
             >
-              <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="size-6" aria-hidden="true">
                 <path
                   d="M3 6h18M3 12h18M3 18h18"
                   stroke="currentColor"
@@ -132,66 +96,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile full-screen menu */}
-      <div
-        className={`fixed inset-0 z-[60] flex flex-col bg-stone-900/95 text-gray-300 backdrop-blur-lg transition-all duration-500 md:hidden ${
-          open ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-        aria-hidden={!open}
-      >
-        <div className="flex h-14 items-center justify-between px-4">
-          <RackLogo className="h-9 w-9" />
-          <button
-            onClick={() => setOpen(false)}
-            aria-label={t("close")}
-            className="-mr-2 flex h-10 w-10 cursor-pointer items-center justify-center"
-          >
-            <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-              <path
-                d="M5 5l14 14M19 5L5 19"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <ul className="flex grow flex-col justify-center gap-2 px-6">
-          {SECTIONS.map((id, i) => (
-            <li
-              key={id}
-              style={{ transitionDelay: open ? `${100 + i * 60}ms` : "0ms" }}
-              className={`transition-all duration-500 ${
-                open ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
-              }`}
-            >
-              <a
-                href={`#${id}`}
-                tabIndex={open ? 0 : -1}
-                onClick={() => setOpen(false)}
-                className="flex items-baseline gap-4 border-b border-white/10 py-4"
-              >
-                <span className="font-mono text-sm text-gray-500">
-                  0{i + 1}
-                </span>
-                <span
-                  className={`font-display text-3xl ${active === id ? "text-white" : ""}`}
-                >
-                  {t(id)}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center justify-between px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-          {languageLink(
-            "font-mono flex items-center gap-2 rounded-md border border-white/15 px-4 py-2 font-bold",
-          )}
-          <span className="font-mono text-sm text-gray-500">marcblais.net</span>
-        </div>
-      </div>
+      <MobileMenu open={open} active={active} onClose={closeMenu} />
     </>
   );
 }

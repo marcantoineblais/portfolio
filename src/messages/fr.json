@@ -13,6 +13,9 @@
     "home": "Retour en haut",
     "switchLanguage": "English version"
   },
+  "cta": {
+    "write": "Écrivez-moi"
+  },
   "hero": {
     "role1": "Développeur web",
     "role2": "Full-Stack",
@@ -20,19 +23,17 @@
     "slogan2": "Notre réalisation.",
     "scroll": "Défiler",
     "status": "Disponible · Montréal, QC",
-    "ctaProjects": "Voir mes projets",
-    "ctaContact": "Me joindre"
+    "ctaProjects": "Voir mes projets"
   },
   "about": {
     "label": "À propos",
     "title": "Qui suis-je ?",
     "intro": "Je m'appelle Marc Antoine. Je conçois et développe des applications web complètes, de la base de données jusqu'à l'interface.",
     "body": "J'aime transformer une idée floue en un produit concret, rapide et agréable à utiliser — autant sur mobile que sur ordinateur. Je bâtis surtout avec Next.js, React et TypeScript, avec Node.js et MongoDB côté serveur, et je déploie le tout avec Docker.",
-    "body2": "Je conçois des plateformes web pour des clients en agence, comme des concours en ligne bilingues. Et quand je ne code pas pour un client, je bâtis mes propres outils auto-hébergés : une caméra pour surveiller mes chats, un gestionnaire de médiathèque… et ce portfolio.",
+    "body2": "Je conçois des plateformes web pour des clients en agence, comme des concours en ligne bilingues. Et quand je ne code pas pour un client, je bâtis mes propres outils auto-hébergés : une caméra pour surveiller mes chats, un solveur de Scrabble, un gestionnaire de médiathèque… et ce portfolio.",
     "location": "Montréal, QC",
     "available": "Disponible pour de nouveaux projets",
-    "languages": "Français · English",
-    "cta": "Discutons de votre projet"
+    "languages": "Français · English"
   },
   "projects": {
     "label": "Réalisations",
@@ -116,6 +117,41 @@
           "mobile-my-team": "Alignement et score total de l'équipe sur mobile.",
           "mobile-my-score": "Réclamer ses points quotidiens ou ajouter un produit Molson.",
           "mobile-my-player": "Personnalise ton joueur : nom, numéro et position."
+        }
+      },
+      "scrabble": {
+        "name": "Scrabble Cheetah",
+        "meta": "Auto-hébergé · Solveur de Scrabble et Wordfeud",
+        "tagline": "Un solveur de Scrabble et de Wordfeud : entrez la grille et votre chevalet, obtenez tous les coups possibles classés en quelques millisecondes.",
+        "description": "Scrabble Cheetah suit une vraie partie : on saisit chaque mot joué sur la grille, on entre son chevalet, et l'application liste tous les coups possibles, classés selon leurs points et la valeur des lettres gardées. Le mode « Pour gagner » va plus loin et simule des centaines de parties pour classer les coups selon leurs chances de victoire. Les parties sont sauvegardées automatiquement dans votre compte, au Scrabble ou au Wordfeud, en français ou en anglais.",
+        "features": [
+          {
+            "title": "Tous les coups en millisecondes",
+            "text": "Un dictionnaire DAWG compact et un générateur de coups basé sur les ancres, jokers compris, trouvent tous les coups possibles (plus d'un millier sur une grille chargée) en quelques millisecondes."
+          },
+          {
+            "title": "Pour gagner",
+            "text": "Simule des parties aléatoires pour les meilleurs coups dans un groupe de Web Workers et les classe selon leurs chances de victoire, avec une marge d'erreur. Une fois le sac vide, une recherche exacte de fin de partie prend le relais."
+          },
+          {
+            "title": "Saisie rapide",
+            "text": "On clique sur une case et on tape, ou on utilise le clavier de lettres intégré sur mobile : le score du mot s'affiche en direct, les mots invalides sont signalés, et les coups passés peuvent être corrigés ou annulés."
+          },
+          {
+            "title": "Deux jeux, deux langues",
+            "text": "Les grilles, lettres et bonus du Scrabble et du Wordfeud, en français et en anglais. Chaque modification est sauvegardée, et une vérification de version empêche deux appareils de s'écraser mutuellement."
+          }
+        ],
+        "architecture": "Monorepo pnpm + Turborepo en deux paquets. Le moteur est un paquet TypeScript pur (règles, dictionnaires DAWG compilés à partir de listes de mots libres, génération des coups, pointage, simulation et recherche de fin de partie) testé avec Vitest. L'application Next.js 16 l'exécute hors du fil principal dans des Web Workers, connecte les utilisateurs avec Better Auth et enregistre un document MongoDB par partie avec Mongoose, avec concurrence optimiste et transactions. Les routes et les server actions valident avec Zod et passent la main à des services ; next-intl sert des chemins traduits sans langue dans l'URL. GitHub Actions bâtit une image Docker publiée sur GHCR, déployée avec Portainer à côté d'un replica set MongoDB derrière Caddy.",
+        "captions": {
+          "desktop-suggestions": "Une partie en cours : la feuille de triche classe tous les coups possibles selon leur valeur, et le coup choisi (RATINES, +92) s'affiche sur la grille.",
+          "desktop-best-to-win": "L'onglet « Pour gagner » classe les coups selon leurs chances de victoire, calculées sur des centaines de parties simulées, avec leur marge d'erreur.",
+          "desktop-wordfeud": "Une partie de Wordfeud, avec sa propre grille et ses propres valeurs de lettres : la meilleure suggestion, GRADINE pour 154 points, s'affiche sur la grille.",
+          "desktop-games": "La liste des parties : lancez une partie de Scrabble ou de Wordfeud en français ou en anglais, et reprenez vos parties grâce à l'aperçu de la grille et aux scores.",
+          "mobile-suggestions": "Sur mobile, la suggestion choisie s'affiche sur la grille, au-dessus du chevalet et de la feuille de triche.",
+          "mobile-keyboard": "Saisie d'un mot avec le clavier de lettres intégré : le score s'affiche en direct, puis on choisit qui l'a joué.",
+          "mobile-best-to-win": "La simulation sur mobile : chaque coup avec ses chances de victoire, après quelques secondes de parties simulées.",
+          "mobile-home": "La page d'accueil : « Gagnez au Scrabble. On ne dira rien. »"
         }
       },
       "catcam": {
@@ -206,8 +242,7 @@
     "phone": "Téléphone",
     "email": "Courriel",
     "copy": "Copier",
-    "copied": "Copié !",
-    "write": "M'écrire un courriel"
+    "copied": "Copié !"
   },
   "footer": {
     "rights": "Tous droits réservés.",

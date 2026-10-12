@@ -27,32 +27,33 @@ export default function RackLogo({
       {/* Feet */}
       <path d="M12 44.5v1.5M36 44.5v1.5" strokeWidth="3" />
 
-      {RACK_UNITS.map((y, i) => (
-        <g key={y}>
-          <rect x="10" y={y} width="28" height="8" rx="2" strokeWidth="2.2" />
-          {/* Vents */}
-          <path
-            d={`M27 ${y + 2.6}v2.8M30.5 ${y + 2.6}v2.8M34 ${y + 2.6}v2.8`}
-            strokeWidth="1.8"
-          />
-          {/* Status LEDs */}
-          <circle
-            cx="15"
-            cy={y + 4}
-            r="1.7"
-            stroke="none"
-            fill={leds ? (i === 1 ? "#fbbf24" : "#34d399") : "currentColor"}
-          />
-          <circle
-            cx="20"
-            cy={y + 4}
-            r="1.7"
-            stroke="none"
-            fill="currentColor"
-            opacity="0.45"
-          />
-        </g>
-      ))}
+      {RACK_UNITS.map((y, i) => {
+        // The middle server's LED is amber, the others green
+        let ledColor = "currentColor";
+        if (leds && i === 1) ledColor = "#fbbf24";
+        else if (leds) ledColor = "#34d399";
+
+        return (
+          <g key={y}>
+            <rect x="10" y={y} width="28" height="8" rx="2" strokeWidth="2.2" />
+            {/* Vents */}
+            <path
+              d={`M27 ${y + 2.6}v2.8M30.5 ${y + 2.6}v2.8M34 ${y + 2.6}v2.8`}
+              strokeWidth="1.8"
+            />
+            {/* Status LEDs */}
+            <circle cx="15" cy={y + 4} r="1.7" stroke="none" fill={ledColor} />
+            <circle
+              cx="20"
+              cy={y + 4}
+              r="1.7"
+              stroke="none"
+              fill="currentColor"
+              opacity="0.45"
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 }

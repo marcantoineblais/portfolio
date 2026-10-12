@@ -13,7 +13,7 @@ export default function SectionHeader({
     <div className="flex flex-col gap-3 border-inherit">
       <p
         data-reveal="left"
-        className="font-mono flex items-center gap-3 text-sm font-bold uppercase tracking-[0.2em] opacity-70 sm:text-base"
+        className="flex items-center gap-3 font-mono text-sm font-bold tracking-[0.2em] uppercase opacity-70 sm:text-base"
       >
         <span>{index}</span>
         <span className="h-px w-8 bg-current" />
@@ -22,7 +22,7 @@ export default function SectionHeader({
       <h2
         data-reveal
         style={{ "--delay": "100ms" } as React.CSSProperties}
-        className="font-display text-4xl leading-tight sm:text-5xl lg:text-6xl"
+        className="font-display text-4xl/tight sm:text-5xl lg:text-6xl"
       >
         {title}
       </h2>

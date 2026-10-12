@@ -1,28 +1,29 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import type { CSSProperties } from "react";
 
+import { sectionHref } from "../lib/sectionHref";
 import NextCue from "./NextCue";
 import RackLogo from "./RackLogo";
+import Scene from "./Scene";
 import SectionHeader from "./SectionHeader";
 
 export default async function About() {
   const t = await getTranslations("about");
   const tHero = await getTranslations("hero");
   const tNav = await getTranslations("nav");
+  const tCta = await getTranslations("cta");
+  const locale = await getLocale();
 
   return (
-    <section
-      id="about"
-      data-scene
-      className="scene relative overflow-hidden bg-stone-200 text-gray-900"
-    >
+    <Scene id="about" className="overflow-clip bg-stone-200 text-gray-900">
       {/* Decorative parallax rack */}
-      <div className="pointer-events-none absolute -right-24 top-10 w-[28rem] opacity-[0.04] sm:w-[40rem]">
+      <div className="pointer-events-none absolute top-10 -right-24 w-md opacity-[0.04] sm:w-160">
         <div data-speed="0.25">
           <RackLogo className="w-full" leds={false} />
         </div>
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 [&>*]:min-w-0 px-4 pt-20 sm:px-6 sm:pt-28 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-20 *:min-w-0 sm:px-6 sm:pt-28 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
         {/* ID badge */}
         <div className="order-2 lg:order-1">
           <div data-speed="0.06">
@@ -30,16 +31,16 @@ export default async function About() {
               data-reveal="zoom"
               className="relative mx-auto max-w-sm overflow-hidden rounded-3xl bg-stone-900 p-6 text-gray-300 shadow-2xl shadow-stone-900/40 sm:p-8"
             >
-              <div className="rack-grid pointer-events-none absolute inset-0 text-white/[0.05]" />
+              <div className="pointer-events-none absolute inset-0 rack-grid text-white/5" />
               <div className="relative flex flex-col gap-6">
                 <div className="flex items-center justify-between">
-                  <RackLogo className="h-9 w-9 text-gray-400" />
+                  <RackLogo className="size-9 text-gray-400" />
                   <span className="font-mono text-xs tracking-widest text-gray-500">
                     ID / MAB-01
                   </span>
                 </div>
 
-                <div className="glow font-display flex aspect-square items-center justify-center rounded-2xl border border-white/10 bg-gray-950 text-7xl tracking-[0.15em] text-white sm:text-8xl">
+                <div className="flex aspect-square items-center justify-center rounded-2xl border border-white/10 bg-gray-950 font-display text-7xl tracking-[0.15em] text-white glow sm:text-8xl">
                   MAB
                 </div>
 
@@ -52,11 +53,11 @@ export default async function About() {
                   </p>
                 </div>
 
-                <ul className="font-mono flex flex-col gap-2 text-sm">
+                <ul className="flex flex-col gap-2 font-mono text-sm">
                   <li className="flex items-center gap-3">
                     <svg
                       viewBox="0 0 24 24"
-                      className="h-4 w-4 shrink-0"
+                      className="size-4 shrink-0"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
@@ -70,7 +71,7 @@ export default async function About() {
                   <li className="flex items-center gap-3">
                     <svg
                       viewBox="0 0 24 24"
-                      className="h-4 w-4 shrink-0"
+                      className="size-4 shrink-0"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
@@ -82,9 +83,9 @@ export default async function About() {
                     {t("languages")}
                   </li>
                   <li className="flex items-center gap-3 text-emerald-400">
-                    <span className="relative flex h-4 w-4 items-center justify-center">
-                      <span className="animate-ping-soft absolute h-2 w-2 rounded-full bg-emerald-400" />
-                      <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className="relative flex size-4 items-center justify-center">
+                      <span className="absolute size-2 animate-ping-soft rounded-full bg-emerald-400" />
+                      <span className="size-2 rounded-full bg-emerald-400" />
                     </span>
                     {t("available")}
                   </li>
@@ -98,16 +99,13 @@ export default async function About() {
         <div className="order-1 flex flex-col gap-8 lg:order-2 lg:pt-6">
           <SectionHeader index="01" label={t("label")} title={t("title")} />
 
-          <p
-            data-reveal
-            className="text-xl font-semibold leading-relaxed sm:text-2xl"
-          >
+          <p data-reveal className="text-xl/relaxed font-semibold sm:text-2xl">
             {t("intro")}
           </p>
           <div
             data-reveal
-            style={{ "--delay": "120ms" } as React.CSSProperties}
-            className="flex flex-col gap-4 text-base leading-relaxed text-gray-700 sm:text-lg"
+            style={{ "--delay": "120ms" } as CSSProperties}
+            className="flex flex-col gap-4 text-base/relaxed text-gray-700 sm:text-lg"
           >
             <p>{t("body")}</p>
             <p>{t("body2")}</p>
@@ -115,22 +113,32 @@ export default async function About() {
 
           <div
             data-reveal
-            style={{ "--delay": "220ms" } as React.CSSProperties}
+            style={{ "--delay": "220ms" } as CSSProperties}
             className="flex flex-col gap-3 sm:flex-row"
           >
             <a
-              href="#contact"
-              className="font-mono inline-flex items-center justify-center gap-2 rounded-lg border-2 border-stone-900 px-6 py-3 font-bold transition-colors hover:bg-stone-900 hover:text-gray-200"
+              href={sectionHref(locale, "contact")}
+              data-section="contact"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg border-2 border-stone-900 px-6 py-3 font-mono font-bold transition-colors hover:bg-stone-900 hover:text-gray-200"
             >
-              {t("cta")}
-              <span aria-hidden="true">→</span>
+              {tCta("write")}
+              <span
+                aria-hidden="true"
+                className="transition-transform group-hover:translate-x-1"
+              >
+                →
+              </span>
             </a>
           </div>
         </div>
       </div>
       <div className="relative pb-10">
-        <NextCue href="#projects" label={tNav("projects")} />
+        <NextCue
+          href={sectionHref(locale, "projects")}
+          section="projects"
+          label={tNav("projects")}
+        />
       </div>
-    </section>
+    </Scene>
   );
 }

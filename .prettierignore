@@ -1,0 +1,4 @@
+# Prettier also skips everything in .gitignore (build output, node_modules).
+pnpm-lock.yaml
+next-env.d.ts
+Claude outputs/

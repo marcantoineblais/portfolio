@@ -1,7 +1,9 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { PROJECTS } from "../../data/projects";
+import { sectionHref } from "../../lib/sectionHref";
 import NextCue from "../NextCue";
+import Scene from "../Scene";
 import SectionHeader from "../SectionHeader";
 import ProjectShowcase from "./ProjectShowcase";
 
@@ -14,6 +16,7 @@ type Feature = { title: string; text: string };
 export default async function Projects() {
   const t = await getTranslations("projects");
   const tNav = await getTranslations("nav");
+  const locale = await getLocale();
 
   const labels = {
     features: t("features"),
@@ -32,14 +35,13 @@ export default async function Projects() {
         const next = PROJECTS[i + 1];
 
         return (
-          <section
+          <Scene
             key={project.slug}
             id={i === 0 ? "projects" : project.slug}
-            data-scene
-            data-nav="projects"
-            className={`scene relative text-gray-950 ${project.bg}`}
+            nav="projects"
+            className={`text-gray-950 ${project.bg}`}
           >
-            <div className="mx-auto flex max-w-7xl flex-col gap-16 px-4 pb-10 pt-20 sm:px-6 sm:pt-28">
+            <div className="mx-auto flex max-w-7xl flex-col gap-16 px-4 pt-20 pb-10 sm:px-6 sm:pt-28">
               {i === 0 && (
                 <SectionHeader
                   index="02"
@@ -79,10 +81,14 @@ export default async function Projects() {
               {next ? (
                 <NextCue href={`#${next.slug}`} label={t("nextProject")} />
               ) : (
-                <NextCue href="#skills" label={tNav("skills")} />
+                <NextCue
+                  href={sectionHref(locale, "skills")}
+                  section="skills"
+                  label={tNav("skills")}
+                />
               )}
             </div>
-          </section>
+          </Scene>
         );
       })}
     </>

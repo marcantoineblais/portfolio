@@ -6,9 +6,54 @@
   --font-mono: var(--font-kode-mono), ui-monospace, monospace;
 }
 
+/* Animations: animate-cue, animate-ping-soft, animate-rack-float, animate-fade-in */
+@theme {
+  /* Scroll cue */
+  --animate-cue: cue 1.8s ease-in-out infinite;
+  /* Status dot pulse */
+  --animate-ping-soft: ping-soft 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  /* Hero rack: gentle float */
+  --animate-rack-float: rack-float 6s ease-in-out infinite;
+  /* Simple fade used by captions */
+  --animate-fade-in: fade-in 600ms ease;
+
+  @keyframes cue {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 0.5rem;
+    }
+  }
+  @keyframes ping-soft {
+    75%,
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+  @keyframes rack-float {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -10px;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
 @layer base {
   html {
-    scroll-behavior: smooth;
     /* Pinned sections confuse Chrome's scroll anchoring (jumps) */
     overflow-anchor: none;
     -webkit-tap-highlight-color: transparent;
@@ -44,14 +89,20 @@
   border-radius: 999px;
 }
 
-.no-scrollbar {
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
 /* ---------- Scroll effects (driven by <ScrollEffects />) ---------- */
+
+/* Variables updated on every scroll frame don't inherit: a change only
+   restyles the element it's set on, not everything inside it. */
+@property --py {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --cover {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
 
 /* Parallax: elements with [data-speed] receive --py from JS */
 [data-speed] {
@@ -93,26 +144,29 @@
 [data-speed][data-reveal].is-visible {
   translate: 0 var(--py, 0px);
 }
+/* Already on screen after a language switch: shown without animating */
+.reveal-instant [data-reveal] {
+  transition: none !important;
+}
 
 /* Hero: --hp goes from 0 to 1 as the hero scrolls away */
-.hero-content {
+@utility hero-content {
   opacity: calc(1 - var(--hp, 0) * 1.3);
-}
-/* Blur + shrink while scrolling away: desktop only (too heavy for phones) */
-@media (min-width: 1024px) and (hover: hover) {
-  .hero-content {
+
+  /* Blur + shrink while scrolling away: desktop only (too heavy for phones) */
+  @media (min-width: 1024px) and (hover: hover) {
     scale: calc(1 - var(--hp, 0) * 0.08);
     filter: blur(calc(var(--hp, 0) * 6px));
   }
 }
 
 /* Glow used on the hero title (same as the original drop-shadow) */
-.glow {
+@utility glow {
   filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.5));
 }
 
 /* Subtle rack grid used as decoration */
-.rack-grid {
+@utility rack-grid {
   background-image:
     linear-gradient(to right, currentColor 1px, transparent 1px),
     linear-gradient(to bottom, currentColor 1px, transparent 1px);
@@ -120,19 +174,7 @@
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
 }
 
-/* Blinking terminal caret */
-@keyframes caret {
-  50% {
-    opacity: 0;
-  }
-}
-.caret::after {
-  content: "_";
-  margin-left: 0.1em;
-  animation: caret 1s steps(1) infinite;
-}
-
-/* Hero rack: blinking status LEDs, gentle float, CRT scanlines */
+/* Hero rack: blinking status LEDs (each with its own --d / --dl), CRT scanlines */
 @keyframes led-blink {
   0%,
   100% {
@@ -142,26 +184,18 @@
     opacity: 0.2;
   }
 }
-.led {
+@utility led {
   animation: led-blink var(--d, 1.6s) ease-in-out infinite;
   animation-delay: var(--dl, 0s);
+
+  &[data-steady] {
+    animation: none;
+  }
 }
-.led-glow {
+@utility led-glow {
   filter: brightness(1.2);
 }
-@keyframes rack-float {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -10px;
-  }
-}
-.rack-float {
-  animation: rack-float 6s ease-in-out infinite;
-}
-.scanlines {
+@utility scanlines {
   background: repeating-linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.025) 0,
@@ -172,46 +206,7 @@
   mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
 }
 
-/* Simple fade used by captions */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Scroll cue */
-@keyframes cue {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 0.5rem;
-  }
-}
-.animate-cue {
-  animation: cue 1.8s ease-in-out infinite;
-}
-
-/* Status dot pulse */
-@keyframes ping-soft {
-  75%,
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-.animate-ping-soft {
-  animation: ping-soft 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   [data-reveal] {
     opacity: 1 !important;
     translate: 0 0 !important;
@@ -227,9 +222,8 @@
   }
   .animate-cue,
   .animate-ping-soft,
-  .led,
-  .rack-float,
-  .caret::after {
+  .animate-rack-float,
+  .led {
     animation: none;
   }
 }
@@ -239,33 +233,56 @@
  * bottom of the screen (--scene-h is set by <ScrollEffects />). The next
  * scene slides over it while it dims and recedes (--cover: 0 → 1),
  * echoing the screen-by-screen transitions of the original site.
+ *
+ * Between the two, a pinned scene holds still for --dwell of scrolling:
+ * it ends with that much empty space, kept below the bottom of the screen,
+ * so the next scene only arrives once the visitor has scrolled past it.
+ * A scene taller than the screen also holds still for --dwell once it has
+ * slid in (see <Scene />). That makes it easy to stop on a section.
  */
-.scene {
+@utility scene {
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   box-shadow: 0 -30px 60px -15px rgba(0, 0, 0, 0.55);
-  transform-origin: 50% calc(100% - 50vh);
-}
-@media (min-width: 640px) {
-  .scene {
+  transform-origin: 50% calc(100% - var(--dwell, 0px) - 50vh);
+
+  @media (min-width: 640px) {
     border-top-left-radius: 3rem;
     border-top-right-radius: 3rem;
   }
-}
-.scene::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  border-radius: inherit;
-  background: #030712;
-  opacity: calc(var(--cover, 0) * 0.6);
-  pointer-events: none;
+
+  &::after {
+    --cover: inherit;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    border-radius: inherit;
+    background: #030712;
+    opacity: calc(var(--cover, 0) * 0.6);
+    pointer-events: none;
+  }
 }
 .scenes-ready .scene {
   position: sticky;
-  top: min(0px, calc(100vh - var(--scene-h, 0px)));
-  top: min(0px, calc(100svh - var(--scene-h, 0px)));
+  top: min(0px, calc(100vh - var(--scene-h, 0px) + var(--dwell, 0px)));
+  top: min(0px, calc(100svh - var(--scene-h, 0px) + var(--dwell, 0px)));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scenes-ready .scene:not([data-scene-last]) {
+    --dwell: 25vh;
+    --dwell: 25svh;
+    padding-bottom: var(--dwell);
+  }
+  /* Taller than the screen: also pauses once its top reaches the top of the
+     screen. The content stays still while the spacer after it scrolls by. */
+  .scenes-ready .scene[data-scene-tall] > [data-scene-content] {
+    position: sticky;
+    top: 0;
+  }
+  .scenes-ready .scene[data-scene-tall] > [data-scene-hold] {
+    height: var(--dwell);
+  }
 }
 /* The "recede" scale only on desktop: on phones, rescaling a tall pinned
    section every frame makes the GPU fall behind and flash the dark page
@@ -274,6 +291,10 @@
   .scenes-ready .scene {
     scale: calc(1 - var(--cover, 0) * 0.06);
   }
+}
+/* Hidden behind the scenes stacked over it: not drawn at all */
+.scenes-ready [data-covered] {
+  visibility: hidden;
 }
 /* The last scene (Contact) just scrolls into the footer */
 .scenes-ready .scene[data-scene-last] {

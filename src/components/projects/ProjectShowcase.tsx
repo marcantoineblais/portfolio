@@ -58,29 +58,29 @@ export default function ProjectShowcase({
   return (
     <article className="relative flex flex-col gap-14 lg:gap-20">
       {/* Intro + visual */}
-      <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.35fr] lg:gap-16 [&>*]:min-w-0">
-        <div className={`flex flex-col gap-6 ${reversed ? "lg:order-2" : ""}`}>
+      <div className="grid items-center gap-12 *:min-w-0 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
+        <div
+          data-reversed={reversed || undefined}
+          className="flex flex-col gap-6 data-reversed:lg:order-2"
+        >
           <div data-reveal className="flex flex-wrap items-center gap-3">
             <span className={`font-mono text-sm font-bold ${accentText}`}>
               {number}
             </span>
             <span className={`h-0.5 w-10 ${accent}`} />
             <span
-              className={`font-mono rounded-full border border-current px-3 py-0.5 text-xs font-bold uppercase tracking-widest ${accentText}`}
+              className={`rounded-full border border-current px-3 py-0.5 font-mono text-xs font-bold tracking-widest uppercase ${accentText}`}
             >
               {kind}
             </span>
           </div>
-          <h3
-            data-reveal
-            className="font-display text-4xl leading-tight sm:text-5xl"
-          >
+          <h3 data-reveal className="font-display text-4xl/tight sm:text-5xl">
             {name}
           </h3>
           {meta && (
             <p
               data-reveal
-              className="font-mono -mt-3 text-sm text-gray-500 sm:text-base"
+              className="-mt-3 font-mono text-sm text-gray-500 sm:text-base"
             >
               {meta}
             </p>
@@ -88,14 +88,14 @@ export default function ProjectShowcase({
           <p
             data-reveal
             style={{ "--delay": "80ms" } as CSSProperties}
-            className="text-xl font-semibold leading-snug sm:text-2xl"
+            className="text-xl/snug font-semibold sm:text-2xl"
           >
             {tagline}
           </p>
           <p
             data-reveal
             style={{ "--delay": "140ms" } as CSSProperties}
-            className="text-base leading-relaxed text-gray-700 sm:text-lg"
+            className="text-base/relaxed text-gray-700 sm:text-lg"
           >
             {description}
           </p>
@@ -113,7 +113,7 @@ export default function ProjectShowcase({
             </div>
           </div>
           {floating && (
-            <div className="pointer-events-none absolute -bottom-6 right-0 w-[27%] max-w-40 sm:-bottom-10">
+            <div className="pointer-events-none absolute right-0 -bottom-6 w-[27%] max-w-40 sm:-bottom-10">
               <div data-speed="-0.1">
                 <div
                   data-reveal="right"
@@ -136,7 +136,7 @@ export default function ProjectShowcase({
 
       {/* Features */}
       <div className="flex flex-col gap-4">
-        <h4 className="font-mono text-sm font-bold uppercase tracking-widest opacity-70">
+        <h4 className="font-mono text-sm font-bold tracking-widest uppercase opacity-70">
           {labels.features}
         </h4>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -147,22 +147,20 @@ export default function ProjectShowcase({
               style={{ "--delay": `${i * 80}ms` } as CSSProperties}
               className={`rounded-2xl p-5 shadow-md shadow-black/5 transition-shadow duration-300 hover:shadow-xl ${cardClass}`}
             >
-              <p className="font-mono mb-2 flex items-center gap-2 text-sm font-bold">
-                <span className={`h-2 w-2 shrink-0 rounded-full ${accent}`} />
+              <p className="mb-2 flex items-center gap-2 font-mono text-sm font-bold">
+                <span className={`size-2 shrink-0 rounded-full ${accent}`} />
                 {feature.title}
               </p>
-              <p className="text-sm leading-relaxed text-gray-700">
-                {feature.text}
-              </p>
+              <p className="text-sm/relaxed text-gray-700">{feature.text}</p>
             </li>
           ))}
         </ul>
       </div>
 
       {/* How it's built + stack */}
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 [&>*]:min-w-0">
+      <div className="grid gap-8 *:min-w-0 lg:grid-cols-2 lg:gap-16">
         <div data-reveal className="flex flex-col gap-3">
-          <h4 className="font-mono text-sm font-bold uppercase tracking-widest opacity-70">
+          <h4 className="font-mono text-sm font-bold tracking-widest uppercase opacity-70">
             {labels.architecture}
           </h4>
           <p className="leading-relaxed text-gray-700">{architecture}</p>
@@ -172,7 +170,7 @@ export default function ProjectShowcase({
           style={{ "--delay": "100ms" } as CSSProperties}
           className="flex flex-col gap-3"
         >
-          <h4 className="font-mono text-sm font-bold uppercase tracking-widest opacity-70">
+          <h4 className="font-mono text-sm font-bold tracking-widest uppercase opacity-70">
             {labels.stack}
           </h4>
           <ul className="flex flex-wrap gap-2">
@@ -181,12 +179,12 @@ export default function ProjectShowcase({
               return (
                 <li
                   key={tech}
-                  className="flex items-center gap-2 rounded-full border border-black/10 bg-white/80 py-1 pl-2 pr-3 text-sm font-semibold shadow-sm"
+                  className="flex items-center gap-2 rounded-full border border-black/10 bg-white/80 py-1 pr-3 pl-2 text-sm font-semibold shadow-sm"
                 >
                   {icon ? (
                     <svg
                       viewBox="0 0 24 24"
-                      className="h-4 w-4"
+                      className="size-4"
                       fill={icon.hex}
                       aria-hidden="true"
                     >
@@ -194,7 +192,7 @@ export default function ProjectShowcase({
                     </svg>
                   ) : (
                     <span
-                      className={`h-2 w-2 rounded-full ${accent}`}
+                      className={`size-2 rounded-full ${accent}`}
                       aria-hidden="true"
                     />
                   )}
@@ -208,7 +206,7 @@ export default function ProjectShowcase({
 
       {/* Phone screenshots */}
       <div data-reveal className="flex flex-col gap-4">
-        <h4 className="font-mono text-sm font-bold uppercase tracking-widest opacity-70">
+        <h4 className="font-mono text-sm font-bold tracking-widest uppercase opacity-70">
           {labels.gallery}
         </h4>
         <Gallery
