@@ -119,18 +119,18 @@
           "mobile-my-player": "Customize your player: jersey name, number and position."
         }
       },
-      "scrabble": {
-        "name": "Scrabble Cheetah",
+      "scramble": {
+        "name": "Scramble Cheetah",
         "meta": "Self-hosted · Scrabble & Wordfeud solver",
         "tagline": "A Scrabble and Wordfeud solver: type in the board and your rack, get every legal move ranked in milliseconds.",
-        "description": "Scrabble Cheetah follows a real game: you type each word played onto the board, enter your rack, and it lists every legal move ranked by its points plus the value of the tiles you keep. A “Best to win” mode goes further and simulates hundreds of games to rank moves by their chance of winning. Games autosave to your account, for Scrabble or Wordfeud, in English or French.",
+        "description": "Scramble Cheetah follows a real game: you type each word played onto the board, enter your rack, and it lists every legal move ranked by its points plus the value of the tiles you keep. A “Smart mode” goes further and simulates hundreds of games to rank moves by their chance of winning. Games autosave to your account, for Scrabble or Wordfeud, in English or French.",
         "features": [
           {
             "title": "Every move in milliseconds",
             "text": "A compact DAWG dictionary and an anchor-based move generator, blanks included, find every legal move (over a thousand on a busy board) in a few milliseconds."
           },
           {
-            "title": "Best to win",
+            "title": "Smart mode",
             "text": "Simulates random futures for the best moves across a pool of Web Workers and ranks them by chance of winning, with a margin of error. Once the bag is empty, an exact endgame search takes over."
           },
           {
@@ -142,10 +142,10 @@
             "text": "Scrabble and Wordfeud boards, tile sets and bonuses, in English and French. Every change autosaves, and a version check keeps two devices from overwriting each other."
           }
         ],
-        "architecture": "pnpm + Turborepo monorepo with two packages. The engine is a pure TypeScript package (rules presets, DAWG dictionaries compiled from open word lists, move generation, scoring, simulation and endgame search) tested with Vitest. The Next.js 16 app runs it off the main thread in Web Workers, signs users in with Better Auth and stores one MongoDB document per game through Mongoose, with optimistic concurrency and transactions. Routes and server actions validate with Zod and hand off to services; next-intl serves translated paths without a locale in the URL. GitHub Actions builds a Docker image to GHCR, deployed with Portainer next to a MongoDB replica set behind Caddy.",
+        "architecture": "pnpm + Turborepo monorepo with two packages. The engine is a pure TypeScript package (rules presets, DAWG dictionaries compiled from open word lists, move generation, scoring, simulation and endgame search) tested with Vitest, with tile-leave values learned through self-play. The Next.js 16 app runs it off the main thread in Web Workers, signs users in with Better Auth and stores one MongoDB document per game through Mongoose, with optimistic concurrency and transactions. Routes and server actions validate with Zod and hand off to services; next-intl serves translated paths without a locale in the URL. GitHub Actions builds a Docker image to GHCR, deployed with Portainer next to a MongoDB replica set behind Caddy.",
         "captions": {
           "desktop-suggestions": "A game in progress: the cheat sheet lists every legal move ranked by value, and the picked move (RATINES, +92) is previewed on the board.",
-          "desktop-best-to-win": "The “Best to win” tab ranks moves by their chance of winning, from hundreds of simulated games, each with its margin of error.",
+          "desktop-best-to-win": "The “Smart mode” tab ranks moves by their chance of winning, from hundreds of simulated games, each with its margin of error.",
           "desktop-wordfeud": "A Wordfeud game, with its own board and tile values: the top suggestion, GRADINE for 154 points, is previewed on the board.",
           "desktop-games": "The games list: start a Scrabble or Wordfeud game in English or French, and pick up saved games from their board previews and scores.",
           "mobile-suggestions": "On mobile, the picked suggestion is previewed on the board above the rack and the ranked cheat sheet.",

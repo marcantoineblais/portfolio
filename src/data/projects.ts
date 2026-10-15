@@ -32,14 +32,14 @@ import molson_mobile_hero from "../images/projects/molson/mobile-hero.webp";
 import molson_mobile_my_player from "../images/projects/molson/mobile-my-player.webp";
 import molson_mobile_my_score from "../images/projects/molson/mobile-my-score.webp";
 import molson_mobile_my_team from "../images/projects/molson/mobile-my-team.webp";
-import scrabble_desktop_best_to_win from "../images/projects/scrabble/desktop-best-to-win.webp";
-import scrabble_desktop_games from "../images/projects/scrabble/desktop-games.webp";
-import scrabble_desktop_suggestions from "../images/projects/scrabble/desktop-suggestions.webp";
-import scrabble_desktop_wordfeud from "../images/projects/scrabble/desktop-wordfeud.webp";
-import scrabble_mobile_best_to_win from "../images/projects/scrabble/mobile-best-to-win.webp";
-import scrabble_mobile_home from "../images/projects/scrabble/mobile-home.webp";
-import scrabble_mobile_keyboard from "../images/projects/scrabble/mobile-keyboard.webp";
-import scrabble_mobile_suggestions from "../images/projects/scrabble/mobile-suggestions.webp";
+import scramble_desktop_best_to_win from "../images/projects/scramble/desktop-best-to-win.webp";
+import scramble_desktop_games from "../images/projects/scramble/desktop-games.webp";
+import scramble_desktop_suggestions from "../images/projects/scramble/desktop-suggestions.webp";
+import scramble_desktop_wordfeud from "../images/projects/scramble/desktop-wordfeud.webp";
+import scramble_mobile_best_to_win from "../images/projects/scramble/mobile-best-to-win.webp";
+import scramble_mobile_home from "../images/projects/scramble/mobile-home.webp";
+import scramble_mobile_keyboard from "../images/projects/scramble/mobile-keyboard.webp";
+import scramble_mobile_suggestions from "../images/projects/scramble/mobile-suggestions.webp";
 
 export type ProjectShot = { key: string; src: StaticImageData };
 
@@ -145,7 +145,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    slug: "scrabble",
+    slug: "scramble",
     kind: "personal",
     bg: "bg-amber-50",
     accent: "bg-amber-500",
@@ -170,16 +170,16 @@ export const PROJECTS: Project[] = [
       "Caddy",
     ],
     desktop: [
-      { key: "desktop-suggestions", src: scrabble_desktop_suggestions },
-      { key: "desktop-best-to-win", src: scrabble_desktop_best_to_win },
-      { key: "desktop-wordfeud", src: scrabble_desktop_wordfeud },
-      { key: "desktop-games", src: scrabble_desktop_games },
+      { key: "desktop-suggestions", src: scramble_desktop_suggestions },
+      { key: "desktop-best-to-win", src: scramble_desktop_best_to_win },
+      { key: "desktop-wordfeud", src: scramble_desktop_wordfeud },
+      { key: "desktop-games", src: scramble_desktop_games },
     ],
     mobile: [
-      { key: "mobile-suggestions", src: scrabble_mobile_suggestions },
-      { key: "mobile-keyboard", src: scrabble_mobile_keyboard },
-      { key: "mobile-best-to-win", src: scrabble_mobile_best_to_win },
-      { key: "mobile-home", src: scrabble_mobile_home },
+      { key: "mobile-suggestions", src: scramble_mobile_suggestions },
+      { key: "mobile-keyboard", src: scramble_mobile_keyboard },
+      { key: "mobile-best-to-win", src: scramble_mobile_best_to_win },
+      { key: "mobile-home", src: scramble_mobile_home },
     ],
   },
   {
