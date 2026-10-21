@@ -149,7 +149,7 @@
           "desktop-smart-mode": "Smart mode ranks moves by their chance of winning, from 200 simulated games in under a second, each with its margin of error: the TERTIANS bingo wins 97% of them.",
           "desktop-training": "Training against the Professional cheetah: ZEBRA is rated a mistake, 25th of 349 possible moves, and the best one, BRAIZE for 54, is shown on the board.",
           "desktop-wordfeud": "A Wordfeud game in the dark theme, with its own board and tile values: the top suggestion, GRADINE for 154 points, is previewed on the board.",
-          "mobile-suggestions": "On a phone, the board stays on screen above icon tabs: the Suggestions tab ranks every move, and the picked one is previewed on the board.",
+          "mobile-suggestions": "On a phone, the board stays on screen above icon tabs: the Top score tab ranks every move, and the picked one is previewed on the board.",
           "mobile-keyboard": "Entering a word with the built-in tile keyboard: the score shows live, then you pick who played it.",
           "mobile-training": "Training on a phone: the review of your move has its own tab, with the best moves and the top one, BRAIZE, shown on the board.",
           "mobile-home": "The home page: “Win at Scrabble. We won't tell.”"

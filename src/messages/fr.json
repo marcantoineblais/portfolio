@@ -149,7 +149,7 @@
           "desktop-smart-mode": "Le « Mode intelligent » classe les coups selon leurs chances de victoire, à partir de 200 parties simulées en moins d'une seconde, chacun avec sa marge d'erreur : le scrabble TERTIANS en gagne 97 %.",
           "desktop-training": "Entraînement contre le guépard Professionnel : ZEBRA est jugé une erreur, 25e sur 349 coups possibles, et le meilleur, BRAIZE pour 54 points, s'affiche sur la grille.",
           "desktop-wordfeud": "Une partie de Wordfeud en thème sombre, avec sa propre grille et ses propres valeurs de lettres : la meilleure suggestion, GRADINE pour 154 points, s'affiche sur la grille.",
-          "mobile-suggestions": "Sur téléphone, la grille reste à l'écran au-dessus d'onglets à icônes : l'onglet Suggestions classe tous les coups, et celui qu'on choisit s'affiche sur la grille.",
+          "mobile-suggestions": "Sur téléphone, la grille reste à l'écran au-dessus d'onglets à icônes : l'onglet Meilleur score classe tous les coups, et celui qu'on choisit s'affiche sur la grille.",
           "mobile-keyboard": "Saisie d'un mot avec le clavier de lettres intégré : le score s'affiche en direct, puis on choisit qui l'a joué.",
           "mobile-training": "L'entraînement sur téléphone : l'évaluation de votre coup a son propre onglet, avec les meilleurs coups et le premier, BRAIZE, affiché sur la grille.",
           "mobile-home": "La page d'accueil : « Gagnez au Scrabble. On ne dira rien. »"
