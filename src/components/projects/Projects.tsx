@@ -61,6 +61,14 @@ export default async function Projects() {
                 meta={t(`${key}.meta`)}
                 tagline={t(`${key}.tagline`)}
                 description={t(`${key}.description`)}
+                link={
+                  project.url
+                    ? {
+                        href: project.url,
+                        label: t("visit", { site: new URL(project.url).host }),
+                      }
+                    : undefined
+                }
                 features={t.raw(`${key}.features`) as Feature[]}
                 architecture={t(`${key}.architecture`)}
                 stack={project.stack}

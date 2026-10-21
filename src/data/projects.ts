@@ -24,6 +24,14 @@ import jelly_mobile_downloads_search from "../images/projects/jelly/mobile-downl
 import jelly_mobile_torrents from "../images/projects/jelly/mobile-torrents.webp";
 import jelly_mobile_trackers from "../images/projects/jelly/mobile-trackers.webp";
 import jelly_mobile_transfers from "../images/projects/jelly/mobile-transfers.webp";
+import lookaloft_desktop_aircraft from "../images/projects/lookaloft/desktop-aircraft.webp";
+import lookaloft_desktop_orion_nebula from "../images/projects/lookaloft/desktop-orion-nebula.webp";
+import lookaloft_desktop_sky from "../images/projects/lookaloft/desktop-sky.webp";
+import lookaloft_desktop_tonight from "../images/projects/lookaloft/desktop-tonight.webp";
+import lookaloft_mobile_intro from "../images/projects/lookaloft/mobile-intro.webp";
+import lookaloft_mobile_pleiades from "../images/projects/lookaloft/mobile-pleiades.webp";
+import lookaloft_mobile_saturn from "../images/projects/lookaloft/mobile-saturn.webp";
+import lookaloft_mobile_sky from "../images/projects/lookaloft/mobile-sky.webp";
 import molson_desktop_admin_teams from "../images/projects/molson/desktop-admin-teams.webp";
 import molson_desktop_hero from "../images/projects/molson/desktop-hero.webp";
 import molson_desktop_my_score from "../images/projects/molson/desktop-my-score.webp";
@@ -32,14 +40,14 @@ import molson_mobile_hero from "../images/projects/molson/mobile-hero.webp";
 import molson_mobile_my_player from "../images/projects/molson/mobile-my-player.webp";
 import molson_mobile_my_score from "../images/projects/molson/mobile-my-score.webp";
 import molson_mobile_my_team from "../images/projects/molson/mobile-my-team.webp";
-import scramble_desktop_best_to_win from "../images/projects/scramble/desktop-best-to-win.webp";
-import scramble_desktop_games from "../images/projects/scramble/desktop-games.webp";
+import scramble_desktop_smart_mode from "../images/projects/scramble/desktop-smart-mode.webp";
 import scramble_desktop_suggestions from "../images/projects/scramble/desktop-suggestions.webp";
+import scramble_desktop_training from "../images/projects/scramble/desktop-training.webp";
 import scramble_desktop_wordfeud from "../images/projects/scramble/desktop-wordfeud.webp";
-import scramble_mobile_best_to_win from "../images/projects/scramble/mobile-best-to-win.webp";
 import scramble_mobile_home from "../images/projects/scramble/mobile-home.webp";
 import scramble_mobile_keyboard from "../images/projects/scramble/mobile-keyboard.webp";
 import scramble_mobile_suggestions from "../images/projects/scramble/mobile-suggestions.webp";
+import scramble_mobile_training from "../images/projects/scramble/mobile-training.webp";
 
 export type ProjectShot = { key: string; src: StaticImageData };
 
@@ -47,6 +55,8 @@ export type Project = {
   /** Also the key under `projects.items` in the message files */
   slug: string;
   kind: "client" | "personal";
+  /** Public address of the live app, when there is one */
+  url?: string;
   /** Tailwind classes for the section background and accents */
   bg: string;
   accent: string;
@@ -147,6 +157,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "scramble",
     kind: "personal",
+    url: "https://scramblecheetah.com",
     bg: "bg-amber-50",
     accent: "bg-amber-500",
     accentText: "text-amber-700",
@@ -171,15 +182,49 @@ export const PROJECTS: Project[] = [
     ],
     desktop: [
       { key: "desktop-suggestions", src: scramble_desktop_suggestions },
-      { key: "desktop-best-to-win", src: scramble_desktop_best_to_win },
+      { key: "desktop-smart-mode", src: scramble_desktop_smart_mode },
+      { key: "desktop-training", src: scramble_desktop_training },
       { key: "desktop-wordfeud", src: scramble_desktop_wordfeud },
-      { key: "desktop-games", src: scramble_desktop_games },
     ],
     mobile: [
       { key: "mobile-suggestions", src: scramble_mobile_suggestions },
       { key: "mobile-keyboard", src: scramble_mobile_keyboard },
-      { key: "mobile-best-to-win", src: scramble_mobile_best_to_win },
+      { key: "mobile-training", src: scramble_mobile_training },
       { key: "mobile-home", src: scramble_mobile_home },
+    ],
+  },
+  {
+    slug: "lookaloft",
+    kind: "personal",
+    url: "https://lookaloft.com",
+    bg: "bg-slate-100",
+    accent: "bg-blue-900",
+    accentText: "text-blue-900",
+    card: "bg-white",
+    stack: [
+      "TypeScript",
+      "Vite",
+      "WebGL2",
+      "Astronomy Engine",
+      "satellite.js",
+      "PWA",
+      "Node.js",
+      "Vitest",
+      "Docker",
+      "GitHub Actions",
+      "Caddy",
+    ],
+    desktop: [
+      { key: "desktop-sky", src: lookaloft_desktop_sky },
+      { key: "desktop-orion-nebula", src: lookaloft_desktop_orion_nebula },
+      { key: "desktop-aircraft", src: lookaloft_desktop_aircraft },
+      { key: "desktop-tonight", src: lookaloft_desktop_tonight },
+    ],
+    mobile: [
+      { key: "mobile-sky", src: lookaloft_mobile_sky },
+      { key: "mobile-pleiades", src: lookaloft_mobile_pleiades },
+      { key: "mobile-saturn", src: lookaloft_mobile_saturn },
+      { key: "mobile-intro", src: lookaloft_mobile_intro },
     ],
   },
   {

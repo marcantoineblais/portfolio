@@ -30,7 +30,7 @@
     "title": "Who am I?",
     "intro": "I'm Marc Antoine. I design and build complete web applications, from the database all the way to the interface.",
     "body": "I love turning a fuzzy idea into a concrete product that is fast and pleasant to use — on phones and desktops alike. I mostly build with Next.js, React and TypeScript, with Node.js and MongoDB on the server, and ship everything with Docker.",
-    "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a Scrabble solver, a media library manager… and this portfolio.",
+    "body2": "I build web platforms for clients through an agency, like bilingual online contests. And when I'm not coding for a client, I build my own self-hosted tools: a camera to keep an eye on my cats, a Scrabble solver, a sky-watching app, a media library manager… and this portfolio.",
     "location": "Montréal, QC",
     "available": "Available for new projects",
     "languages": "Français · English"
@@ -46,6 +46,7 @@
     "kindClient": "Client project",
     "kindPersonal": "Personal project",
     "nextProject": "Next project",
+    "visit": "Visit {site}",
     "title": "Recent work",
     "intro": "Platforms built for clients and tools I use every day at home — from the back end to the interface.",
     "items": {
@@ -121,9 +122,9 @@
       },
       "scramble": {
         "name": "Scramble Cheetah",
-        "meta": "Self-hosted · Scrabble & Wordfeud solver",
+        "meta": "Public web app · Scrabble & Wordfeud solver",
         "tagline": "A Scrabble and Wordfeud solver: type in the board and your rack, get every legal move ranked in milliseconds.",
-        "description": "Scramble Cheetah follows a real game: you type each word played onto the board, enter your rack, and it lists every legal move ranked by its points plus the value of the tiles you keep. A “Smart mode” goes further and simulates hundreds of games to rank moves by their chance of winning. Games autosave to your account, for Scrabble or Wordfeud, in English or French.",
+        "description": "Scramble Cheetah follows a real game: you type each word played onto the board, enter your rack, and it lists every legal move ranked by its points plus the value of the tiles you keep. A “Smart mode” goes further and simulates hundreds of games to rank moves by their chance of winning. A training mode lets you play against the cheetah itself, with every move you make rated against all the moves your tiles allowed. Games autosave to your account, for Scrabble or Wordfeud, in English or French.",
         "features": [
           {
             "title": "Every move in milliseconds",
@@ -134,24 +135,59 @@
             "text": "Simulates random futures for the best moves across a pool of Web Workers and ranks them by chance of winning, with a margin of error. Once the bag is empty, an exact endgame search takes over."
           },
           {
-            "title": "Fast board entry",
-            "text": "Click a square and type, or use the built-in tile keyboard on phones: the word's score shows live, invalid words are flagged, and past moves can be corrected or undone."
+            "title": "Training",
+            "text": "Play the engine at four levels, from Beginner to Champion. After each move you get a rating, from best move to blunder, your rank among every move your tiles allowed, and the best ones to see on the board."
           },
           {
-            "title": "Two games, two languages",
-            "text": "Scrabble and Wordfeud boards, tile sets and bonuses, in English and French. Every change autosaves, and a version check keeps two devices from overwriting each other."
+            "title": "Fast entry, two games",
+            "text": "Type on the board or use the built-in tile keyboard on phones, with live scores and invalid words flagged. Scrabble and Wordfeud in English and French; every change autosaves, and a version check keeps two devices from overwriting each other."
           }
         ],
-        "architecture": "pnpm + Turborepo monorepo with two packages. The engine is a pure TypeScript package (rules presets, DAWG dictionaries compiled from open word lists, move generation, scoring, simulation and endgame search) tested with Vitest, with tile-leave values learned through self-play. The Next.js 16 app runs it off the main thread in Web Workers, signs users in with Better Auth and stores one MongoDB document per game through Mongoose, with optimistic concurrency and transactions. Routes and server actions validate with Zod and hand off to services; next-intl serves translated paths without a locale in the URL. GitHub Actions builds a Docker image to GHCR, deployed with Portainer next to a MongoDB replica set behind Caddy.",
+        "architecture": "pnpm + Turborepo monorepo with two packages. The engine is a pure TypeScript package (rules presets, DAWG dictionaries compiled from open word lists, move generation, scoring, simulation and endgame search) tested with Vitest. Its tile-leave values and chances of winning are learned from self-play on every core, and its strength is measured in matches against Quackle, the open-source Scrabble AI, through a small C++ bridge. The Next.js 16 app runs the engine off the main thread in Web Workers (the training opponent included), signs users in with Better Auth and stores one MongoDB document per game through Mongoose, with optimistic concurrency and transactions. Routes and server actions validate with Zod and hand off to services; next-intl serves translated paths without a locale in the URL. GitHub Actions builds a Docker image to GHCR, deployed with Portainer next to a MongoDB replica set behind Caddy.",
         "captions": {
           "desktop-suggestions": "A game in progress: the cheat sheet lists every legal move ranked by value, and the picked move (RATINES, +92) is previewed on the board.",
-          "desktop-best-to-win": "The “Smart mode” tab ranks moves by their chance of winning, from hundreds of simulated games, each with its margin of error.",
-          "desktop-wordfeud": "A Wordfeud game, with its own board and tile values: the top suggestion, GRADINE for 154 points, is previewed on the board.",
-          "desktop-games": "The games list: start a Scrabble or Wordfeud game in English or French, and pick up saved games from their board previews and scores.",
-          "mobile-suggestions": "On mobile, the picked suggestion is previewed on the board above the rack and the ranked cheat sheet.",
+          "desktop-smart-mode": "Smart mode ranks moves by their chance of winning, from 200 simulated games in under a second, each with its margin of error: the TERTIANS bingo wins 97% of them.",
+          "desktop-training": "Training against the Professional cheetah: ZEBRA is rated a mistake, 25th of 349 possible moves, and the best one, BRAIZE for 54, is shown on the board.",
+          "desktop-wordfeud": "A Wordfeud game in the dark theme, with its own board and tile values: the top suggestion, GRADINE for 154 points, is previewed on the board.",
+          "mobile-suggestions": "On a phone, the board stays on screen above icon tabs: the Suggestions tab ranks every move, and the picked one is previewed on the board.",
           "mobile-keyboard": "Entering a word with the built-in tile keyboard: the score shows live, then you pick who played it.",
-          "mobile-best-to-win": "The win simulation on mobile: each move with its chance of winning, after a few seconds of simulated games.",
+          "mobile-training": "Training on a phone: the review of your move has its own tab, with the best moves and the top one, BRAIZE, shown on the board.",
           "mobile-home": "The home page: “Win at Scrabble. We won't tell.”"
+        }
+      },
+      "lookaloft": {
+        "name": "Look Aloft",
+        "meta": "Installable web app · Work in progress",
+        "tagline": "Point your phone at the sky to see the stars, planets, satellites and planes in that direction.",
+        "description": "Look Aloft turns a phone into a sky viewer: in camera mode, the compass and gyroscope line up stars, constellations, planets, the Sun and Moon, deep-sky objects, satellites and live aircraft over the camera image. Tap anything to learn more. Without a camera, or on a computer, it becomes a drag-to-explore planetarium, and zooming in fades in real photographs of the sky.",
+        "features": [
+          {
+            "title": "Camera overlay",
+            "text": "The device's orientation drives a pinhole projection over the rear camera, corrected for magnetic declination, with a pinch zoom that keeps the sky lined up and an Align / Calibrate fix for an off compass."
+          },
+          {
+            "title": "A realistic sky on the GPU",
+            "text": "WebGL2 shades the sky from the Sun's position, from daylight through twilight to night, with the Milky Way, twinkling stars and a Moon lit for its phase. A 2D canvas takes over without it."
+          },
+          {
+            "title": "Real sky photos",
+            "text": "Below a 30° field, the Digitized Sky Survey's colour photographs stream in tile by tile (HEALPix), with Stellarium's constellation figures behind the lines."
+          },
+          {
+            "title": "Tonight and live traffic",
+            "text": "When it gets dark: the cloud forecast, planets worth seeing, meteor showers and naked-eye satellite passes. Plus about 170 bright satellites and live ADS-B aircraft with their route."
+          }
+        ],
+        "architecture": "A framework-free TypeScript app built with Vite: one frame loop projects every object from a single East-North-Up frame, through a pinhole model in camera mode or a stereographic one in explore mode, then draws it with WebGL2 and a 2D canvas overlay. Positions come from Astronomy Engine (Sun, Moon and planets, with precession, nutation and refraction), satellite.js (SGP4 on CelesTrak orbits) and an 8,920-star catalog built from the HYG database, which a service worker keeps available offline. A dependency-free Node 24 server serves the build and two endpoints, for aircraft (adsb.lol, adsb.fi) and cloud forecasts (Open-Meteo): it rounds locations to a 10 km grid, caches and rate-limits each cell, and falls back between feeds. GitHub Actions tests and builds a Docker image to GHCR, deployed with Portainer behind Caddy.",
+        "captions": {
+          "desktop-sky": "Explore mode over Montréal: constellations, named stars, Saturn and Uranus, meteor shower radiants and a passing plane, with the figure of Eridanus behind its lines.",
+          "desktop-orion-nebula": "Zoomed to a 5° field on the Orion Nebula: the sky survey's photographs replace the drawn sky, next to its details and Wikipedia summary.",
+          "desktop-aircraft": "A plane overhead, followed live from ADS-B: altitude, speed, heading, distance and a photo of the aircraft.",
+          "desktop-tonight": "Tonight: how long it stays dark, the hourly cloud forecast and the next naked-eye satellite passes.",
+          "mobile-sky": "Explore mode on a phone, centred on Taurus and its figure, between Capella and Orion.",
+          "mobile-pleiades": "The Pleiades in the sky survey's photographs, zoomed to a 3° field.",
+          "mobile-saturn": "Saturn's details: position, brightness, distance, and when it rises and sets.",
+          "mobile-intro": "The start screen: the sky camera, or exploring without one."
         }
       },
       "catcam": {

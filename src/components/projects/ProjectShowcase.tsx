@@ -23,6 +23,7 @@ export default function ProjectShowcase({
   meta,
   tagline,
   description,
+  link,
   features,
   architecture,
   stack,
@@ -42,6 +43,8 @@ export default function ProjectShowcase({
   meta?: string;
   tagline: string;
   description: string;
+  /** The live app, e.g. "Visit lookaloft.com" */
+  link?: { href: string; label: string };
   features: Feature[];
   architecture: string;
   stack: string[];
@@ -99,6 +102,24 @@ export default function ProjectShowcase({
           >
             {description}
           </p>
+          {link && (
+            <a
+              data-reveal
+              style={{ "--delay": "200ms" } as CSSProperties}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex w-full items-center justify-center gap-3 self-start rounded-xl bg-gray-900 px-6 py-3.5 font-mono text-base font-bold text-white shadow-xl shadow-gray-900/20 transition-colors hover:bg-stone-800 sm:w-auto"
+            >
+              {link.label}
+              <span
+                aria-hidden="true"
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              >
+                ↗
+              </span>
+            </a>
+          )}
         </div>
 
         {/* Desktop slideshow with a floating phone (layered parallax) */}

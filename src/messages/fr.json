@@ -30,7 +30,7 @@
     "title": "Qui suis-je ?",
     "intro": "Je m'appelle Marc Antoine. Je conçois et développe des applications web complètes, de la base de données jusqu'à l'interface.",
     "body": "J'aime transformer une idée floue en un produit concret, rapide et agréable à utiliser — autant sur mobile que sur ordinateur. Je bâtis surtout avec Next.js, React et TypeScript, avec Node.js et MongoDB côté serveur, et je déploie le tout avec Docker.",
-    "body2": "Je conçois des plateformes web pour des clients en agence, comme des concours en ligne bilingues. Et quand je ne code pas pour un client, je bâtis mes propres outils auto-hébergés : une caméra pour surveiller mes chats, un solveur de Scrabble, un gestionnaire de médiathèque… et ce portfolio.",
+    "body2": "Je conçois des plateformes web pour des clients en agence, comme des concours en ligne bilingues. Et quand je ne code pas pour un client, je bâtis mes propres outils auto-hébergés : une caméra pour surveiller mes chats, un solveur de Scrabble, une appli pour observer le ciel, un gestionnaire de médiathèque… et ce portfolio.",
     "location": "Montréal, QC",
     "available": "Disponible pour de nouveaux projets",
     "languages": "Français · English"
@@ -46,6 +46,7 @@
     "kindClient": "Projet client",
     "kindPersonal": "Projet perso",
     "nextProject": "Projet suivant",
+    "visit": "Visiter {site}",
     "title": "Projets récents",
     "intro": "Des plateformes bâties pour des clients et des outils que j'utilise tous les jours à la maison — du back-end jusqu'à l'interface.",
     "items": {
@@ -121,9 +122,9 @@
       },
       "scramble": {
         "name": "Scramble Cheetah",
-        "meta": "Auto-hébergé · Solveur de Scrabble et Wordfeud",
+        "meta": "Application web publique · Solveur de Scrabble et Wordfeud",
         "tagline": "Un solveur de Scrabble et de Wordfeud : entrez la grille et votre chevalet, obtenez tous les coups possibles classés en quelques millisecondes.",
-        "description": "Scramble Cheetah suit une vraie partie : on saisit chaque mot joué sur la grille, on entre son chevalet, et l'application liste tous les coups possibles, classés selon leurs points et la valeur des lettres gardées. Le « Mode intelligent » va plus loin et simule des centaines de parties pour classer les coups selon leurs chances de victoire. Les parties sont sauvegardées automatiquement dans votre compte, au Scrabble ou au Wordfeud, en français ou en anglais.",
+        "description": "Scramble Cheetah suit une vraie partie : on saisit chaque mot joué sur la grille, on entre son chevalet, et l'application liste tous les coups possibles, classés selon leurs points et la valeur des lettres gardées. Le « Mode intelligent » va plus loin et simule des centaines de parties pour classer les coups selon leurs chances de victoire. Un mode entraînement permet d'affronter le guépard lui-même, chacun de vos coups étant évalué parmi tous ceux que vos lettres permettaient. Les parties sont sauvegardées automatiquement dans votre compte, au Scrabble ou au Wordfeud, en français ou en anglais.",
         "features": [
           {
             "title": "Tous les coups en millisecondes",
@@ -134,24 +135,59 @@
             "text": "Simule des parties aléatoires pour les meilleurs coups dans un groupe de Web Workers et les classe selon leurs chances de victoire, avec une marge d'erreur. Une fois le sac vide, une recherche exacte de fin de partie prend le relais."
           },
           {
-            "title": "Saisie rapide",
-            "text": "On clique sur une case et on tape, ou on utilise le clavier de lettres intégré sur mobile : le score du mot s'affiche en direct, les mots invalides sont signalés, et les coups passés peuvent être corrigés ou annulés."
+            "title": "Entraînement",
+            "text": "Affrontez le moteur à quatre niveaux, de Débutant à Champion. Après chaque coup, vous obtenez une évaluation, du meilleur coup à la gaffe, votre rang parmi tous les coups que vos lettres permettaient, et les meilleurs à voir sur la grille."
           },
           {
-            "title": "Deux jeux, deux langues",
-            "text": "Les grilles, lettres et bonus du Scrabble et du Wordfeud, en français et en anglais. Chaque modification est sauvegardée, et une vérification de version empêche deux appareils de s'écraser mutuellement."
+            "title": "Saisie rapide, deux jeux",
+            "text": "On tape sur la grille ou on utilise le clavier de lettres intégré sur mobile, avec le score en direct et les mots invalides signalés. Scrabble et Wordfeud, en français et en anglais ; chaque modification est sauvegardée, et une vérification de version empêche deux appareils de s'écraser mutuellement."
           }
         ],
-        "architecture": "Monorepo pnpm + Turborepo en deux paquets. Le moteur est un paquet TypeScript pur (règles, dictionnaires DAWG compilés à partir de listes de mots libres, génération des coups, pointage, simulation et recherche de fin de partie) testé avec Vitest, dont la valeur des lettres gardées est apprise en jouant contre lui-même. L'application Next.js 16 l'exécute hors du fil principal dans des Web Workers, connecte les utilisateurs avec Better Auth et enregistre un document MongoDB par partie avec Mongoose, avec concurrence optimiste et transactions. Les routes et les server actions valident avec Zod et passent la main à des services ; next-intl sert des chemins traduits sans langue dans l'URL. GitHub Actions bâtit une image Docker publiée sur GHCR, déployée avec Portainer à côté d'un replica set MongoDB derrière Caddy.",
+        "architecture": "Monorepo pnpm + Turborepo en deux paquets. Le moteur est un paquet TypeScript pur (règles, dictionnaires DAWG compilés à partir de listes de mots libres, génération des coups, pointage, simulation et recherche de fin de partie) testé avec Vitest. La valeur des lettres gardées et les chances de victoire sont apprises en le faisant jouer contre lui-même sur tous les cœurs, et sa force est mesurée en matchs contre Quackle, l'IA de Scrabble libre, grâce à un petit pont en C++. L'application Next.js 16 exécute le moteur hors du fil principal dans des Web Workers (l'adversaire d'entraînement compris), connecte les utilisateurs avec Better Auth et enregistre un document MongoDB par partie avec Mongoose, avec concurrence optimiste et transactions. Les routes et les server actions valident avec Zod et passent la main à des services ; next-intl sert des chemins traduits sans langue dans l'URL. GitHub Actions bâtit une image Docker publiée sur GHCR, déployée avec Portainer à côté d'un replica set MongoDB derrière Caddy.",
         "captions": {
           "desktop-suggestions": "Une partie en cours : la feuille de triche classe tous les coups possibles selon leur valeur, et le coup choisi (RATINES, +92) s'affiche sur la grille.",
-          "desktop-best-to-win": "L'onglet « Mode intelligent » classe les coups selon leurs chances de victoire, calculées sur des centaines de parties simulées, avec leur marge d'erreur.",
-          "desktop-wordfeud": "Une partie de Wordfeud, avec sa propre grille et ses propres valeurs de lettres : la meilleure suggestion, GRADINE pour 154 points, s'affiche sur la grille.",
-          "desktop-games": "La liste des parties : lancez une partie de Scrabble ou de Wordfeud en français ou en anglais, et reprenez vos parties grâce à l'aperçu de la grille et aux scores.",
-          "mobile-suggestions": "Sur mobile, la suggestion choisie s'affiche sur la grille, au-dessus du chevalet et de la feuille de triche.",
+          "desktop-smart-mode": "Le « Mode intelligent » classe les coups selon leurs chances de victoire, à partir de 200 parties simulées en moins d'une seconde, chacun avec sa marge d'erreur : le scrabble TERTIANS en gagne 97 %.",
+          "desktop-training": "Entraînement contre le guépard Professionnel : ZEBRA est jugé une erreur, 25e sur 349 coups possibles, et le meilleur, BRAIZE pour 54 points, s'affiche sur la grille.",
+          "desktop-wordfeud": "Une partie de Wordfeud en thème sombre, avec sa propre grille et ses propres valeurs de lettres : la meilleure suggestion, GRADINE pour 154 points, s'affiche sur la grille.",
+          "mobile-suggestions": "Sur téléphone, la grille reste à l'écran au-dessus d'onglets à icônes : l'onglet Suggestions classe tous les coups, et celui qu'on choisit s'affiche sur la grille.",
           "mobile-keyboard": "Saisie d'un mot avec le clavier de lettres intégré : le score s'affiche en direct, puis on choisit qui l'a joué.",
-          "mobile-best-to-win": "La simulation sur mobile : chaque coup avec ses chances de victoire, après quelques secondes de parties simulées.",
+          "mobile-training": "L'entraînement sur téléphone : l'évaluation de votre coup a son propre onglet, avec les meilleurs coups et le premier, BRAIZE, affiché sur la grille.",
           "mobile-home": "La page d'accueil : « Gagnez au Scrabble. On ne dira rien. »"
+        }
+      },
+      "lookaloft": {
+        "name": "Look Aloft",
+        "meta": "Application web installable · En cours de développement",
+        "tagline": "Pointez votre téléphone vers le ciel pour voir les étoiles, les planètes, les satellites et les avions dans cette direction.",
+        "description": "Look Aloft transforme un téléphone en fenêtre sur le ciel : en mode caméra, la boussole et le gyroscope alignent sur l'image de la caméra les étoiles, les constellations, les planètes, le Soleil et la Lune, les objets du ciel profond, les satellites et les avions en direct. On touche n'importe quoi pour en savoir plus. Sans caméra, ou sur un ordinateur, l'application devient un planétarium qu'on explore en glissant le doigt, et en zoomant, de vraies photographies du ciel apparaissent.",
+        "features": [
+          {
+            "title": "Superposition sur la caméra",
+            "text": "L'orientation de l'appareil pilote une projection sténopé par-dessus la caméra arrière, corrigée de la déclinaison magnétique, avec un zoom par pincement qui garde le ciel aligné et une fonction Aligner / Calibrer quand la boussole se trompe."
+          },
+          {
+            "title": "Un ciel réaliste sur le GPU",
+            "text": "WebGL2 colore le ciel selon la position du Soleil, du jour au crépuscule jusqu'à la nuit, avec la Voie lactée, des étoiles qui scintillent et une Lune éclairée selon sa phase. Un canevas 2D prend le relais au besoin."
+          },
+          {
+            "title": "De vraies photos du ciel",
+            "text": "Sous un champ de 30°, les photographies en couleur du Digitized Sky Survey se chargent tuile par tuile (HEALPix), avec les figures des constellations de Stellarium derrière leurs lignes."
+          },
+          {
+            "title": "Ce soir et le trafic en direct",
+            "text": "À la tombée de la nuit : prévisions de nuages, planètes à voir, étoiles filantes et passages de satellites visibles à l'œil nu. Et aussi environ 170 satellites brillants et les avions en direct par ADS-B, avec leur trajet."
+          }
+        ],
+        "architecture": "Une application TypeScript sans framework, bâtie avec Vite : une boucle d'affichage projette chaque objet depuis un même repère Est-Nord-Haut, avec un modèle sténopé en mode caméra ou stéréographique en mode exploration, puis le dessine avec WebGL2 et un canevas 2D par-dessus. Les positions viennent d'Astronomy Engine (Soleil, Lune et planètes, avec précession, nutation et réfraction), de satellite.js (SGP4 sur les orbites de CelesTrak) et d'un catalogue de 8 920 étoiles tiré de la base HYG, qu'un service worker garde disponible hors ligne. Un serveur Node 24 sans dépendances sert l'application et deux points d'accès, pour les avions (adsb.lol, adsb.fi) et les prévisions de nuages (Open-Meteo) : il arrondit la position à une grille de 10 km, met en cache et limite les requêtes par cellule, et passe d'une source à l'autre en cas de panne. GitHub Actions teste et bâtit une image Docker publiée sur GHCR, déployée avec Portainer derrière Caddy.",
+        "captions": {
+          "desktop-sky": "Le mode exploration au-dessus de Montréal : constellations, étoiles nommées, Saturne et Uranus, radiants d'étoiles filantes et un avion de passage, avec la figure d'Éridan derrière ses lignes.",
+          "desktop-orion-nebula": "Zoom à 5° sur la nébuleuse d'Orion : les photographies du relevé remplacent le ciel dessiné, à côté de sa fiche et du résumé Wikipédia.",
+          "desktop-aircraft": "Un avion au-dessus de nous, suivi en direct par ADS-B : altitude, vitesse, cap, distance et une photo de l'appareil.",
+          "desktop-tonight": "Ce soir : jusqu'à quand il fait noir, les prévisions de nuages heure par heure et les prochains passages de satellites visibles à l'œil nu.",
+          "mobile-sky": "Le mode exploration sur téléphone, centré sur le Taureau et sa figure, entre Capella et Orion.",
+          "mobile-pleiades": "Les Pléiades dans les photographies du relevé, avec un champ de 3°.",
+          "mobile-saturn": "La fiche de Saturne : position, éclat, distance, et heures de lever et de coucher.",
+          "mobile-intro": "L'écran d'accueil : la caméra du ciel, ou l'exploration sans caméra."
         }
       },
       "catcam": {
